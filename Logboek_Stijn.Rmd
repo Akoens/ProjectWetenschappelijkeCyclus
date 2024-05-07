@@ -1,0 +1,21 @@
+---
+title: "Logboek"
+author: "Stijn Vermeulen"
+date: "2024-05-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## May 6 2024
+
+Vandaag onderzoek ik hoe bakkersgist reageert op zoute omgevingen, bijvoorbeeld hoe hun productie van alcohol veranderd.
+
+bron over brood maken met zout-gestrest bakkersgist:
+https://ift.onlinelibrary.wiley.com/doi/full/10.1111/j.1750-3841.2009.01337.x
+
+
+
+$$C6H12O6$$

@@ -16,6 +16,10 @@ Vandaag onderzoek ik hoe bakkersgist reageert op zoute omgevingen, bijvoorbeeld 
 bron over brood maken met zout-gestrest bakkersgist:
 https://ift.onlinelibrary.wiley.com/doi/full/10.1111/j.1750-3841.2009.01337.x
 
+## May 7 2024
 
+De bron is vaag in materialen, maar het geeft goede informatie voor de efficientie van gist onder zoutgeinduceerde stress (in dit geval 7% NaCl oplossing). In dit geval is produceerdt de gist 2.8 keer zo veel glycerol dan de controle groep.
 
-$$C6H12O6$$
+https://www.sciencedirect.com/science/article/pii/S1978301917302085
+
+In dit experiment werden de concentraties 0.5, 0.75 en 1.0M NaCl gebruikt. Bij 1.0M gingen vrijwel alle gistcellen (van Z. bisporus) dood.

@@ -23,3 +23,36 @@ De bron is vaag in materialen, maar het geeft goede informatie voor de efficient
 https://www.sciencedirect.com/science/article/pii/S1978301917302085
 
 In dit experiment werden de concentraties 0.5, 0.75 en 1.0M NaCl gebruikt. Bij 1.0M gingen vrijwel alle gistcellen (van Z. bisporus) dood.
+
+## May 13 2024
+
+Vandaag heb ik het schudden van het gistmengsel aan het protocool toegevoegd. Dit gebeurdt om het halfuur zodat het gist goed kan blijven werken over langere tijden.
+
+ik heb de uitvoering veranderd naar een stapgewijze schrijfwijze.
+
+
+## May 14 2024
+
+sample Heatmap:
+
+```{r}
+library(ggplot2)
+library(dplyr)
+```
+
+
+```{r}
+data <- readxl::read_excel(path = "")
+
+table(data)
+```
+
+
+
+```{r}
+#Heatmap
+ggplot(data, aes(Y, X, fill= Z)) +
+    geom_tile()
+```
+
+

@@ -1,0 +1,58 @@
+---
+title: "Logboek"
+author: "Stijn Vermeulen"
+date: "2024-05-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## May 6 2024
+
+Vandaag onderzoek ik hoe bakkersgist reageert op zoute omgevingen, bijvoorbeeld hoe hun productie van alcohol veranderd.
+
+bron over brood maken met zout-gestrest bakkersgist:
+https://ift.onlinelibrary.wiley.com/doi/full/10.1111/j.1750-3841.2009.01337.x
+
+## May 7 2024
+
+De bron is vaag in materialen, maar het geeft goede informatie voor de efficientie van gist onder zoutgeinduceerde stress (in dit geval 7% NaCl oplossing). In dit geval is produceerdt de gist 2.8 keer zo veel glycerol dan de controle groep.
+
+https://www.sciencedirect.com/science/article/pii/S1978301917302085
+
+In dit experiment werden de concentraties 0.5, 0.75 en 1.0M NaCl gebruikt. Bij 1.0M gingen vrijwel alle gistcellen (van Z. bisporus) dood.
+
+## May 13 2024
+
+Vandaag heb ik het schudden van het gistmengsel aan het protocool toegevoegd. Dit gebeurdt om het halfuur zodat het gist goed kan blijven werken over langere tijden.
+
+ik heb de uitvoering veranderd naar een stapgewijze schrijfwijze.
+
+
+## May 14 2024
+
+sample Heatmap:
+
+```{r}
+library(ggplot2)
+library(dplyr)
+```
+
+
+```{r}
+data <- readxl::read_excel(path = "")
+
+table(data)
+```
+
+
+
+```{r}
+#Heatmap
+ggplot(data, aes(Y, X, fill= Z)) +
+    geom_tile()
+```
+
+

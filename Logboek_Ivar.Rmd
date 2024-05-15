@@ -1,0 +1,99 @@
+---
+title: "Logboek_Ivar"
+author: "Ivar"
+date: "2024-05-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introductie
+
+
+## wat is er al bekent
+
+## ideeien over onderzoeksopzet 
+
+## zijn er al data 
+
+## verwijzen naar protocollen en testen
+
+---------------------------------------------------------------------------------------------------- 
+Groeps logboek
+Logboek 26-4-2024 
+
+Wat hebben we gedaan 
+
+Opstelling van het protocol 
+
+Bij het opstellen van het protocol hebben wij eerst wat bronnenonderzoek gedaan, hier is één artikel ​(Jerry et al., 2017) ​uitgekomen die wij gaan gebruiken als referentie punt voor ons protocol op het gebied van volume gist en volume suiker. 
+
+Motivatie 
+
+Dit hebben wij gedaan om een inschatting te krijgen van de volumes en resultaten dat wij kunnen verwachten met dit experiment 
+
+Resultaat en interpretatie 
+
+Bronnen voor referentie in het onderzoek wat inzicht geeft in de opzet hiervan 
+
+--------------------------------------------------------------------------------------------------- 
+Groepslogboek
+Logboek 26-4-2024 
+
+Wat hebben we gedaan 
+
+Magazijn bezoek  
+
+We hebben het magazijn op het ILST bezocht om te vragen over de mogelijkheden bij ons experiment. Tijden dit gesprek werd ons geadviseerd vanwege de gasdruk die vrij komt en de beschikbare middelen die er zijn om een maatbeker met een waterslot constructie te gebruiken in plaats van een losse spuit om de gasdruk te meten.  
+
+Verder hebben we via e-mail contact opgezocht met Folkert Fabel en Gert Hofstede voor verdere mogelijkheden.  
+
+Motivatie 
+
+Dit hebben wij gedaan om te kijken of ons experiment mogelijk is op school en voor eventueel advies van de chemische/medische/biologische tak van ons instituut te krijgen. 
+
+Resultaat en interpretatie 
+
+Op basis van het advies hebben wij ons protocol aangepast en contact opgezocht met 2 docenten om de vervolg stappen te bepalen 
+
+----------------------------------------------------------------------------------------------------- 
+
+Logboek 
+6-5-2024
+Wat heb ik gedaan
+Voor onderzoek powertest
+https://wikistatistiek.amc.nl/Poweranalyse
+les statestiek 
+notitie 95% betrouwbaarheids interval met de powertest invoeren in het logboek
+mischien via de Rnorm een theoretische dataset opbouwen met of een geschaalde suiker naar co2 data met of het vorige onderzoek (https://www.sciencedirect.com/science/article/pii/S2221169117309802#:~:text=3.-,Results,solution)%20(Figure%201).) of een rekenmethode van 1 van mijn colega's om te bepalen wat we nodig hebben.
+
+Motivatie
+Dit wil ik opzetten om een inschatting te krijgen over hoeveel testen wij moeten maken
+
+Resutaat en interpetatie
+na de statestiek les van woensdag 8-5-2024 een theoretische opzet maken om te bepalen wat de minimale hoeveelheid tests zijn.
+
+-----------------------------------------------------------------------------------------------------------
+logboek
+7-5-2024
+wat heb ik gedaan
+2de bezoek magazijn en gesprek ronald
+In het gesprek met ronald hebben wij over de situatie rondom ons matriaal besproken hieruit zijn een aantal optie's naar voren gekomen waaronder potentieële locatie of het fermolab of d1.08. ook hebben we eventuele alternatieve opzetten besproken.
+
+In het bezoek naar het magazijn hebben om duidelijkheid gevraagd over wat wij mogen lenen voor ons experiment. hieruit is gebleken vanwege het voormaat van het waterbad en het feit dat er geen doppen met slag zijn voor de elymer dat we daar een vervanging voor moeten regelen
+
+Motivatie
+Concretere antwoorden krijgen over wat wij mogen lenen voor ons experiment [magazijn boezoek]
+Aangeven waar wij staan in ons project en de moeilijkheden waar wij tegen aanlopen i.v.m. matriaal [gesprek ronald]
+
+Resultaat en interpetatie
+Vervanger regelen voor elemyer.
+toestemming voor het lenen van een waterbad
+toestemming peter voor het eventueel opzetten van ons experiment in het klaslokaal mits er voorzorgmaatregelen worden getroffen.
+mail-adres magazijn(MagazijnILST@org.hanze.nl) voor het opstellen van een verzoek mail voor waneer de datum bekent is op welke datum wij het experiment willen uitvoeren
+
+
+
+----------------------------------------------------------------------------------------

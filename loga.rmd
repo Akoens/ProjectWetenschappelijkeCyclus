@@ -1,0 +1,99 @@
+---
+title: "Logboek"
+author: "akoens"
+date: "2024-05-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Log[6-5-2024]
+----------------------------------------------------------------------------
+Maximale CO2 productie berekenen gebaseerd op totale hoeveelheid sucrose.  
+In een oplossing van 300ml met een concentratie van 200g/L zit 60g suiker.  
+$200g/L \times 0.3L = 60g$  
+Met een aanname dat alleen de glucose in sucrose wordt gebruikt door gist.  
+$C_6H_{12}H_6 -> 2 C_2H_6OH + 2 CO_2$  
+Dichtheid van glucose is $180.155g/mol$.  
+Dichtheid van sucrose is $342.300 g/mol$.  
+
+Hoeveel mol is $60g$ aan sucrose. Deze molwaarde kan ik dan gebruiken om het volume $CO_2$ te berekenen.  
+$\frac{60.0g}{342.3g}  = 0.175 mol$  
+Er zit 1 mol Glucose in 1 mol Sucrose.  
+van mol Glucose naar mol CO2  
+$2 * 0.175 mol = 0.350$  
+De dichtheid van CO2 is $1.98 \times 10^{−3} g/cm^3$  
+De molmassa van CO2 is $44.0095 g/mol$.  
+
+Gist produceerd $15g$ $CO_2$ voor $60g$ suiker.  
+$0.350 mol \times 44.0095 g/mol = 15.403 g$  
+Gist produceerd $7779 cm^3 CO_2$ voor $60g$ suiker.  
+$\frac{15.403g}{0.00198g/cm^3} = 7779 cm^3$  
+
+7 Liter aan CO2 voelt veel maar de berekeningen lijken te kloppen.
+
+Bronnen:
+https://nl.wikipedia.org/wiki/Koolstofdioxide  
+https://nl.wikipedia.org/wiki/Gist  
+https://nl.wikipedia.org/wiki/Sacharose  
+
+## Log[7-5-2024]
+Materialen krijgen om op te stellen in een lab kan moeilijk worden. Folkert kan niet en Gert heeft ons door verwezen naar de beheerder van het Fermo-lab.  
+Het experiment kan mogelijk dus in het Fermo-lab opgesteld worden, maar dit is nog afwachten. Als backup zijn wij nu aan het kijken naar alternative plekken en materialen om het experiment op te stellen.  
+Waar onder dus ons lokaal van d1.08, hier voor moeten wij peter vragen. Alleen de electronica in dit locaal kan voor complicaties zorgen bij de toestemming. Voor alternatief meteriaal kunnen wij drank flessen gebruiken met een dop. Ik heb nog slangen thuis liggen die wij kunnen gebruiken voor het herleiden van gas.  
+Stijn had een onderzoek gevonden waar 7% zout oplossing werdt gebruikt om gist te stressen. Dat is 7g per Liter water.  
+Voor materiaal regelen moeten wij magazijnILST@org.hanze.nl mailen met de exacte dingen die wij willen en wanneer. Dan zetten zij dit allemaal klaar voor ons.    
+Van peter mogen wij ons experiment in het lokaal houden zolang er een plastic tas omheen zin en er geen electronica naast staat dat nat kan worden.  
+Door Janine is aangeraden om een glazen termometer in het waterbad te hebben. De temperatuursmeter van het waterbad is niet betrouwbaar.  
+
+Hoeveel Ethanol in 300ml voordat gist niet meer werkt.  
+Maximum Ethanol voor gist is meestal 15%. dus 45ml Ethanol.  
+$300ml \times 0.15 = 45ml$   
+De dichtheid van ethanol is $0.79g/cm^3$
+De molmassa van Ethanol is $46.0688g/mol$
+
+dus 15ml alcohol weegt 11.85g.  
+$15ml * 0.79g/cm^3 = 11.85g$  
+
+Hoeveel suiker wordt er gebruikt om $11.85g$ alcohol te maken en hoeveel $CO_2$ is dat?
+$\frac{11.85g}{46.688g/mol} = 0.2651mol$  
+Er wordt dus $0.2651mol$ alcohol geproduceerd voordat gist stopt met werken. Als je kijkt naar de formule voor anaerobisch suiker vergisten zijn er gelijke hoeveelheden mol aan alcohol als aan $CO_2$.  
+Dus er wordt ook $0.2651mol$$CO_2$ geproduceerd.  
+
+
+Uit het onderzoek dat ivar had gevonden, werdt binnen een uur maximaal 25ml $CO_2$ geproduceerd en het grootste gedeelte van de productie vind plaats binnen 6 uur. dus op een dag zal niet meer dan 150-200ml worden geproduceerd.  
+Een maatcylinder van 250ml is dan meer dan genoeg.
+
+
+
+Bronnen:
+https://nl.wikipedia.org/wiki/Ethanol
+
+## Log[8-5-2024]
+Ik heb glazen flesjes van 50cl met een diameter van ~7cm die wij kunnen gebruiken voor het expiriment. Deze zijn dan mogelijk iets kleiner dan een Erlenmeyer dus zullen er meer in het waterbad passen. Bovendien zitten hier doppen bij waar wij een gaatje in kunnen maken voor het slangetje.
+
+
+## Log[13-5-2024]
+Aanpassing aan experiment opstel. Om het ons makkelijker te maken gaan wij geen waterbad gebruiken voor dit experiment. Wij doen nu bovendien niet permitaties van suiker-zout concentraties maar twee experimenten met deze variabelen appart van elkaar. Een met 3 in duplo suiker concentraties en een met 3 in duplo zout concentraties. Beide met gist.
+Vooraf het grote experiment gaan wij een proef opstelling doen om een gevoel te krijgen hoe het experiment gedaan moet worden.
+Voor onze visuele representatie van de data gaan wij een heatmap maken met op de y-as de verschillende experiment IDs, op de x-as de tijd en als kleur de $CO_2$ productiesnelheid.
+
+## Log[15-5-2024]
+Vandaag gaan wij een test experiment uitvoeren om ons protocol uit te proberen. Wij gebruiken een 2mm inner diamereter siliconen buusje als gasleiding en waterslot.
+We waren gist vergeten te halen, dus hebben wij verse bakkersgist van het Magazijn gebruikt.
+Lange broek dragen met gesloten schoenen anders mag je het lab niet in.
+Experiment lijkt geen meetbaar CO2 te hebben geproduceerd, Michiel zij dat er mogelijk toch zout nodig is voor gist om te leven.
+https://www.kwbg.nl/templates/kwbg/downloads/artikelen_bier/Gist%20en%20vergisting.pdf
+Mogelijke probleem kan zijn: te kort aan voeding, of osmitische shock van 30% suikerconcentratie, gist niet aan de omgeving laten wennen.
+De gist was 4 maand overdatum, aangezien het verse gist was is het zeer waarschijnlijk dat alle gist dood was voordat wij ons experiment deden.
+Michiel heeft een tabel met concentraties suiker en zout gemaakt waar wij ons aan moeten houden. SUIKER van 0%, 3% en 6% met 0.5% zout en ZOUT van 0%, 0.25% en 1% met 3% suiker.
+
+
+
+
+
+
+

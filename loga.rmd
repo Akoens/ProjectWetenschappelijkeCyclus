@@ -9,6 +9,12 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Inleiding
+
+
+# Methode
+
+# Loging
 
 ## Log[6-5-2024]
 ----------------------------------------------------------------------------
@@ -35,12 +41,14 @@ $\frac{15.403g}{0.00198g/cm^3} = 7779 cm^3$
 
 7 Liter aan CO2 voelt veel maar de berekeningen lijken te kloppen.
 
-Bronnen:
+De waarden en formule die gebruikt zijn komen van de volgende bronnen:
 https://nl.wikipedia.org/wiki/Koolstofdioxide  
 https://nl.wikipedia.org/wiki/Gist  
 https://nl.wikipedia.org/wiki/Sacharose  
 
+
 ## Log[7-5-2024]
+----------------------------------------------------------------------------
 Materialen krijgen om op te stellen in een lab kan moeilijk worden. Folkert kan niet en Gert heeft ons door verwezen naar de beheerder van het Fermo-lab.  
 Het experiment kan mogelijk dus in het Fermo-lab opgesteld worden, maar dit is nog afwachten. Als backup zijn wij nu aan het kijken naar alternative plekken en materialen om het experiment op te stellen.  
 Waar onder dus ons lokaal van d1.08, hier voor moeten wij peter vragen. Alleen de electronica in dit locaal kan voor complicaties zorgen bij de toestemming. Voor alternatief meteriaal kunnen wij drank flessen gebruiken met een dop. Ik heb nog slangen thuis liggen die wij kunnen gebruiken voor het herleiden van gas.  
@@ -72,27 +80,87 @@ Een maatcylinder van 250ml is dan meer dan genoeg.
 Bronnen:
 https://nl.wikipedia.org/wiki/Ethanol
 
+
 ## Log[8-5-2024]
+----------------------------------------------------------------------------
 Ik heb glazen flesjes van 50cl met een diameter van ~7cm die wij kunnen gebruiken voor het expiriment. Deze zijn dan mogelijk iets kleiner dan een Erlenmeyer dus zullen er meer in het waterbad passen. Bovendien zitten hier doppen bij waar wij een gaatje in kunnen maken voor het slangetje.
 
 
 ## Log[13-5-2024]
+----------------------------------------------------------------------------
 Aanpassing aan experiment opstel. Om het ons makkelijker te maken gaan wij geen waterbad gebruiken voor dit experiment. Wij doen nu bovendien niet permitaties van suiker-zout concentraties maar twee experimenten met deze variabelen appart van elkaar. Een met 3 in duplo suiker concentraties en een met 3 in duplo zout concentraties. Beide met gist.
 Vooraf het grote experiment gaan wij een proef opstelling doen om een gevoel te krijgen hoe het experiment gedaan moet worden.
 Voor onze visuele representatie van de data gaan wij een heatmap maken met op de y-as de verschillende experiment IDs, op de x-as de tijd en als kleur de $CO_2$ productiesnelheid.
 
+
 ## Log[15-5-2024]
+----------------------------------------------------------------------------
 Vandaag gaan wij een test experiment uitvoeren om ons protocol uit te proberen. Wij gebruiken een 2mm inner diamereter siliconen buusje als gasleiding en waterslot.
 We waren gist vergeten te halen, dus hebben wij verse bakkersgist van het Magazijn gebruikt.
-Lange broek dragen met gesloten schoenen anders mag je het lab niet in.
+Ik mag zelf niet in het lab staan. Je moet een lange broek dragen met gesloten schoenen anders mag je het lab niet in.
+
 Experiment lijkt geen meetbaar CO2 te hebben geproduceerd, Michiel zij dat er mogelijk toch zout nodig is voor gist om te leven.
 https://www.kwbg.nl/templates/kwbg/downloads/artikelen_bier/Gist%20en%20vergisting.pdf
+
 Mogelijke probleem kan zijn: te kort aan voeding, of osmitische shock van 30% suikerconcentratie, gist niet aan de omgeving laten wennen.
 De gist was 4 maand overdatum, aangezien het verse gist was is het zeer waarschijnlijk dat alle gist dood was voordat wij ons experiment deden.
 Michiel heeft een tabel met concentraties suiker en zout gemaakt waar wij ons aan moeten houden. SUIKER van 0%, 3% en 6% met 0.5% zout en ZOUT van 0%, 0.25% en 1% met 3% suiker.
 
 
+## Log[16-5-2024]
+----------------------------------------------------------------------------
+Ik heb alle 12 50cl flessen met doppen meegenomen. Er moeten nu nog gaten in en dan buisjes in vast gezet worden. Ik heb niet genoeg 2mm I.D. siliconen buis dus heb nu 4mm I.D. buis mee. Dit is wel een heel stuk dikker en groter en kan mogelijk wat verschil uitmaken in het experiment. 
 
+Osmotische stres berekenen voor bakkersgist.
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6333755/
+Uit het bovenstaande onderzoek kan bakkersgist tegen een osmotische concentratie van MIC 3.2 (M), dus ongeveer 32% van de oplossing zout / suiker.
+
+## Log[17-5-2024]
+----------------------------------------------------------------------------
+Uitvoering van het protocol met nog een aantal aanpassingen. De concentraties gaan wij meten op basis van gewicht. Waar de totaal massa in het reactie glas.
+
+Ronald heeft ons de tip gegeven over de manier waarop wij onze concentratie oplossingen berekenen. Eerst deden wij de oplossingen als verhouding op water. 200ml water met 5g suiker, maar Michiel heeft de concetraties aan ons als percentages gegeven. Dus rekenen wij nu als een totaal massa van 200g waarvan bijvoorbeeld 3% suiker is of welke andere nodige hoeveelheid.
+
+
+
+```{r}
+massa_water <- 200
+
+persentages_suiker <- c(0, 3, 6)
+zout_bij_suiker <- 0.5
+
+percentager_zout <- c(0, 0.25, 1)
+suiker_bij_zout <- 3
+
+# Concentratie tabelen verder uitwerken.
+
+```
+
+Voor elk van de flessen heb ik de verschillende hoeveelheden zout, suiker en gist toegevoed. Als laatste de hoeveelheid water. Na het toevoegen van water de oplossing zwenken tot alles homogeen is. 
+
+
+Deze flesjes zijn vervolgens afgedopt met een slangetje en in een waterbad van 30 graden Celcius gezet. met de buisjes herleid in de maatcilinders in waterslot.
+Aantal fouten opgelopen tijdens het uitvoeren:
+- Sommige flessen hadden te grote gas productie. Maatcilinders meerdere keren bij moeten vullen. met max waarde 250ml genoteerd en nieuwe startwaarde ingevuld.
+- Niet helemaal zeker dat de flessen compleet water/gas dicht zijn.
+- Slangen vallen soms uit de maatcilinders.
+
+Wij hebben uiteindelijk besloten om vaker een meeting te doen. Dit heeft er ook voor gezorgt dat wij meer meetpunten hebben. 11 meet punten per sample i.p.v. de bedoelde 6.
+
+## Log[21-5-2024]
+----------------------------------------------------------------------------
+Feedback op logboek:
+- Inleiding over het onderzoek.
+- Bronnen verder uitschrijven, duidelijk herleiden wat er in staat de de keuze die je er uithaalt.
+
+Wat ga ik doen.
+
+
+Waarom ga ik dit doen.
+
+
+
+Hoe heb ik dit gedaan.
 
 
 

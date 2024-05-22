@@ -1,4 +1,4 @@
-Experiment Id,Meeting,Temperatuur (°C),CO? (ml),Cumulatief,Datum,Tijd,Meetniveau,Opmerking,Nieuwe 0 Waarde,,
+Experiment Id,Meeting,Temperatuur (C),CO? (ml),Cumulatief,Datum,Tijd,Meetniveau,Opmerking,Nieuwe 0 Waarde,,
 Z1,1,30.00,0,38,17-May,11:50,38,,,,
 Z1,2,30.00,148,186,17-May,12:05,186,,,,
 Z1,3,30.00,64,250,17-May,12:20,250,Leeg,8,,

@@ -64,8 +64,8 @@ Ik zit in dezelfde map als de data, dus ik hoef niks toe te voegen aan het pad
 Hier neem ik de voorbeeld data, het is een exel bestand met meerdere sheets, dus ik kan de read_xl module gebruiken.
 
 ```{r}
-dataset_suiker <- readxl::read_xlsx(path = "./Maatsheet_Experiment_Gist_dummy.xlsx", sheet = 3)
-dataset_zout <- readxl::read_xlsx(path = "./Maatsheet_Experiment_Gist_dummy.xlsx", sheet = 4)
+dataset_suiker <- read.csv(file = "./data/Maatsheet_experiment_gist_test_data_suiker.csv")
+dataset_zout <- read.csv(file = "./data/Maatsheet_experiment_gist_test_data_zout.csv")
 
 head(dataset_suiker)
 head(dataset_zout)
@@ -129,13 +129,15 @@ suiker_plot <- ggplot(data = viz_suiker_df,
             mapping = aes(x = Meting, y = ID, fill = CO2)) +
             geom_tile() +
             labs(y = "Meting + concentratie(g/L)", x = "Tijd(h)") +
-            scale_fill_gradient(limits = c(0, 20), low = "white", high = "red")
+            scale_fill_gradient(limits = c(0, 20), low = "white", high = "red") +
+            theme_minimal()
 
 zout_plot <- ggplot(data = viz_zout_df,
             mapping = aes(x = Meting, y = ID, fill = CO2)) +
             geom_tile() +
             labs(y = "Meting + concentratie(g/L)", x = "Tijd(h)") +
-            scale_fill_gradient(limits = c(0, 20), low = "white", high = "red")
+            scale_fill_gradient(limits = c(0, 20), low = "white", high = "red") +
+            theme_minimal()
 
 # Hier geef ik nog een keer de concentratie bij het ID voor duidelijkheid
 for (i in 1:6){
@@ -177,5 +179,89 @@ En een `grid heatmap` heeft een grid.
 Er zijn wel twee soorten grid heatmap:
 Clusterd, die wij hebben
 en een Correlogram, die een driehoeksvorm heeft doordat het combinatie uit een lijst vergelijkt en A-B == B-A.
+
+## May 22 2024
+
+Vandaag wil ik verder met het onderzoek naar heatmaps
+
+Ik wil vooral kijken naar mogelijke limitaties met het gebruiken van heatmaps
+
+Ik denk dat veel datapunten het mogelijk moeilijk kunnen maken om de data te interperteren
+```{r}
+x <- 1:200
+y <- paste0("var", seq(1:200))
+data <- expand.grid(X=x, Y=y)
+data$Z <- runif(40000, 0, 10)
+
+ggplot(data, aes(X, Y, fill= Z)) + 
+  geom_tile() +
+  theme_minimal()
+```
+Dit is inderdaad onoverzichtelijk, maar vooral bij de y-as, wat nog aan te passen valt.
+Het is waarschijnlijk niet een echte limitatie, omdat je kan inzoomen op de heatmap en de assen een beetje kan aanpassen zodat het leesbaar is.
+
+Een andere limitatie lijkt me als er een uitschieter is, die de kleuren veranderen
+```{r}
+x <- 1:20
+y <- paste0("var", seq(1:20))
+data <- expand.grid(X=x, Y=y)
+data$Z <- runif(400, 0, 5)
+data$Z[150] <- c(200)
+
+ggplot(data, aes(X, Y, fill= Z)) + 
+  geom_tile() +
+  theme_minimal()
+```
+```{r}
+x <- 1:20
+y <- paste0("var", seq(1:20))
+data <- expand.grid(X=x, Y=y)
+data$Z <- runif(400, 0, 5)
+data$Z[150] <- c(-200)
+
+ggplot(data, aes(X, Y, fill= Z)) + 
+  geom_tile() +
+  scale_fill_gradient(low = "green", high = "blue") +
+  theme_minimal()
+```
+Het klopt, de grote verandering zorgt er inderdaad voor dat de rest van de data niet te lezen is. Deze valt waarschijnlijk wel op te merken voordat de data wordt gevisualiseerd, maar het is alsnog een punt om op te letten.
+
+Ik denk dat de iris.csv dataset misschien nog wat interessante limitatie punten kan geven
+```{r}
+data <- datasets::iris
+
+ggplot(data, aes(Sepal.Width, Sepal.Length, fill= Petal.Length)) + 
+  geom_tile() +
+  scale_fill_gradient(low = "orange", high = "black") +
+  theme_minimal()
+```
+Hoe het zo is zijn er veel punten zonder waarde. Deze punten laat heatmap er uit. Nu zie je een scatterplot met nog een as in de vorm van kleur.
+
+Je kunt het ook op een andere manier doen:
+```{r}
+data <- datasets::iris
+
+ggplot(data, aes(Species, Sepal.Length, fill= Sepal.Width)) + 
+  geom_tile() +
+  scale_fill_gradient(low = "turquoise", high = "darkblue") +
+  theme_minimal()
+```
+Nu heb je een boxplot met een extra demensie in de vorm van kleur.
+
+Even kijken naar een andere dataset
+```{r}
+(data <- datasets::CO2)
+
+ggplot(data, aes(Plant, conc, fill= uptake)) + 
+  geom_tile() +
+  scale_fill_gradient(low = "black", high = "yellow") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  facet_wrap(data$Treatment)
+```
+Hier zie ik dan meerdere oplopende lijnen naast elkaar. Ik denk dat bij deze het beter in een lijngrafiek past.
+
+Het lijkt dat als je meestal een heatmap voor een dataset gebruikt, dat er dan vaak een ander soort visualisatiemethode ook mogelijk is, maar de heatmap voegt dan nog een extra as toe. Heatmaps zijn dan meestal een goede keuze om data te visualiseren, maar vaak zijn er andere mogelijkheden die overzichtelijker zijn doordat ze geen extra as hebben.
+
 
 

@@ -9,50 +9,173 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Introductie
+
+
+
 ## May 6 2024
 
 Vandaag onderzoek ik hoe bakkersgist reageert op zoute omgevingen, bijvoorbeeld hoe hun productie van alcohol veranderd.
 
-bron over brood maken met zout-gestrest bakkersgist:
+Op google scholar zoek ik voornamelijk met de zoektermen:
+"bakers Yeast", "Yeast", "Salt", "Saltstress"
+
+een gevonden bron over brood maken met zout-gestrest bakkersgist:
 https://ift.onlinelibrary.wiley.com/doi/full/10.1111/j.1750-3841.2009.01337.x
 
 ## May 7 2024
 
-De bron is vaag in materialen, maar het geeft goede informatie voor de efficientie van gist onder zoutgeinduceerde stress (in dit geval 7% NaCl oplossing). In dit geval is produceerdt de gist 2.8 keer zo veel glycerol dan de controle groep.
+Vandaag vervolg ik het brononderzoek die op 6 mei is begonnen.
 
+Ik begin met te verder lezen van de bron die ik op 6 mei had gevonden:
+De bron is vaag in het stukje materialen, maar het geeft goede informatie voor de efficientie van gist onder zoutgeinduceerde stress (in dit geval 7% NaCl oplossing). In dit geval is produceerdt de gist 2.8 keer zo veel glycerol dan de controle groep. (gevonden bij "Results and discussion", Table 3)
+
+Een andere bron over de groei van gist onder zoutrijke omgevingen:
 https://www.sciencedirect.com/science/article/pii/S1978301917302085
 
-In dit experiment werden de concentraties 0.5, 0.75 en 1.0M NaCl gebruikt. Bij 1.0M gingen vrijwel alle gistcellen (van Z. bisporus) dood.
+In dit experiment werden de concentraties 0.5, 0.75 en 1.0M NaCl gebruikt. Bij 1.0M gingen vrijwel alle gistcellen (van Z. bisporus) dood, en bij de andere concentraties groeide de gist duidelijk minder snel dan bij de groep zonder zout
+
+Op basis van deze bronnen denk ik dat de gisten onder zoutstress meer CO2 gaan produceeren, maar ook veel sneller dood gaan. Dus in het begin van het experiment zullen de gisten bij zout meer CO2 produceren dan bij de suikergroepen, maar die productie valt ook sneller af wat er voor zorgt dat de totale productie van de zoutgroepen kleiner is dan de suikergroepen.
 
 ## May 13 2024
 
-Vandaag heb ik het schudden van het gistmengsel aan het protocool toegevoegd. Dit gebeurdt om het halfuur zodat het gist goed kan blijven werken over langere tijden.
+Vandaag ga ik het protocool maken, van advies die we hadden gekregen van het magazijn op zernikkeplein 11.
 
-ik heb de uitvoering veranderd naar een stapgewijze schrijfwijze.
+Ik heb het schudden van het gistmengsel aan het protocool toegevoegd op het advies van mijn teamgenoten. Dit gebeurdt om het halfuur zodat het gist goed kan blijven werken over langere tijden.
+
+Ik heb de uitvoering veranderd naar een stapgewijze schrijfwijze, zodat het protocool makkelijker te volgen is.
 
 
-## May 14 2024
+## May 14 2024 + May 15 2024 + May 16 2024
 
-sample Heatmap:
+Ik ga de komende dagen beginnen met het maken van een voorbeeld Heatmap, dit doe ik zodat ik de code al heb voor de uiteindelijke data.
 
 ```{r}
 library(ggplot2)
 library(dplyr)
+library(cowplot)
 ```
+Ik wil weten waar ik zit zodat ik weet waar ik zit in vergelijking met de data
+```{r}
+getwd()
+```
+Ik zit in dezelfde map als de data, dus ik hoef niks toe te voegen aan het pad
 
+Hier neem ik de voorbeeld data, het is een exel bestand met meerdere sheets, dus ik kan de read_xl module gebruiken.
 
 ```{r}
-data <- readxl::read_excel(path = "")
+dataset_suiker <- readxl::read_xlsx(path = "./Maatsheet_Experiment_Gist_dummy.xlsx", sheet = 3)
+dataset_zout <- readxl::read_xlsx(path = "./Maatsheet_Experiment_Gist_dummy.xlsx", sheet = 4)
 
-table(data)
+head(dataset_suiker)
+head(dataset_zout)
 ```
+Deze data is tidy, dus ik hoef niks te doen met de data zelf.
 
-
+Ik sla het op in een ander variabele zodat ik niet bij het testen de hele tijd de data opnieuw uit het exel bestand te halen en ik gebruik as.data.frame zodat ik zeker weet dat ik een data frame heb
 
 ```{r}
-#Heatmap
-ggplot(data, aes(Y, X, fill= Z)) +
-    geom_tile()
+suiker_df <- as.data.frame(dataset_suiker)
+zout_df <- as.data.frame(dataset_zout)
+
+head(suiker_df)
+head(zout_df)
 ```
+Nu hebben we een data frame, maar er zit data in wat niet relevant is voor deze visualisatie
+Datum en Tijd worden gelogd voor duidelijkheid, maar staan hier leeg.
+Gist en Temperatuur zijn bij dit voorbeeld constant, dus die kunnen er ook uit.
+
+```{r}
+suiker_df <- suiker_df[c(1, 2, 3, 6)]
+zout_df <- zout_df[c(1, 2, 3, 6)]
+
+head(suiker_df)
+head(zout_df)
+
+str(suiker_df)
+str(zout_df)
+```
+Er lijken geen NA's in te zitten en de variabelen die ik plot(Meeting, Concentratie en CO2) zijn numeric.
+De namen wil ik wel even veranderen, zodat er geen raare tekens of spaties er in zitten.
+```{r}
+names(suiker_df) <- c("ID", "Meting", "Suiker", "CO2")
+names(zout_df) <- c("ID", "Meting", "Zout", "CO2")
+
+head(suiker_df)
+head(zout_df)
+```
+Nu zijn de namen goed, ik wil nog wel even de summary zien.
+```{r}
+summary(suiker_df)
+summary(zout_df)
+```
+Het ID, de meting en de concentratie zijn niet relevant voor de summary, maar de CO2 data lijkt wel interessant.
+Bij suiker zit het eerste kwartiel zit verder van het minimum dan het derde kwartiel bij het maximum, maar bij het zout zit het andersom.
+Bij suiker is de mediaan vrijwel hetzelfde als het gemiddelde, maar bij zout zit er meer dan 2 g/L tussen.
+
+Nu ga ik het visualiseren
+
+```{r}
+# Nieuwe variabelen die ik dan makkelijk kan veranderen
+viz_suiker_df <- suiker_df
+viz_zout_df <- zout_df
+
+# Ik combineer het ID met de concentratie zodat ik die samen op een as kan hebben
+viz_suiker_df$ID <- paste(viz_suiker_df$ID, viz_suiker_df$Suiker, sep = "-")
+viz_zout_df$ID <- paste(viz_zout_df$ID, viz_zout_df$Zout, sep = "-")
+
+# Ik maak hier twee verschillende heatmaps die ik later samen ga zetten 
+suiker_plot <- ggplot(data = viz_suiker_df,
+            mapping = aes(x = Meting, y = ID, fill = CO2)) +
+            geom_tile() +
+            labs(y = "Meting + concentratie(g/L)", x = "Tijd(h)") +
+            scale_fill_gradient(limits = c(0, 20), low = "white", high = "red")
+
+zout_plot <- ggplot(data = viz_zout_df,
+            mapping = aes(x = Meting, y = ID, fill = CO2)) +
+            geom_tile() +
+            labs(y = "Meting + concentratie(g/L)", x = "Tijd(h)") +
+            scale_fill_gradient(limits = c(0, 20), low = "white", high = "red")
+
+# Hier geef ik nog een keer de concentratie bij het ID voor duidelijkheid
+for (i in 1:6){
+    cat(suiker_df[i, 1], "=", suiker_df[i, 3], "g/L suiker     ")
+    cat(zout_df[i, 1], "=", zout_df[i, 3], "g/L zout\n")
+}
+
+# Ik gebruik hier de cowplot library om de twee heatmaps naast elkaar te zetten
+plot_grid(suiker_plot, zout_plot, labels = c("Suiker", "Zout"), label_size = 10, align = "h")
+```
+
+Op 14 Mei hebben wij een test run gedaan. Hierin hadden we gevonden dat het handiger is om de gist als laatst toe te voegen en eerst het waterslot te maken. Deze informatie heb ik later toegevoegd aan het [protocool]("placeholder")
+
+Voor meer details kun je kijken in het logboek van [Ivar](Logboek_Ivar.Rmd).
+
+## May 17 2024
+
+Vandaag wordt het experiment gedaan.
+
+Eerst voelde alles wat chaotisch, doordat er meer gist in de mengsels waren gedaan dan vooraf gepland(3g -> 7g). Er was veel meer gasproductie dan verwacht en daardoor hadden we besloten om de maatcilinders te hervullen als er teveel gasproductie was. Dit werd dan genoteerd in de spreadsheet onder het kopje "Opmerking". We hebben daarnaast ook het interval tussen meetpunten ingekort naar een keer per 15 minuten in te plaats van een keer per uur.
+We zijn uiteindelijk gestop na 11 meetpunten voor suiker en zout.
+
+De data is te vinden in dit [Doccument]("Placeholder")
+
+## May 21 2024
+
+Vandaag hebben wij een taakvedelen gemaakt voor de komende weken.
+Ik ga de heatmap visualiseren en de presentatie over heatmaps maken.
+
+Voor het maken van de heatmap moet ik eerst wachten tot Ivar de data van het experiment tidy heeft gemaakt.
+
+Wikipedia over de heatmap:
+https://en.wikipedia.org/wiki/Heat_map
+
+Het lijkt dat er 2 soorten heatmap te zijn:
+Een die bijvoorbeeld gaat over een kaart van de wereld heet een `spatial heatmap`
+En een `grid heatmap` heeft een grid.
+
+Er zijn wel twee soorten grid heatmap:
+Clusterd, die wij hebben
+en een Correlogram, die een driehoeksvorm heeft doordat het combinatie uit een lijst vergelijkt en A-B == B-A.
 
 

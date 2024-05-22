@@ -8,9 +8,14 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+# Libraries
+```{r}
+library(knitr)
+library(kableExtra)
+```
+
 
 # Inleiding
-
 
 # Methode
 
@@ -18,20 +23,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Log [6-5-2024]
 ~------------------------------------------------------------------------------~
-### Wat doen
+### Taak
+Ik ga een aantal berekeningen doen om de maximale hoeveelheid $CO_2$ dat bakkersgist kan produceren te vinden.
 
+### Motivatie
+Met deze berekeningen en uikomsten kan ik mogelijk een idee krijgen hoe groot onze maatcilinders en sampels moeten zijn. 
 
-### Waarom dit doen
+### Resultaat
 
-
-
-### Hoe is dit gedaan
-
-
-### Overig
-
-
-Maximale CO2 productie berekenen gebaseerd op totale hoeveelheid sucrose.  
+De maximale $CO_2$ productie berekenen gebaseerd op totale hoeveelheid sucrose.  
 In een oplossing van 300ml met een concentratie van 200g/L zit 60g suiker.  
 $200g/L \times 0.3L = 60g$  
 Met een aanname dat alleen de glucose in sucrose wordt gebruikt door gist.  
@@ -64,14 +64,14 @@ https://nl.wikipedia.org/wiki/Sacharose
 
 ## Log [7-5-2024]
 ~------------------------------------------------------------------------------~
-### Wat doen
+### Taak
 
 
-### Waarom dit doen
+### Motivatie
 
 
 
-### Hoe is dit gedaan
+### Resultaat
 
 
 ### Overig
@@ -110,14 +110,14 @@ https://nl.wikipedia.org/wiki/Ethanol
 
 ## Log [8-5-2024]
 ~------------------------------------------------------------------------------~
-### Wat doen
+### Taak
 
 
-### Waarom dit doen
+### Motivatie
 
 
 
-### Hoe is dit gedaan
+### Resultaat
 
 
 ### Overig
@@ -126,14 +126,14 @@ Ik heb glazen flesjes van 50cl met een diameter van ~7cm die wij kunnen gebruike
 
 ## Log [13-5-2024]
 
-### Wat doen
+### Taak
 
 
-### Waarom dit doen
+### Motivatie
 
 
 
-### Hoe is dit gedaan
+### Resultaat
 
 
 ### Overig
@@ -145,14 +145,14 @@ Voor onze visuele representatie van de data gaan wij een heatmap maken met op de
 ## Log [15-5-2024]
 ~------------------------------------------------------------------------------~
 
-### Wat doen
+### Taak
 
 
-### Waarom dit doen
+### Motivatie
 
 
 
-### Hoe is dit gedaan
+### Resultaat
 
 
 ### Overig
@@ -172,14 +172,14 @@ Michiel heeft een tabel met concentraties suiker en zout gemaakt waar wij ons aa
 ## Log [16-5-2024]
 ~------------------------------------------------------------------------------~
 
-### Wat doen
+### Taak
 
 
-### Waarom dit doen
+### Motivatie
 
 
 
-### Hoe is dit gedaan
+### Resultaat
 
 
 ### Overig
@@ -193,14 +193,14 @@ Uit het bovenstaande onderzoek kan bakkersgist tegen een osmotische concentratie
 ## Log [17-5-2024]
 ~------------------------------------------------------------------------------~
 
-### Wat doen
+### Taak
 
 
-### Waarom dit doen
+### Motivatie
 
 
 
-### Hoe is dit gedaan
+### Resultaat
 
 
 ### Overig
@@ -237,7 +237,15 @@ df_percentage_water = data.frame(sample = 1:len_suiker,
                                  gist = rep(massa_gist, len_suiker),
                                  water = rep(massa_water, len_suiker),
                                  zout = rep(massa_zout_bij_suiker_als_percentage_water, len_suiker))
-knitr::kable(df_percentage_water, caption = "Masses as a percentage of mass water ")
+
+
+
+
+knitr::kable(df_percentage_water, "html", caption = "Masses as a percentage of the mass of water") %>%
+    kable_styling("stripped", full_width = F) %>%
+    row_spec(0, background = "#5E17EB", color = "white")
+
+
 
 # Concentraties als percentage van totale massa
 
@@ -261,14 +269,14 @@ Wij hebben uiteindelijk besloten om vaker een meeting te doen. Dit heeft er ook 
 ## Log [21-5-2024]
 ~------------------------------------------------------------------------------~
 
-### Wat doen
+### Taak
 
 
-### Waarom dit doen
+### Motivatie
 
 
 
-### Hoe is dit gedaan
+### Resultaat
 
 
 ### Overig

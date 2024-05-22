@@ -1,4 +1,4 @@
-Experiment ID,Meeting,Suiker Concentratie (g/ml),Gist (g),Temperatuur (°C),CO? (ml),Datum,Tijd
+Experiment ID,Meeting,Suiker Concentratie (g/ml),Gist (g),Temperatuur (C),CO? (ml),Datum,Tijd
 S1,1,100,2.00,21,3.00,,
 S2,1,150,2.00,21,5.00,,
 S3,1,200,2.00,21,6.00,,

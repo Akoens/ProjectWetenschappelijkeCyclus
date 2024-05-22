@@ -18,10 +18,11 @@ library("pwr")
 # log maken voor library + versie
 ## Introductie
 Dit logboek is gemaakt voor het experiment 
-#volgorde motivatie wat gedaan
+# notevolgorde motivatie wat gedaan
+data sets herbases
+inputatie plan maken
 
-
----------------------------------------------------------------------------------------------------- 
+---------------------------------------------------------------------------------------------------
 Groeps logboek
 #Logboek 26-4-2024 
 
@@ -102,11 +103,10 @@ mail-adres magazijn(MagazijnILST@org.hanze.nl) voor het opstellen van een verzoe
 
 ----------------------------------------------------------------------------------------
 
-logboek
-8-5-2024
+#logboek 8-5-2024
 Wat heb ik gedaan 
 Na overleg met michiel over de mogenlijkheden van het experiment is er ter sprake gekomen dat we een leeg lablokaal kunnen gebruiken. naar overleg met michiel en docenten van het biologisch onderzoeks team lijkt het mogenlijk dat we een regelmatig lege labzaal kunnen gebruiken(H0.99), zoek hier voor contact met het magazijn.  
-# refereren onderzoek 
+#refereren onderzoek 
 Voor de opzet data heb de suikerwaardes van een eerder onderzoek gebruikt en de zout waardes heb ik verzonnen vanwege een gebrek aan referentie punten. uit de verwachting vanuit de litratuur ben ik er van uitgegaan dat deze waardes lager zijn dan die van suiker
 
 om deze data te gebruiken R code introduceren en uitlgeggen
@@ -336,11 +336,42 @@ uitslagen gelogt in het meetsheet excel file in teams.
 Ik en arjan hebben in de excel file de co2 producite berekent. dit hebben wij gedaan om werkbare meetgegevens te produceren om te gebruiken voor de statestiek in R. 
 
 ##wat heb gedaan
-Omreken van de meetwaardes in de meetcilinders naar co2 productie gedaan 
+Omreken van de meetwaardes in de meetcilinders naar co2 productie gedaan plus een cumelative colom hierbij gemaakt. 
 
 
 ##resultaten en interpetatie
 bij de 2 excel sheets de co2 productie gedeeltelijk uitgewerkt
-NOTE: de inconcistenties bespreken met michiel en emil
+NOTE: de onregelmadigheden in de data bespreken met michiel en emil
 
 ------------------------------------------------------------------------------------------
+#logboek 22-5
+
+##motivatie
+Als groep hebben wij onze ruwe data besproken met michiel om te kijken wat hij van onze onregelmatigheden vindt, dit hebben wij gedaan omdat wij als groep en ronald niet zeker wisten hoe wij dit moesten oplossen.
+
+##wat heb ik gedaan
+Als groep hebben wij met michiel besproken dat wij de data die we hebben gaan gebruiken en een imputatie strategie toepassen waar wij negatieve meetwaarden hebben. 
+
+## resultaat en interpetatie
+imputatie startegie om de gemmiddelde productie van het punt voor en na de negatieve meetwaarde te nemen
+
+
+---------------------------------------------------------------------------------------
+
+#logboek data verwerking 22-5, 
+motivatie
+```{r data inladen}
+suiker_data <- read.csv("data/Maatsheet Experiment Gist_Test Data Suiker.csv")
+zout_data <- read.csv("data/Maatsheet Experiment Gist_Test Data Zout.csv")
+data.frame(suiker_data)
+
+```
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------------

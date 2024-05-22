@@ -9,20 +9,21 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r lib statements}
+library("pwr")
+# library("ggplot2")
+# library("dplyr")
+# library("tidyr")
+```
+# log maken voor library + versie
 ## Introductie
+Dit logboek is gemaakt voor het experiment 
+#volgorde motivatie wat gedaan
 
-
-## wat is er al bekent
-
-## ideeien over onderzoeksopzet 
-
-## zijn er al data 
-
-## verwijzen naar protocollen en testen
 
 ---------------------------------------------------------------------------------------------------- 
 Groeps logboek
-Logboek 26-4-2024 
+#Logboek 26-4-2024 
 
 Wat hebben we gedaan 
 
@@ -40,7 +41,7 @@ Bronnen voor referentie in het onderzoek wat inzicht geeft in de opzet hiervan
 
 --------------------------------------------------------------------------------------------------- 
 Groepslogboek
-Logboek 26-4-2024 
+#Logboek 26-4-2024 
 
 Wat hebben we gedaan 
 
@@ -56,7 +57,9 @@ Dit hebben wij gedaan om te kijken of ons experiment mogelijk is op school en vo
 
 Resultaat en interpretatie 
 
-Op basis van het advies hebben wij ons protocol aangepast en contact opgezocht met 2 docenten om de vervolg stappen te bepalen 
+Op basis van het advies hebben wij ons protocol aangepast.
+
+contact opgezocht met de 2 bovenstaande docenten om de vervolg stappen te bepalen. hier is nog geen reactie op gekomen. 
 
 ----------------------------------------------------------------------------------------------------- 
 
@@ -65,12 +68,12 @@ Logboek
 Wat heb ik gedaan
 Voor onderzoek powertest
 https://wikistatistiek.amc.nl/Poweranalyse
-les statestiek 
-notitie 95% betrouwbaarheids interval met de powertest invoeren in het logboek
-mischien via de Rnorm een theoretische dataset opbouwen met of een geschaalde suiker naar co2 data met of het vorige onderzoek (https://www.sciencedirect.com/science/article/pii/S2221169117309802#:~:text=3.-,Results,solution)%20(Figure%201).) of een rekenmethode van 1 van mijn colega's om te bepalen wat we nodig hebben.
+
+note to self:in de les statestiek 
+95% betrouwbaarheids interval met de powertest invoeren in het logboek. mischien via de Rnorm een theoretische dataset opbouwen met of een geschaalde suiker naar co2 data met of het vorige onderzoek (https://www.sciencedirect.com/science/article/pii/S2221169117309802#:~:text=3.-,Results,solution)%20(Figure%201).) of een rekenmethode van 1 van mijn colega's om te bepalen wat we nodig hebben.
 
 Motivatie
-Dit wil ik opzetten om een inschatting te krijgen over hoeveel testen wij moeten maken
+Dit wil ik opzetten om een inschatting te krijgen over hoeveel testen wij moeten maken.
 
 Resutaat en interpetatie
 na de statestiek les van woensdag 8-5-2024 een theoretische opzet maken om te bepalen wat de minimale hoeveelheid tests zijn.
@@ -81,8 +84,9 @@ logboek
 wat heb ik gedaan
 2de bezoek magazijn en gesprek ronald
 In het gesprek met ronald hebben wij over de situatie rondom ons matriaal besproken hieruit zijn een aantal optie's naar voren gekomen waaronder potentieële locatie of het fermolab of d1.08. ook hebben we eventuele alternatieve opzetten besproken.
+Er is ook ter sprake gekomen om het hoeveelheid testen van 5(keer 2 want duplo keer 2 want 2 factoren) variable metingen te verlagen naar 3 om het experiment praktisch uitvoerbaarder te maken omdat 2*10 sample's te veel opzet werk is
 
-In het bezoek naar het magazijn hebben om duidelijkheid gevraagd over wat wij mogen lenen voor ons experiment. hieruit is gebleken vanwege het voormaat van het waterbad en het feit dat er geen doppen met slag zijn voor de elymer dat we daar een vervanging voor moeten regelen
+In het bezoek naar het magazijn hebben om duidelijkheid gevraagd over wat wij mogen lenen voor ons experiment. hieruit is gebleken vanwege het voormaat van het waterbad en het feit dat er geen doppen met slang zijn voor de elymer dat we daar een vervanging voor moeten regelen
 
 Motivatie
 Concretere antwoorden krijgen over wat wij mogen lenen voor ons experiment [magazijn boezoek]
@@ -90,10 +94,253 @@ Aangeven waar wij staan in ons project en de moeilijkheden waar wij tegen aanlop
 
 Resultaat en interpetatie
 Vervanger regelen voor elemyer.
-toestemming voor het lenen van een waterbad
-toestemming peter voor het eventueel opzetten van ons experiment in het klaslokaal mits er voorzorgmaatregelen worden getroffen.
+toestemming gekregen voor het lenen van een waterbad
+toestemming van gekregen van peter voor het eventueel opzetten van ons experiment in het klaslokaal mits er voorzorgmaatregelen worden getroffen.
 mail-adres magazijn(MagazijnILST@org.hanze.nl) voor het opstellen van een verzoek mail voor waneer de datum bekent is op welke datum wij het experiment willen uitvoeren
 
 
 
 ----------------------------------------------------------------------------------------
+
+logboek
+8-5-2024
+Wat heb ik gedaan 
+Na overleg met michiel over de mogenlijkheden van het experiment is er ter sprake gekomen dat we een leeg lablokaal kunnen gebruiken. naar overleg met michiel en docenten van het biologisch onderzoeks team lijkt het mogenlijk dat we een regelmatig lege labzaal kunnen gebruiken(H0.99), zoek hier voor contact met het magazijn.  
+# refereren onderzoek 
+Voor de opzet data heb de suikerwaardes van een eerder onderzoek gebruikt en de zout waardes heb ik verzonnen vanwege een gebrek aan referentie punten. uit de verwachting vanuit de litratuur ben ik er van uitgegaan dat deze waardes lager zijn dan die van suiker
+
+om deze data te gebruiken R code introduceren en uitlgeggen
+```{r opzet data}
+
+test_suiker <- read.csv2("Maatsheet Experiment Gist suiker.csv")
+test_zout <- read.csv2("Maatsheet Experiment Gist zout.csv")
+data.frame(test_suiker)
+data.frame(test_zout)
+boxplot(test_suiker$CO...ml. , test_zout$CO...ml.)
+```
+
+
+Motivatie
+Overleg met docent was voor het voortgangs gesprek.
+
+Resultaat en interpetatie
+2 potentiële experiment locatie's H0.99 [vragen aan labmagazijn] en het masterlokaal
+
+---------------------------------------------------------------------------------------
+logboek 
+week 2 en 3
+Poweranalyse en T-tests
+
+Nul hypothese test
+voor de nul hypothese test heb ik bijde colommen bij elkaar gevoegd met de reden dat de null hyptosese is
+Suiker en zout hebben geen invloed op de groei.
+
+```{r normaal verdeling}
+#suiker
+gem_output_s <- mean(test_suiker$CO...ml.)
+deviatie_s <- sd(test_suiker$CO...ml.)
+sample_count_s <- length(test_suiker$CO...ml.)
+hist(test_suiker$CO...ml.)
+curve(dnorm(x, mean = gem_output_s, sd = deviatie_s)*max(test_suiker$CO...ml.),  add = T)
+
+#zout
+gem_output_z <- mean(test_zout$CO...ml.)
+deviatie_z <- sd(test_zout$CO...ml.)
+sample_count_z <- length(test_zout$CO...ml.)
+hist(test_zout$CO...ml.)
+curve(dnorm(x,mean = gem_output_z, sd = deviatie_z)*max(test_zout$CO...ml.), add = T)
+
+```
+
+
+Betrouwbaarheids interval
+```{r BI}
+# suiker
+BI_S <- gem_output_s + qt(c(0.025, 0.975),sample_count_s-1)* deviatie_s/sqrt(sample_count_s)
+# zout
+BI_Z <- gem_output_z + qt(c(0.025, 0.975),sample_count_z-1)* deviatie_z/sqrt(sample_count_z)
+cat(BI_S,"betrouwbaarheids interval suiker    ",BI_Z,"Betrouwbaarheids interval zout")
+```
+
+Tweezijdige T test
+MU = 6 is een verwachte schatting als de output
+```{r T test}
+# suiker
+t.test(test_suiker$CO...ml. , mu = 0,  alternative = "two.sided")
+# zout
+t.test(test_zout$CO...ml. , mu = 0,  alternative = "two.sided")
+# dubbele t test
+t.test(test_suiker$CO...ml. ,mu = 0 ,test_zout$CO...ml. , alternative = "two.sided")
+```
+de p waarde is veel groter dan 0,05 wat aangeeft dat er een significant verschil is met het gebruik van suiker en zout
+
+
+```{r fout in het gemmidelde}
+# suiker
+fout_in_gem_s <- deviatie_s/sqrt(gem_output_s)
+# zout
+fout_in_gem_z <- deviatie_z/sqrt(gem_output_z)
+
+cat(fout_in_gem_s,"dit is de fout in het gemmidelde bij suiker","       ",fout_in_gem_z,"dit is de fout in het gemiddelde bij zout")
+```
+
+```{r cohen d waarde}
+#suiker
+t_waarde_s <- t.test(test_suiker$CO...ml. , mu = 6, alternative = "two.sided")
+t_s <- t_waarde_s$statisti
+d_s <- t_s / sqrt(sample_count_s)
+cat(d_s,"d waarde suiker")
+# zout
+t_waarde_z <- t.test(test_zout$CO...ml. , mu = 6, alternative = "two.sided")
+t_z <- t_waarde_z$statisti
+d_z <- t_z / sqrt(sample_count_z)
+cat("     ",d_z,"d waarde zout")
+
+```
+
+
+```{r power test}
+# suiker
+pwr.t.test(d= d_s, sig.level = 0.05,power = 0.8, type = "one.sample", alternative = "two.sided")
+# zout
+pwr.t.test(d= d_z, sig.level = 0.05,power = 0.8, type = "one.sample", alternative = "two.sided")
+```
+
+--------------------------------------------------------------------------------------------
+logboek 
+13-5 ,14-5 en 15-5
+
+Wat heb ik gedaan
+
+Journalclub heatmap opdracht
+op 13-5 hebben wij de opdracht gekregen om een geavanceerde statestiek plot te maken, onze eerste idieën waren heatmap en scatterplot met trendline's. ons 2de ideëe werd afgekeurd omdat die plot te simpel is opzichzelf, een voorwaarde om dit type plot goed te keuren is door het interactief te maken.
+Uiteindelijk hebben we gekozen voor een heatmap
+
+besproken heatmap opdracht 
+op 14-5 hebben wij met ronald de heatmap plot besproken en daarom kwam kritiek dat wij door 2 variabelen op 1 as te plaatsen. oplossing hiervoor is een facit wrap
+
+Testdata opzetten
+14-5 en 15-5
+
+Motivatie
+opzetten van een huiswerk opdracht
+
+Resultaat en interpetatie
+heatmap met facet wrap vastgezet als project voor de journalclub
+
+
+------------------------------------------------------------------------------------------
+logboek groepswerk
+15-5 test experiment opzetting 
+
+startconditie
+waterslot 192 ml 
+water 20 graden
+60 gram suiker
+200ml water
+2gram droge gist
+
+meetpunt 1 10:40 op advies opnieuw begonnen
+vanwege teveel verlies aan gas door slechte opzet
+
+Dit experiment zijn we begonnen om 9:30 op te zetten, nadat wij klaar waren in met het magazijn moesten we een lokaal vinden want dit was niet goed gecomuniceerd. toen wij een lokaal aangewezen hadden begonnen wij met het fysiek opzetten van het experiment. 
+wij zijn hier tegen een aantal dingen gelopen tijdens de eerste opzet
+wij waren begonnen met het maken van het gist en zuiker mengsel. hierbij kwam onhandigheid kijken omdat wij niks hadden om mee te roeren of om secure hoeveelheden in te scheppen.
+toen dat klaar was moesten wij nog bezig met het waterslot wat ook onhandig ging waardoor ik 15/30min heb zitten zwenken
+bij het waterslot zijn we meer dan 100ml water kwijtgeraakt.
+
+met michiel besproken 0,5% zout als standaard bij suikermetingen 
+5 gram op 1L water bij suiker opzet
+bij zout variatie 
+zeewater is 35gram per liter is 3,5% max
+
+na bespreking met magazijn medewerken opnieuw opgezet omdat door het lage waternivuea in het tijltje en in de maatcilinder 
+
+waterslot 9mml 
+20 graden
+meetpunt 1 11:20, 9mml 
+onstaat wel schuim. ook gezwenkt.
+
+meetpunt 2 11:40  9mml
+gezenkt, er zijn bubbels maar geen verandering in meting
+gedachte de zout en suiker balans opmerking van michiel kan de reden zijn waarom wij nog geen verschil zien of de bovenkant van de beker moet voledig dichtgeplakt worden inplaats van alleen het slangetje
+
+meetpunt 3 11:55 9mml
+gezwenkt zelfde nivuea gas. straks magazijn vragen om kritisch naar onze opzet te kijken want we meten geen gasproductie maar er is wel zichtbaar reactie in ons experiment flesje zoals schuim
+meetpunt 4 12:10 mml
+na overleg en controle bleek dat het gist ook 3 maanden over datum was
+
+Motivatie 
+deze testopzet hebben we gedaan om ons protecol te testen en kijken waar wij eventueel tegen aan zouden lopen tijdens het exepriment.
+
+
+
+Resultaat en interpetatie
+Protocol aanpassingen
+hoger waternivaue in het tijltje.
+waterslot met maatcilinder als eerst opzetten.
+thee lepel meenemen voor het secuurder en efficienter meeten en roeren van de concentratie's
+vooraf de hoeveelheid gram suiker/zout opschrijven voor efficientie. 
+Voor balans in de productie van gist bij alle opzetten een vaste zout en suiker concentratie toevoegen. de nieuwe concentratie hiervoor zijn gepost in teams door michiel noback 15-5 11:26.
+eventueel parafoom aanvragen of aluminiuum folie meenemen voor handigheid waterslot
+
+---------------------------------------------------------------------------------------------------------
+
+Logboek
+16-5
+
+Wat heb ik gedaan
+Gesprek met emil appol over de statestiek van ons experiment. hieruit is vooruitgekomen dat vanwege het combineren van 2 factoren namenlijk zout en suiker een 2 weg anova de correcte analyse is, maar omdat wij praktisch niet de schaal hebben om het experiment op deze manier correct uit te voeren gaan wij 2 keer een 1 weg anova analyse voor de bijde factoren.
+
+
+motivatie
+dit heb ik gedaan vanwege onzekerheid over het analyseren van ons onderzoek
+
+
+Resultaat en interpetatie
+oplossing voor ons statestiek probleem in de vorm van het uitvoeren van 2 keer een 1 weg anova
+notitie voor onderzoeksverslag vermelden dat een 2 weg anove de corecte manier was maar vanwege gebrek aan schaal 
+
+-----------------------------------------------------------------------------------------------------------------
+
+
+logboek
+17-5
+wat heb gedaan
+Opzetten en uitvoeren van het experiment.
+In het gesprek met ronald tijdens het opzetten de hoeveelheid gist veranderd van 2 naar 7. en daarna heb ik concentratie berekening gemaakt voor de experimenten.
+Van het lab hebben wij een waterbad ter beschikking gekregen en hebben dit op 30 graden ingesteld.
+
+uitvoering
+tijden het experiment ging de gistproductie bij bepaalde experiment zo snel dat we al direct besloten om de meetfreqwentie van 1 keer per uur naar 1 keer per kwartier veranderen, omdat anders onze maatcilinders te lang leeg staan of we te lang of vaag co2 productie gaan loggen. ook hebben wij zodra het een meetcilinder leeg was hebben wij dit genoteerd bij de meting en hebben dit als 250 ml genoteerd en de cilinder opnieuw gevuld
+
+motivatie
+De reden dat wij toch een waterbad hebben gebruikt om dichter bij de optimuum tempratuur van gist te zitten dan dat de tempratuur was op de labzaal zelf.
+de meet freqwentie in verandering is gedaan vanwege de explosieve gastproductie waarvan wij dachten dat het binnen 250 ml gas zou blijven er binnen een kwartier al 2 experimenten zo veel produceerden dat zij over onze originele meetcapiciteit zouden gaan binnen een kwartier. d
+1 van deze experimenten bleek een lek te zijn bij inspectie.
+
+resultaten en interpetatie
+de hoeveelheid gist veranderd van 2 naar 7 gram vanwege gemak in meting en sterkere co2 productie
+
+concentratie berekening per experiment gemaakt in de exel file meetsheet experiment in het suiker en zout concentratie blad.
+
+experiment meetfreqwentie veranderd van om de 60 minuten naar 15 minuten.
+uitslagen gelogt in het meetsheet excel file in teams.
+
+
+----------------------------------------------------------------------------------------------------
+
+#logboek 21-5
+
+##motivatie
+Ik en arjan hebben in de excel file de co2 producite berekent. dit hebben wij gedaan om werkbare meetgegevens te produceren om te gebruiken voor de statestiek in R. 
+
+##wat heb gedaan
+Omreken van de meetwaardes in de meetcilinders naar co2 productie gedaan 
+
+
+##resultaten en interpetatie
+bij de 2 excel sheets de co2 productie gedeeltelijk uitgewerkt
+NOTE: de inconcistenties bespreken met michiel en emil
+
+------------------------------------------------------------------------------------------

@@ -426,7 +426,7 @@ mdsz <- rbind(mds, mdz)
 print(mdsz)
 ```
 Nu om de spreidingsdiagram te maken.
-Ik 
+
 ```{r}
 ggplot(mdsz, aes(x=suiker, y=zout,size = relatieve_productie, colour = experiment_id)) + 
     geom_point() +
@@ -437,4 +437,37 @@ ggplot(mdsz, aes(x=datetime, y=cumulatieve_productie, colour = experiment_id)) +
     geom_line() 
 
 ```
+Er is geen goede manier om een spreidingsdiagram te maken met de data die wij hebben. Ik kan dus geen correlaties vast stellen. Een spreidingsdiagram is dus niet een goede optie.
+Toch kan ik in de grafiek zien welke permutaties wij hebben gebruik. Uit statistiek hebben wij te horen gekregen over "full factorial design"  en "fractal factorial design". Die gebruik kan worden om correlaties te leggen tussen verschillende variabelen. Voor fractal zou je dan de uiterste punten moeten hebben om een correlatie te kunnen leggen. Jammer genoeg hebben wij dat dus niet. 
+
+```{r}
+#data_suiker %>% mutate(group = case_match(
+#    experiment_id,
+#    c("S1", "Sd1") ~ "Es1",
+#    c("S2", "Sd2") ~ "Es2",
+#    c("S3", "Sd3") ~ "Es3"
+#))
+mdsz %>% mutate(group = case_match(
+    experiment_id,
+    c("S1", "Sd1", "S2", "Sd2", "S3", "Sd3") ~ "Suiker",
+    c("Z1", "Zd1", "Z2", "Zd2", "Z3", "Zd3") ~ "Zout"
+)) %>%
+ggplot(aes(x = relatieve_productie, fill = group)) +
+    
+    geom_histogram(
+        color = "#e9ecef",
+        alpha = 0.6,
+        binwidth = 15,
+        position = 'identity'
+    ) +
+    scale_fill_manual(values = c("#69b3a2", "#404080")) +
+    xlab("relatieve productie (ml)")
+```
+
+
+
+
+
+
+
 

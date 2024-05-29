@@ -396,7 +396,7 @@ In dit blok worden de gegevens van het experiment ingeladen.
 
 Deze chunk is voor het inladen van de suiker data.
 ```{r data inladen suiker}
-suiker_data_ruw <- read.csv("../raw_data/Maatsheet Experiment Gist_Suiker.csv")
+suiker_data_ruw <- read.csv("../raw_data/data_gist_suiker.csv)
 head(suiker_data_ruw)
 ```
 
@@ -412,7 +412,7 @@ head(suiker_data)
 #### Zout
 Deze chunk is voor het inladen van de zout data.
 ```{r head zout}
-zout_data_ruw <- read.csv("../raw_data/Maatsheet Experiment Gist_Zout.csv")
+zout_data_ruw <- read.csv("../raw_data/data_gist_zout.csv")
 head(zout_data_ruw)
 ```
 

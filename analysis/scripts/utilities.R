@@ -1,3 +1,3 @@
-perc_to_mass <- function(percentage, mass){
-    percentage * mass / 100
+perc_to_mass <- function(component, whole){
+    component * whole / 100
 }

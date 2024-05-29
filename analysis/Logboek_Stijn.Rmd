@@ -54,6 +54,8 @@ Ik ga de komende dagen beginnen met het maken van een voorbeeld Heatmap, dit doe
 library(ggplot2)
 library(dplyr)
 library(cowplot)
+library(ggcorrplot)
+library(tidyr)
 ```
 Ik wil weten waar ik zit zodat ik weet waar ik zit in vergelijking met de data
 ```{r}
@@ -64,8 +66,8 @@ Ik zit in dezelfde map als de data, dus ik hoef niks toe te voegen aan het pad
 Hier neem ik de voorbeeld data, het is een exel bestand met meerdere sheets, dus ik kan de read_xl module gebruiken.
 
 ```{r}
-dataset_suiker <- readxl::read_xlsx(path = "./Maatsheet_Experiment_Gist_dummy.xlsx", sheet = 3)
-dataset_zout <- readxl::read_xlsx(path = "./Maatsheet_Experiment_Gist_dummy.xlsx", sheet = 4)
+dataset_suiker <- read.csv(file = "./data/data_gist_testsheet_suiker.csv")
+dataset_zout <- read.csv(file = "./data/data_gist_testsheet_zout.csv")
 
 head(dataset_suiker)
 head(dataset_zout)
@@ -88,9 +90,6 @@ Gist en Temperatuur zijn bij dit voorbeeld constant, dus die kunnen er ook uit.
 ```{r}
 suiker_df <- suiker_df[c(1, 2, 3, 6)]
 zout_df <- zout_df[c(1, 2, 3, 6)]
-
-head(suiker_df)
-head(zout_df)
 
 str(suiker_df)
 str(zout_df)
@@ -129,13 +128,15 @@ suiker_plot <- ggplot(data = viz_suiker_df,
             mapping = aes(x = Meting, y = ID, fill = CO2)) +
             geom_tile() +
             labs(y = "Meting + concentratie(g/L)", x = "Tijd(h)") +
-            scale_fill_gradient(limits = c(0, 20), low = "white", high = "red")
+            scale_fill_gradient(limits = c(0, 20), low = "white", high = "red") +
+            theme_minimal()
 
 zout_plot <- ggplot(data = viz_zout_df,
             mapping = aes(x = Meting, y = ID, fill = CO2)) +
             geom_tile() +
             labs(y = "Meting + concentratie(g/L)", x = "Tijd(h)") +
-            scale_fill_gradient(limits = c(0, 20), low = "white", high = "red")
+            scale_fill_gradient(limits = c(0, 20), low = "white", high = "red") +
+            theme_minimal()
 
 # Hier geef ik nog een keer de concentratie bij het ID voor duidelijkheid
 for (i in 1:6){
@@ -144,7 +145,7 @@ for (i in 1:6){
 }
 
 # Ik gebruik hier de cowplot library om de twee heatmaps naast elkaar te zetten
-plot_grid(suiker_plot, zout_plot, labels = c("Suiker", "Zout"), label_size = 10, align = "h")
+plot_grid(suiker_plot, zout_plot, labels = c("Suiker", "Zout"), label_size = 10, align = c("v"))
 ```
 
 Op 14 Mei hebben wij een test run gedaan. Hierin hadden we gevonden dat het handiger is om de gist als laatst toe te voegen en eerst het waterslot te maken. Deze informatie heb ik later toegevoegd aan het [protocool]("placeholder")
@@ -178,4 +179,369 @@ Er zijn wel twee soorten grid heatmap:
 Clusterd, die wij hebben
 en een Correlogram, die een driehoeksvorm heeft doordat het combinatie uit een lijst vergelijkt en A-B == B-A.
 
+## May 22 2024
+
+Vandaag wil ik verder met het onderzoek naar heatmaps
+
+Ik wil vooral kijken naar mogelijke limitaties met het gebruiken van heatmaps
+
+Ik denk dat veel datapunten het mogelijk moeilijk kunnen maken om de data te interperteren
+```{r}
+x <- 1:200
+y <- paste0("var", seq(1:200))
+data <- expand.grid(X=x, Y=y)
+data$Z <- runif(40000, 0, 10)
+
+ggplot(data, aes(X, Y, fill= Z)) + 
+  geom_tile() +
+  theme_minimal()
+```
+Dit is inderdaad onoverzichtelijk, maar vooral bij de y-as, wat nog aan te passen valt.
+Het is waarschijnlijk niet een echte limitatie, omdat je kan inzoomen op de heatmap en de assen een beetje kan aanpassen zodat het leesbaar is.
+
+Een andere limitatie lijkt me als er een uitschieter is, die de kleuren veranderen
+```{r}
+x <- 1:20
+y <- paste0("var", seq(1:20))
+data <- expand.grid(X=x, Y=y)
+data$Z <- runif(400, 0, 5)
+data$Z[150] <- c(200)
+
+ggplot(data, aes(X, Y, fill= Z)) + 
+  geom_tile() +
+  theme_minimal()
+```
+```{r}
+x <- 1:20
+y <- paste0("var", seq(1:20))
+data <- expand.grid(X=x, Y=y)
+data$Z <- runif(400, 0, 5)
+data$Z[150] <- c(-200)
+
+ggplot(data, aes(X, Y, fill= Z)) + 
+  geom_tile() +
+  scale_fill_gradient(low = "green", high = "blue") +
+  theme_minimal()
+```
+Het klopt, de grote verandering zorgt er inderdaad voor dat de rest van de data niet te lezen is. Deze valt waarschijnlijk wel op te merken voordat de data wordt gevisualiseerd, maar het is alsnog een punt om op te letten.
+
+Ik denk dat de iris.csv dataset misschien nog wat interessante limitatie punten kan geven
+```{r}
+data <- datasets::iris
+
+save1 <- ggplot(data, aes(Sepal.Width, Sepal.Length, fill= Petal.Length)) + 
+           geom_tile() +
+           scale_fill_gradient(low = "orange", high = "black") +
+           theme_minimal()
+
+save2 <- ggplot(data, aes(Sepal.Width, Sepal.Length)) +
+            geom_point() +
+            theme_minimal()
+
+plot_grid(save1, save2, allign = c("v"))
+```
+Hoe het zo is zijn er veel punten zonder waarde. Deze punten laat heatmap er uit. Nu zie je een scatterplot met nog een as in de vorm van kleur.
+
+Je kunt het ook op een andere manier doen:
+```{r}
+data <- datasets::iris
+
+save1 <- ggplot(data, aes(Species, Sepal.Length, fill= Sepal.Width)) + 
+          geom_tile() +
+          scale_fill_gradient(low = "turquoise", high = "darkblue") +
+          theme_minimal()
+
+save2 <- ggplot(data, aes(Species, Sepal.Length)) + 
+          geom_boxplot() +
+          theme_minimal()
+
+plot_grid(save1, save2, allign = c("v"))
+```
+Nu heb je een boxplot met een extra demensie in de vorm van kleur.
+
+Even kijken naar een andere dataset
+```{r}
+data <- datasets::CO2
+
+save1 <- ggplot(data, aes(Plant, conc, fill= uptake)) + 
+              geom_tile() +
+              scale_fill_gradient(low = "black", high = "yellow") +
+              theme_minimal() +
+              theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) #+
+              # facet_wrap(data$Treatment)
+
+save1
+```
+Hier zie ik dan meerdere oplopende lijnen naast elkaar. Ik denk dat bij deze het veel beter in een lijngrafiek past.
+
+Het lijkt dat als je meestal een heatmap voor een dataset gebruikt, dat er dan vaak een ander soort visualisatiemethode ook mogelijk is, maar de heatmap voegt dan nog een extra as toe. Heatmaps zijn dan meestal een goede keuze om data te visualiseren, maar vaak zijn er andere mogelijkheden die overzichtelijker zijn doordat ze geen extra as hebben.
+
+## May 23 2024
+
+Vandaag wil ik verder met het maken van de presentatie
+
+Ik wil nu een leuke heatmap om een overzichtelijk voorbeeld te hebben om makkelijk uit te leggen wat een heatmap is
+
+```{r}
+x <- 1:10
+y <- paste0("var", seq(1:10))
+data <- expand.grid(X=x, Y=y)
+
+Z <- 1:10 + runif(10)
+for (i in 1:9){
+    add <- 1:10 + runif(10)
+  Z <- append(Z, add)
+}
+
+data$Z <- Z
+
+ggplot(data, aes(X, Y, fill = Z)) +
+    geom_tile() +
+    scale_fill_gradient(low = "green", high = "darkblue") +
+    theme_minimal()
+```
+Deze lijkt mij makkelijk te lezen, dus deze ga ik gebruiken
+
+
+Ik denk nu ook dat er misschien meer gaten komen als je de X- of Y-as een numerieke variable maakt.
+Dit kan ik het makkelijkste testen met onze eigen testdata:
+
+```{r}
+# de plots die ik ook maak op lijn 128, maar deze keer verander ik het ID met de Concentratie
+suiker_plot <- ggplot(data = viz_suiker_df,
+            mapping = aes(x = Meting, y = Suiker, fill = CO2)) +
+            geom_tile() +
+            labs(y = "concentratie(g/L)", x = "Tijd(h)") +
+            scale_fill_gradient(limits = c(0, 20), low = "green", high = "darkblue") +
+            theme_minimal()
+
+zout_plot <- ggplot(data = viz_zout_df,
+            mapping = aes(x = Meting, y = Zout, fill = CO2)) +
+            geom_tile() +
+            labs(y = "concentratie(g/L)", x = "Tijd(h)") +
+            scale_fill_gradient(limits = c(0, 20), low = "green", high = "darkblue") +
+            theme_minimal()
+
+
+plot_grid(suiker_plot, zout_plot, labels = c("Suiker", "Zout"), label_size = 10, align = c("v"))
+```
+Er lijkt bij suiker niks mis te gaan, maar bij zout kun je makkelijk zien dat wij niet een concentratie van 3g/L hebben gemeten.
+Wat er gebeurt is dat de stapgrote hetzelfde blijft tussen de blokken, maar dat niet alles daar ook gemeten is, alles wat dan onder dat getal valt bestaat niet, die heatmaps er zelf standaard uit laten.
+Het is dus beter om data categorisch in de dataframe te zetten ook al is het numeriek
+Wat er nier daarnaast ook nog gebeurt is dat twee metingen met dezelfde concentratie waardes samen in een vak worden gezet en daarvan wordt het gemiddelde genomen. In dit geval worden de duplo's samengevoegt met de experimenten zelf. In sommige gevallen kan dit handig zijn, maar in dit geval wil ik wel de duplo's zien.
+
+Alles wat ik nu heb ben ik vrij tevreden mee, ik stop ze voor nu in de powerpoint, maar ik moet nog feedback vragen
+
+
+Ik moet nog de daadwerkelijke data visualiseren, dus dat kan ik nu wel gaan doen
+
+De data is ruwe data, dus ik moet naar een andere folder toe
+```{r}
+getwd()
+```
+```{r}
+real_suiker <- read.csv(file = "../raw_data/data_gist_suiker.csv")
+real_zout <- read.csv(file = "../raw_data/data_gist_zout.csv")
+
+head(real_suiker)
+head(real_zout)
+```
+Het lijkt dat de de experimenten zijn gesorteerd op ID
+Ik sla het op in een andere variabele
+
+```{r}
+real_suiker_df <- as.data.frame(real_suiker)
+real_zout_df <- as.data.frame(real_zout)
+
+head(real_suiker_df)
+head(real_zout_df)
+```
+We hebben nu wel wat variabelen die ik niet ga gebruiken
+datum, temperatuur en opmerking kan ik niks mee in r
+null_waarde en meetniveau zijn al omgezet naar cumulatieve_productie en relatieve_productie, dus die kunnen er ook uit
+tijd kan ik er ook uit halen, omdat meting_id makkelijker is.
+
+```{r}
+real_suiker_df <- real_suiker_df[c(1, 2, 4, 5)]
+real_zout_df <- real_zout_df[c(1, 2, 4, 5)]
+
+str(real_suiker_df)
+str(real_zout_df)
+```
+Het valt me hier nu wel op dat de relatieve en cumulatieve productie van suiker en zout andere waardes gebruiken, suiker numeric en zout integers. Ik denk niet dat dit een probleem gaat veroorzaken bij de visualisatie, dus ik hou het zo
+
+Nu even de summary bekijken:
+```{r}
+summary(real_suiker_df)
+summary(real_zout_df)
+```
+Bij suiker is bij de relatieve en cumulatieve productie het derde kwartiel kleiner dan het gemiddelde, suiker had dus over het algemeen weinig productie maar er waren een paar uitschieters die het gemiddelde veel hoger brachten.
+De relatieve productie gaat hier wel in de min, wat niet mogelijk zou moeten zijn, dit gaat misschien veranderd worden, maar ik zit nu met deze data.
+De gemmiddelde productie van zout is hoger dan die van suiker, maar het maximum is wel lager.
+
+De namen heb ik geen problemen mee, dus ik ga direct naar het visualiseren:
+```{r}
+# Nieuwe variabelen die ik dan makkelijk kan veranderen
+real_viz_suiker_df <- real_suiker_df
+real_viz_zout_df <- real_zout_df
+
+# Ik maak hier twee verschillende heatmaps die ik later samen ga zetten 
+suiker_plot_rel <- ggplot(data = real_viz_suiker_df,
+            mapping = aes(x = meting_id, y = experiment_id, fill = relatieve_productie)) +
+            geom_tile() +
+            labs(y = "Experiment ID", x = "Meting(1 = ~15 min)") +
+            scale_fill_gradient(limits = c(0, 210), low = "white", high = "red", na.value = "blue4") +
+            theme_minimal()
+
+zout_plot_rel <- ggplot(data = real_viz_zout_df,
+            mapping = aes(x = meting_id, y = experiment_id, fill = relatieve_productie)) +
+            geom_tile() +
+            labs(y = "Experiment ID", x = "Meting(1 = ~15 min)") +
+            scale_fill_gradient(limits = c(0, 210), low = "white", high = "red", na.value = "blue4") +
+            theme_minimal()
+
+# Ik maak hier twee verschillende heatmaps die ik later samen ga zetten 
+suiker_plot_cum <- ggplot(data = real_viz_suiker_df,
+            mapping = aes(x = meting_id, y = experiment_id, fill = cumulatieve_productie)) +
+            geom_tile() +
+            labs(y = "Experiment ID", x = "Meting(1 = ~15 min)") +
+            scale_fill_gradient(limits = c(0, 800), low = "white", high = "red", na.value = "red4") +
+            theme_minimal()
+
+zout_plot_cum <- ggplot(data = real_viz_zout_df,
+            mapping = aes(x = meting_id, y = experiment_id, fill = cumulatieve_productie)) +
+            geom_tile() +
+            labs(y = "Experiment ID", x = "Meting(1 = ~15 min)") +
+            scale_fill_gradient(limits = c(0, 800), low = "white", high = "red", na.value = "red4") +
+            theme_minimal()
+
+plot_grid(suiker_plot_rel, zout_plot_rel, suiker_plot_cum, zout_plot_cum, labels = c("Suiker", "Zout", "Suiker", "Zout"), label_size = 10, align = c("hv"))
+```
+Bij de relatieve metingen zijn alle grijze vakjes metingen met een getal kleiner dan 0 en bij de cumulatieve metingen heb ik het limiet op 800 gezet zodat je alsnog de wat kleinere waardes kan 
+
+## May 27 2024
+
+Ik ga vandaag weer verder met de presentatie
+
+Daarvoor wil ik nu eerst een correlogram gaan maken.
+
+Om makkelijk een correlogram te maken neem ik de library ggcorrplot
+```{r}
+data(mtcars)
+corr <- round(cor(mtcars), 1)
+head(corr[, 1:6])
+```
+Hier kun je goed zien dat er all een corralatie is tussen dezelfde variabelen.
+
+```{r}
+ggcorrplot(corr)
+```
+hier heb je een corralatieplot, zoals je kan zien is de data dubbel met  als scheidingslijn de rode blokjes.
+Dat is wel vervelend, dus ik haal de onnodige data er uit.
+
+```{r}
+ggcorrplot(corr, type = "lower", outline.color = "white", ggtheme = ggplot2::theme_minimal())
+```
+Met deze twee kun je goed zien wat een correlogram is, dus deze kan ik gebruiken.
+
+Ik wil ook nog een beter voorbeeld voor een heatmap met wat na waardes en missende waardes
+```{r}
+x <- 1:30
+y <- paste0("var", seq(1:30))
+data <- expand.grid(X=x, Y=y)
+
+Z <- 1:30 + runif(30)
+for (i in 1:29){
+    add <- 1:30 + runif(30)
+  Z <- append(Z, add)
+}
+
+data$Z <- Z
+
+set.seed(8243)
+
+
+for (i in c(85, 606, 238, 866, 492, 34, 471)){
+    data$Z[i] <- NA
+}
+
+ggplot(data, aes(X, Y, fill = Z)) +
+    geom_tile() +
+    scale_fill_gradient(low = "green", high = "darkblue") +
+    theme_minimal()
+```
+Deze lijkt de NA waardes goed te laten zien
+
+## 28 may 2024
+
+Ik vandaag de presentatie afmaken
+
+Ik heb ook even bedacht dat ik een correlogram van onze data maken, omdat een correlogram beter is in een one-way-anova te visualiseren en een standaard clusterd heatmap beter is in een two-way-anova te visualiseren
+
+```{r}
+summary(real_suiker_df)
+summary(real_zout_df)
+```
+
+eerst moet ik dan de verschillende ID's in een andere kolom krijgen
+```{r}
+rel_pr_suiker <- real_suiker_df[-c(4)]
+rel_pr_zout <- real_viz_zout_df[-c(4)]
+wider_suiker_rel <- rel_pr_suiker %>%
+    pivot_wider(
+        names_from = c(experiment_id),
+        values_from = c(relatieve_productie)
+    )
+wider_zout_rel <- rel_pr_zout %>%
+    pivot_wider(
+        names_from = c(experiment_id),
+        values_from = c(relatieve_productie)
+    )
+wider_suiker_rel
+wider_zout_rel
+```
+nu ook voor de cummulatieve
+```{r}
+cum_pr_suiker <- real_suiker_df[-c(4)]
+cum_pr_zout <- real_viz_zout_df[-c(4)]
+wider_suiker_cum <- rel_pr_suiker %>%
+    pivot_wider(
+        names_from = c(experiment_id),
+        values_from = c(relatieve_productie)
+    )
+wider_zout_cum <- rel_pr_zout %>%
+    pivot_wider(
+        names_from = c(experiment_id),
+        values_from = c(relatieve_productie)
+    )
+wider_suiker_cum
+wider_zout_cum
+```
+Nu even ze in een correlatie manier weergeven
+```{r}
+corr_rel_suiker <- round(cor(wider_suiker_rel[-1]), 1)
+corr_rel_zout <- round(cor(wider_zout_rel[-1]), 1)
+corr_cum_suiker <- round(cor(tail(wider_suiker_rel[-1])), 1)
+corr_cum_zout <- round(cor(tail(wider_zout_cum[-1])), 1)
+
+head(corr_rel_suiker)
+head(corr_cum_suiker)
+head(corr_rel_zout)
+head(corr_cum_zout)
+```
+Hier is de visualisatie
+```{r}
+plot_S_rel <- ggcorrplot(corr_rel_suiker, type = "lower", colors = c("blue", "black", "red"))
+plot_S_cum <- ggcorrplot(corr_cum_suiker, type = "lower", colors = c("blue", "black", "red"))
+plot_Z_rel <- ggcorrplot(corr_rel_zout, type = "lower", colors = c("blue", "black", "red"))
+plot_Z_cum <-ggcorrplot(corr_cum_zout, type = "lower", colors = c("blue", "black", "red"))
+
+plot_grid(plot_S_rel, plot_Z_rel, plot_S_cum, plot_Z_cum, labels = c("relatief_suiker", "relatief_zout", "cummulatief_suiker", "cummulatief_zout"), label_size = 10, align = "hv")
+```
+Het lijkt dat de relatieve corralaties van zout hebben meer een positieve corralatie en die van suiker meer een negatieve corralatie(behalve S1 en S2)
+Ik zie hier wel het probleem dat de duplo's geen hoge corralatie hebeen met hun orginele, wat raar is omdat er dezelfde concentratie van suiker en zout in is gegaan.
+
+Ik stop alleen de code voor het maken van de heatmaps in een ander bestand, zoadat ik dat bestand kan gaan knitten en dat kan laten zien in de presentatie
+
+Ik heb de visualisatie die ik heb gemaakt op 23 mei, lijn 309, uit de powerpoint gehaalt, omdat het niet echt een limitatie is. Je kunt de rij gewoon een categorisch maken en dan is het probleem weg.
 

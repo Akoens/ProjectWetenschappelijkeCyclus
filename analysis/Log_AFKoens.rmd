@@ -10,8 +10,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 # Libraries
 ```{r}
-library(knitr)
-library(kableExtra)
+library(ggplot2)
+library(lubridate)
+library(here)
+library(dplyr)
+#library(tidyverse)
 ```
 
 
@@ -20,6 +23,27 @@ library(kableExtra)
 # Methode
 
 # Loging
+## Log [25-4-2024]
+~------------------------------------------------------------------------------~
+### Taak
+Opstelling van het protocol
+
+### Motivatie
+Dit hebben wij gedaan om een inschatting te krijgen van de volumes en resultaten dat wij kunnen verwachten gedure dit experiment.
+
+### Resultaat
+Bij het opstellen van het protocol hebben wij eerst wat bronnenonderzoek gedaan, hier is één artikel (Jerry et al., 2017) uitgekomen die wij gaan gebruiken als referentie punt voor ons protocol op het gebied van volume gist en volume suiker.
+
+## Log [26-5-2024]
+~------------------------------------------------------------------------------~
+### Taak
+Wij hebben het magazijn van het ILST bezocht vragen gesteld.
+Email contact zoeken met docenten die kunnen helpen met ons onderzoek/experiment opstellen.
+### Motivatie
+Dit hebben wij gedaan om een duidelijk te maken welke materiaal wij kunnen krijgen voor ons experiment en voor mogelijk advies over onze opstelling.
+### Resultaat
+Tijden dit gesprek werd ons geadviseerd vanwege de gasdruk die vrij komt en de beschikbare middelen die er zijn om een maatbeker met een waterslot constructie te gebruiken. Dit is anders dan ons eerder idee om een spuitje te gebruiken om het geproduceerd gas in op te vangen.
+Verder hebben we via e-mail contact opgezocht met Folkert Fabel en Gert Hofstede voor verdere mogelijkheden. 
 
 ## Log [6-5-2024]
 ~------------------------------------------------------------------------------~
@@ -30,14 +54,13 @@ Ik ga een aantal berekeningen doen om de maximale hoeveelheid $CO_2$ dat bakkers
 Met deze berekeningen en uikomsten kan ik mogelijk een idee krijgen hoe groot onze maatcilinders en sampels moeten zijn. 
 
 ### Resultaat
-
 De maximale $CO_2$ productie berekenen gebaseerd op totale hoeveelheid sucrose.  
 In een oplossing van 300ml met een concentratie van 200g/L zit 60g suiker.  
 $200g/L \times 0.3L = 60g$  
 Met een aanname dat alleen de glucose in sucrose wordt gebruikt door gist.  
-$C_6H_{12}H_6 -> 2 C_2H_6OH + 2 CO_2$  
+$C_6H_{12}H_6 -> 2 C_2H_6OH + 2 CO_2$[Wikipedia, Gist](https://nl.wikipedia.org/wiki/Gist)
 Molmass van glucose is $180.155 g/mol$.  
-Molmass van sucrose is $342.300 g/mol$.  
+Molmass van sucrose is $342.300 g/mol$[Wikipedia, Sacharose](https://nl.wikipedia.org/wiki/Sacharose).  
 
 Hoeveel mol is $60g$ aan sucrose. Deze molwaarde kan ik dan gebruiken om het volume $CO_2$ te berekenen.  
 $\frac{60.0g}{342.3g}  = 0.175 mol$  
@@ -45,50 +68,45 @@ Er zit 1 mol Glucose in 1 mol Sucrose.
 van mol Glucose naar mol CO2  
 $2 * 0.175 mol = 0.350$  
 De dichtheid van CO2 is $1.98 \times 10^{−3} g/cm^3$  
-De molmassa van CO2 is $44.0095 g/mol$.  
+De molmassa van CO2 is $44.0095 g/mol$ [Wikipedia, Koolstofdioxide](https://nl.wikipedia.org/wiki/Koolstofdioxide).  
 
 Gist produceerd $15g$ $CO_2$ voor $60g$ suiker.  
 $0.350 mol \times 44.0095 g/mol = 15.403 g$  
 Gist produceerd $7779 cm^3 CO_2$ voor $60g$ suiker.  
 $\frac{15.403g}{0.00198g/cm^3} = 7779 cm^3$  
 
-7 Liter aan CO2 voelt veel maar de berekeningen lijken te kloppen.
-
-?? Wat ga ik met deze informatie doen ??
-
-De waarden en formule die gebruikt zijn komen van de volgende bronnen:
-https://nl.wikipedia.org/wiki/Koolstofdioxide  
-https://nl.wikipedia.org/wiki/Gist  
-https://nl.wikipedia.org/wiki/Sacharose  
+7 Liter aan CO2 voelt veel, maar de berekeningen lijken te kloppen.
+Het zal niet mogelijk zijn voor ons om bijna 8 liter aan $CO_2$ op te vangen. Ik moet dus nog verder onderzoeken hoeveel $CO_2$ gist kan produceren.
 
 
 ## Log [7-5-2024]
 ~------------------------------------------------------------------------------~
 ### Taak
-
+Opstelling van het experiment verder uitwerken. Materialen verzamelen en locatie voor experiment vinden.
 
 ### Motivatie
-
-
+Voor het experiment moeten wij duidelijk weten welke materialen wij waar vandaan halen. Daar naast moeten wij weten waar wij het experiment op kunnen stellen en uit kunnen voeren.
 
 ### Resultaat
-
-
-### Overig
-
 Materialen krijgen om op te stellen in een lab kan moeilijk worden. Folkert kan niet en Gert heeft ons door verwezen naar de beheerder van het Fermo-lab.  
-Het experiment kan mogelijk dus in het Fermo-lab opgesteld worden, maar dit is nog afwachten. Als backup zijn wij nu aan het kijken naar alternative plekken en materialen om het experiment op te stellen.  
-Waar onder dus ons lokaal van d1.08, hier voor moeten wij peter vragen. Alleen de electronica in dit locaal kan voor complicaties zorgen bij de toestemming. Voor alternatief meteriaal kunnen wij drank flessen gebruiken met een dop. Ik heb nog slangen thuis liggen die wij kunnen gebruiken voor het herleiden van gas.  
-Stijn had een onderzoek gevonden waar 7% zout oplossing werdt gebruikt om gist te stressen. Dat is 7g per Liter water.  
-Voor materiaal regelen moeten wij magazijnILST@org.hanze.nl mailen met de exacte dingen die wij willen en wanneer. Dan zetten zij dit allemaal klaar voor ons.    
-Van peter mogen wij ons experiment in het lokaal houden zolang er een plastic tas omheen zin en er geen electronica naast staat dat nat kan worden.  
-Door Janine is aangeraden om een glazen termometer in het waterbad te hebben. De temperatuursmeter van het waterbad is niet betrouwbaar.  
+Het experiment kan mogelijk dus in het Fermo-lab opgesteld worden, maar dit is nog afwachten. Als backup zijn wij nu aan het kijken naar alternative plekken en materialen om het experiment op te stellen. Waar onder dus ons lokaal van d1.08, hier voor moeten wij peter vragen. Alleen de electronica in dit locaal kan voor complicaties zorgen bij de toestemming.
+Voor alternatief meteriaal kunnen wij drank flessen gebruiken met een dop. Ik heb nog slangen thuis liggen die wij kunnen gebruiken voor het herleiden van gas.  
 
-Hoeveel Ethanol in 300ml voordat gist niet meer werkt.  
-Maximum Ethanol voor gist is meestal 15%. dus 45ml Ethanol.  
+Stijn had een onderzoek gevonden waar 7% zout oplossing werdt gebruikt om gist te stressen. Dat is 7g per Liter.  
+
+Voor materiaal regelen moeten wij magazijnILST@org.hanze.nl mailen met de exacte dingen die wij willen en wanneer. Dan zetten zij dit allemaal klaar voor ons.   
+
+Van Peter mogen wij ons experiment in het lokaal houden zolang er een plastic tas omheen zin en er geen electronica naast staat dat nat kan worden. Dit is de laatste optie als wij nergens anders kunnen vinden. 
+
+Door Janine is aangeraden om een glazen termometer in het waterbad te hebben. De temperatuursmeter van het waterbad is kan niet betrouwbaar zijn.  
+
+Als vervolg op mijn eerdere berekening om te kijken hoeveel $CO_2$ gist kan produceren. Kijk ik nu naar hoeveel Ethanol gist produceerd en vanaf welk punt gist stopt met werken door de hoeveelheid alcohol.
+
+Hoeveel ethanol moet er in in 300ml voordat gist niet meer werkt.  
+Maximum ethanol voor gist is meestal 15%. dus 45ml Ethanol van de 300ml.  
 $300ml \times 0.15 = 45ml$   
 De dichtheid van ethanol is $0.79g/cm^3$
-De molmassa van Ethanol is $46.0688g/mol$
+De molmassa van ethanol is $46.0688g/mol$ [Wikipedia, Ethanol](https://nl.wikipedia.org/wiki/Ethanol)
 
 dus 15ml alcohol weegt 11.85g.  
 $15ml * 0.79g/cm^3 = 11.85g$  
@@ -96,47 +114,32 @@ $15ml * 0.79g/cm^3 = 11.85g$
 Hoeveel suiker wordt er gebruikt om $11.85g$ alcohol te maken en hoeveel $CO_2$ is dat?
 $\frac{11.85g}{46.688g/mol} = 0.2651mol$  
 Er wordt dus $0.2651mol$ alcohol geproduceerd voordat gist stopt met werken. Als je kijkt naar de formule voor anaerobisch suiker vergisten zijn er gelijke hoeveelheden mol aan alcohol als aan $CO_2$.  
-Dus er wordt ook $0.2651mol$$CO_2$ geproduceerd.  
+Dus er wordt ook $0.2651mol$$CO_2$ geproduceerd. Dit is minder dan wat er maximaal van 60g suiker kan worden gemaakt. Bij $60g$ suiker was het $0.350mol$$CO_2$  
 
-
-Uit het onderzoek dat ivar had gevonden, werdt binnen een uur maximaal 25ml $CO_2$ geproduceerd en het grootste gedeelte van de productie vind plaats binnen 6 uur. dus op een dag zal niet meer dan 150-200ml worden geproduceerd.  
+Uit het onderzoek dat ivar had gevonden (Jerry et al., 2017), werdt binnen een uur maximaal 25ml $CO_2$ geproduceerd en het grootste gedeelte van de productie vind plaats binnen 6 uur. dus op een dag zal niet meer dan 150-200ml worden geproduceerd.  
 Een maatcylinder van 250ml is dan meer dan genoeg.
-
-
-
-Bronnen:
-https://nl.wikipedia.org/wiki/Ethanol
-
 
 ## Log [8-5-2024]
 ~------------------------------------------------------------------------------~
 ### Taak
-
+Flessen en buisjes verzamelen voor het experiment.
 
 ### Motivatie
-
-
+Om de het gas van de gist reactie op te vangen hebben wij flesjes nodig waar de reactie in plaats kan vinden. Samen met een buisje om dit gas te herleiden naar een maatcilinder om de productie te kunnen meten. Op deze flesjes zitten draai doppen.
 
 ### Resultaat
-
-
-### Overig
-Ik heb glazen flesjes van 50cl met een diameter van ~7cm die wij kunnen gebruiken voor het expiriment. Deze zijn dan mogelijk iets kleiner dan een Erlenmeyer dus zullen er meer in het waterbad passen. Bovendien zitten hier doppen bij waar wij een gaatje in kunnen maken voor het slangetje.
+Ik heb glazen flesjes van 50cl met een diameter van ~7cm die wij kunnen gebruiken voor het experiment. Deze zijn dan iets kleiner dan een Erlenmeyer dus zullen er meer in het waterbad passen. Bovendien zitten hier doppen bij waar wij een gaatje in kan maken voor het slangetje.
 
 
 ## Log [13-5-2024]
 
 ### Taak
-
+Aanpassen van experiment opstelling in protocol.
 
 ### Motivatie
-
-
+Er was een speciaal gesloten waterbad in het lab waar maximaal 6 flesjes in zouden kunnen. Alleen dit waterbad is voor ons zeer onhandig om te gebruiken. Dus willen wij het experiment zonder het waterbad doen om het ons makkelijker te maken.
 
 ### Resultaat
-
-
-### Overig
 Aanpassing aan experiment opstel. Om het ons makkelijker te maken gaan wij geen waterbad gebruiken voor dit experiment. Wij doen nu bovendien niet permitaties van suiker-zout concentraties maar twee experimenten met deze variabelen appart van elkaar. Een met 3 in duplo suiker concentraties en een met 3 in duplo zout concentraties. Beide met gist.
 Vooraf het grote experiment gaan wij een proef opstelling doen om een gevoel te krijgen hoe het experiment gedaan moet worden.
 Voor onze visuele representatie van de data gaan wij een heatmap maken met op de y-as de verschillende experiment IDs, op de x-as de tijd en als kleur de $CO_2$ productiesnelheid.
@@ -146,25 +149,20 @@ Voor onze visuele representatie van de data gaan wij een heatmap maken met op de
 ~------------------------------------------------------------------------------~
 
 ### Taak
-
+Opstellen en uitvoeren van een proef experiment.
 
 ### Motivatie
-
-
+Om een idee te krijgen van hoe wij het experiment moeten draaien gaan wij een proef opstelling maken van 1 sample. Hierbij kijken wij ook hoeveel $CO_2$ er geproduceerd word. 
 
 ### Resultaat
-
-
-### Overig
-
-Vandaag gaan wij een test experiment uitvoeren om ons protocol uit te proberen. Wij gebruiken een 2mm inner diamereter siliconen buusje als gasleiding en waterslot.
+Wij gebruiken een 2mm inner diameter silicone buisje als gasleiding.
 We waren gist vergeten te halen, dus hebben wij verse bakkersgist van het Magazijn gebruikt.
 Ik mag zelf niet in het lab staan. Je moet een lange broek dragen met gesloten schoenen anders mag je het lab niet in.
 
 Experiment lijkt geen meetbaar CO2 te hebben geproduceerd, Michiel zij dat er mogelijk toch zout nodig is voor gist om te leven.
-https://www.kwbg.nl/templates/kwbg/downloads/artikelen_bier/Gist%20en%20vergisting.pdf
+[Gist en Vergisting](https://www.kwbg.nl/templates/kwbg/downloads/artikelen_bier/Gist%20en%20vergisting.pdf)
 
-Mogelijke probleem kan zijn: te kort aan voeding, of osmitische shock van 30% suikerconcentratie, gist niet aan de omgeving laten wennen.
+Mogelijke problemen kunnen zijn: te kort aan voeding, of osmitische shock van 30% suikerconcentratie, gist niet aan de omgeving laten wennen.
 De gist was 4 maand overdatum, aangezien het verse gist was is het zeer waarschijnlijk dat alle gist dood was voordat wij ons experiment deden.
 Michiel heeft een tabel met concentraties suiker en zout gemaakt waar wij ons aan moeten houden. SUIKER van 0%, 3% en 6% met 0.5% zout en ZOUT van 0%, 0.25% en 1% met 3% suiker.
 
@@ -173,85 +171,134 @@ Michiel heeft een tabel met concentraties suiker en zout gemaakt waar wij ons aa
 ~------------------------------------------------------------------------------~
 
 ### Taak
-
+Materiaal meenemen voor experiment. Gaatjes boren in doppen.
+Osmotische stress berekenen voor bakkersgist.
 
 ### Motivatie
-
-
+Om het experiment uit te kunnen voeren hebben wij 12 flessen met doppen nodig en silicone slang. Voor de reactie is ook zout, suiker en gist nodig.
+De langetjes moeten in de fles kunnen, hiervoor moet er een gar in de dop gemaakt worden.
 
 ### Resultaat
+Ik heb alle 12 50cl flessen met doppen meegenomen. Er moeten nu nog gaten in en dan buisjes in vast gezet worden. Ik heb niet genoeg 2mm I.D. siliconen buis dus heb nu 4mm I.D. oom buis mee voor als dit nodig is. Dit is wel een heel stuk dikker en groter en kan mogelijk wat verschil uitmaken in het experiment.
+Daar naast heb ik ook nog een kilo suiker en circa 60g droge gist meegenomen.
 
+In de Makerspace heb ik een boormachine kunnen gebruiken en heb gaatjes van 7mm in de doppen geboord. 
 
-### Overig
-
-Ik heb alle 12 50cl flessen met doppen meegenomen. Er moeten nu nog gaten in en dan buisjes in vast gezet worden. Ik heb niet genoeg 2mm I.D. siliconen buis dus heb nu 4mm I.D. buis mee. Dit is wel een heel stuk dikker en groter en kan mogelijk wat verschil uitmaken in het experiment. 
-
-Osmotische stres berekenen voor bakkersgist.
-https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6333755/
-Uit het bovenstaande onderzoek kan bakkersgist tegen een osmotische concentratie van MIC 3.2 (M), dus ongeveer 32% van de oplossing zout / suiker.
+[Osmitische Stress in Gist](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6333755/)
+Uit het bovenstaande onderzoek wordt vermeld in Tabel 1 dat bakkersgist tegen een osmotische concentratie van MIC 3.2 (M) kan, dus ongeveer 32% van de oplossing zout / suiker.
+Ons protocol en proef experiment hadden dus veel te hoge waarden voor suiker en zijn dus nu aangepast naar de waarden gegeven door Michiel.
 
 ## Log [17-5-2024]
 ~------------------------------------------------------------------------------~
 
 ### Taak
-
+Uitvoeren van het experiment volgens het protocol.
 
 ### Motivatie
-
+Om onze data te verzamelen gaan wij ons gistings experiment uit voeren. Dit doen wij in het lab.
 
 
 ### Resultaat
+Uitvoering van het protocol met nog een aantal aanpassingen. De concentraties gaan wij meten op basis van totaal gewicht en maken nu toch gebruik van een waterbad.
 
+In het lab stond een ondersoort waterbad die groter is en niet afgedekt. Dit is perfect voor onze applicatie en alle flessjes passen er in. Deze gaan wij dus gebruiken. Eerder had wouden wij geen waterbad gebruiken, dus hebben wij bedacht om het waterbad wel te gebruiken om de gist reactie sneller te laten verlopen.
 
-### Overig
+Ronald heeft ons een tip gegeven over de manier waarop wij onze concentratie oplossingen berekenen. Eerst deden wij de oplossingen als verhouding op water. 200ml water met 5g suiker, maar Michiel heeft de concentraties aan ons als percentages gegeven. Dus rekenen wij nu als een totaal massa van 200g waarvan bijvoorbeeld 3% suiker is of welke andere nodige hoeveelheid.
+Ik heb hier onder een stukje code geschreven die dynamisch de hoeveelheden berekend op basis van totale massa en op basis van water massa.
 
-Uitvoering van het protocol met nog een aantal aanpassingen. De concentraties gaan wij meten op basis van gewicht. Waar de totaal massa in het reactie glas.
-
-In het lab stond een andersoort waterbad die groter is en niet afgedekt. Dit is perfect voor onze applicatie en alle flessjes passen er in. Deze gaan wij dus nui gebruiken. Eerder had wouden wij geen waterbad gebruiken, maar na het proefexperiment hadden wij gezamelijk bedacht om het wel te doen om snelle resultaat te krijgen.
-
-Ronald heeft ons de tip gegeven over de manier waarop wij onze concentratie oplossingen berekenen. Eerst deden wij de oplossingen als verhouding op water. 200ml water met 5g suiker, maar Michiel heeft de concetraties aan ons als percentages gegeven. Dus rekenen wij nu als een totaal massa van 200g waarvan bijvoorbeeld 3% suiker is of welke andere nodige hoeveelheid.
-
-
+Eerst leg ik hier alle constanten vast.
 ```{r}
 totale_massa <- 200
+
 massa_water <- 200
 massa_gist <- 7
 
-
 percentages_suiker <- c(0, 3, 6)
-zout_bij_suiker <- 0.5
+percentage_zout_bij_suiker <- 0.5
 len_suiker = length(percentages_suiker)
 
-percentager_zout <- c(0, 0.25, 1)
-suiker_bij_zout <- 3
+percentages_zout <- c(0, 0.5, 1)
+percentage_suiker_bij_zout <- 3
+len_zout = length(percentages_zout)
 
+```
+
+
+Hier maak ik de bereken ik de benodigde massas op basis van water massa.
+``` {r}
+
+# Import een functie om percentage naar massa te berekenen 
+source(paste(here(), "/analysis/scripts/utilities.R", sep = ""), local = T)
 
 # Concentraties als percentage van water (g <=> ml).
+massa_suiker <- perc_to_mass(percentages_suiker, massa_water)
+massa_zout_bij_suiker = perc_to_mass(percentage_zout_bij_suiker, massa_water)
 
+massa_zout <- perc_to_mass(percentages_zout, massa_water)
+massa_suiker_bij_zout = perc_to_mass(percentage_suiker_bij_zout, massa_water)
 
-massa_suiker_als_percentage_water <- percentages_suiker * massa_water / 100
-massa_zout_bij_suiker_als_percentage_water = zout_bij_suiker * massa_water / 100
+## Suiker
+df = data.frame(
+    experiment = paste("S", 1:len_suiker, sep = ""),
+    suiker = massa_suiker,
+    gist = rep(massa_gist, len_suiker),
+    water = rep(massa_water, len_suiker),
+    zout = rep(massa_zout_bij_suiker, len_suiker)
+)
 
-df_percentage_water = data.frame(sample = 1:len_suiker,    
-                                 suiker=massa_suiker_als_percentage_water,
-                                 gist = rep(massa_gist, len_suiker),
-                                 water = rep(massa_water, len_suiker),
-                                 zout = rep(massa_zout_bij_suiker_als_percentage_water, len_suiker))
+df$totaal <- rowSums(df[-1])
+print(df)
 
+## Zout
+df = data.frame(
+    experiment = paste("Z", 1:len_zout, sep = ""),
+    suiker = rep(massa_suiker_bij_zout, len_zout),
+    gist = rep(massa_gist, len_suiker),
+    water = rep(massa_water, len_suiker),
+    zout = massa_zout
+)
+df$totaal <- rowSums(df[-1])
+print(df)
 
+```
 
-
-knitr::kable(df_percentage_water, "html", caption = "Masses as a percentage of the mass of water") %>%
-    kable_styling("stripped", full_width = F) %>%
-    row_spec(0, background = "#5E17EB", color = "white")
-
-
-
+Hier bereken ik de benodigde massas op basis van totale massa.
+``` {r}
 # Concentraties als percentage van totale massa
+massa_suiker <- perc_to_mass(percentages_suiker, totale_massa)
+massa_zout_bij_suiker = perc_to_mass(percentage_zout_bij_suiker, totale_massa)
 
+massa_zout <- perc_to_mass(percentages_zout, totale_massa)
+massa_suiker_bij_zout = perc_to_mass(percentage_suiker_bij_zout, totale_massa)
 
+## Suiker
+vaste_massa <- massa_suiker + (massa_zout_bij_suiker + massa_gist)
 
-# Concentratie tabelen verder uitwerken.
+df = data.frame(
+    experiment = paste("S", 1:len_suiker, sep=""),
+    suiker = massa_suiker,
+    gist = rep(massa_gist, len_suiker),
+    water = (rep(totale_massa, len_suiker) - vaste_massa),
+    zout = rep(
+        massa_zout_bij_suiker,
+        len_suiker
+    )
+)
+df$totaal <- rowSums(df[-1])
+print(df)
+
+## Zout
+vaste_massa <- massa_zout + (massa_suiker_bij_zout + massa_gist)
+
+df = data.frame(
+    experiment = paste("Z", 1:len_zout, sep=""),
+    suiker = rep(massa_suiker_bij_zout, len_zout),
+    gist = rep(massa_gist, len_zout),
+    water = (rep(totale_massa, len_zout) - vaste_massa),
+    zout = massa_zout
+)
+df$totaal <- rowSums(df[-1])
+print(df)
 
 ```
 
@@ -261,8 +308,8 @@ Deze flesjes zijn vervolgens afgedopt met een slangetje en in een waterbad van 3
 
 Aantal fouten opgelopen tijdens het uitvoeren:
 - Sommige flessen hadden te grote gas productie. Maatcilinders meerdere keren bij moeten vullen. met max waarde 250ml genoteerd en nieuwe startwaarde ingevuld.
-- Niet helemaal zeker dat de flessen compleet water/gas dicht zijn.
-- Slangen vallen soms uit de maatcilinders.
+- Niet helemaal zeker dat de flessen compleet water/gas dicht zijn. Wat de grote gas productie kan verklaren.
+- Slangen vallen soms uit de maatcilinders. Waardoor niet al het gas wordt opgevangen.
 
 Wij hebben uiteindelijk besloten om vaker een meeting te doen. Dit heeft er ook voor gezorgt dat wij meer meetpunten hebben. 11 meet punten per sample i.p.v. de bedoelde 6.
 
@@ -270,21 +317,173 @@ Wij hebben uiteindelijk besloten om vaker een meeting te doen. Dit heeft er ook 
 ~------------------------------------------------------------------------------~
 
 ### Taak
-
+Logboek herschrijven om beter de taken, motivatie en resulaten vast te kunnen leggen.
 
 ### Motivatie
-
+Een beter en duidelijker logboek creeren dat duidelijker te volgen is.
 
 
 ### Resultaat
-
-
-### Overig
 Feedback op logboek:
 - Inleiding over het onderzoek.
 - Bronnen verder uitschrijven, duidelijk herleiden wat er in staat de de keuze die je er uithaalt.
-- Refenencies, introducties, interpretaties, conclusies en vervolgstappen beter in de tekst opnemen.
-- Verwijs naar eerdervermelde dingen en gebruik plaatjes, tabellen met naam en beschrijving.
+- Referenties, introducties, interpretaties, conclusies en vervolgstappen beter in de tekst opnemen.
+- Verwijs naar eerder vermelde dingen en gebruik plaatjes, tabellen met naam en beschrijving.
+
+
+## Log [22-5-2024]
+### Taak
+Voor het rapport ga ik een aantal lijndiagram en spreidingsdiagram maken om de trend in $CO_2$ productie te kunnen zien.
+
+### Motivatie
+De lijndiagram kan ik gebruiken om te zien of de productie trend zich gedraagd als wat van gist verwacht wordt als weergegeven op pagina 4 in: [Gist en vergisting](https://www.kwbg.nl/templates/kwbg/downloads/artikelen_bier/Gist%20en%20vergisting.pdf)
+De spreidingsdiagram kan ik gebruiken om een trendlijn te tekenen ook om te zien of de productie is als verwacht.
+
+### Resultaat
+Imputatie van onze data. Er zijn zeker inconsistenties in onze data. Er is ruis in de meeting, verkeerd genoteerde metingen en valse data door geprigel met de opstelling.
+```{r}
+# Ruwe data van suiker
+path <- paste(here(), "/raw_data/data_gist_suiker.csv", sep="")
+data_suiker <- read.csv(path)
+head(data_suiker)
+
+# Ruwe data van zout halen
+path <- paste(here(), "/raw_data/data_gist_zout.csv", sep="")
+data_zout <- read.csv(path)
+head(data_zout)
+
+# Data type correctie
+data_zout$cumulatieve_productie <- as.double(data_zout$cumulatieve_productie)
+data_zout$relatieve_productie <- as.double(data_zout$relatieve_productie)
+```
+
+
+```{r}
+# Lijndiagram
+ 
+ggplot(data_suiker, aes(x=tijd, y=cumulatieve_productie, group = experiment_id, color=experiment_id)) +
+  geom_line()
+
+```
+Ik zie dat de Sd3 de grootste groei heeft. In het algemeen nemen de duplo's de hele diagram in beslag. Nog iets wat niet klopt is de tijd als labels onder. ze hebben allemaal de zelfde interval terwijl de tijd tussen labels niet compleet gelijk is.
+
+```{r}
+# Tijd correctie
+data_suiker$datetime <- with(data_suiker, ymd(data_suiker$datum) + hm(data_suiker$tijd))
+
+# Lijndiagram
+ggplot(data_suiker, aes(x=datetime, y=cumulatieve_productie, group = experiment_id, color=experiment_id)) +
+  geom_line()
+
+```
+De lables zijn nu makkelijker te lezen en de lijn is niet meer geknepen. Hierdoor lijkt de lijn wat meer gelijdelijk te lopen dan de vorige niet gecorigeerde grafiek.
+
+```{r}
+# Lijnplot
+ggplot(data_zout, aes(x=tijd, y=cumulatieve_productie, group = experiment_id, color=experiment_id)) +
+  geom_line()
+
+# Tijd correctie
+data_zout$datetime <- with(data_zout, ymd(data_zout$datum) + hm(data_zout$tijd))
+
+
+# Lijn plot
+ggplot(data_zout, aes(x=datetime, y=cumulatieve_productie, group = experiment_id, color=experiment_id)) +
+  geom_line()
+
+```
+De trendlijn van zout lijkt al netter te zijn. Er zijn geen extremen te zien als bij suiker. Het experiment voor zout lijkt voor mij dus betrouwbaarder uitgevoerd te zijn.
+
+
+## Log [21-5-2024]
+~------------------------------------------------------------------------------~
+### Taak
+Ik ga verder werken aan de plot en onze data van het experiment verwerken.
+Data netter maken en de productie met r berekenen.
+### Motivatie
+Om handmatige fouten te voorkomen wil ik met r nog de productie en de cumulatieve hoeveelheid geproduceerde $CO_2$ berekenen.
+Bovendien staat de ruwe data niet op een fatsoenlijke manier in de csv. Dit wil ik dus zo maken dat het makkelijk en duidelijk te gebruiken is. 
+
+### Resultaat
+
+Nu om te zien of bepaalde waarden van elkaar afwijken en of de data punten aan elkaar gerelateerd zijn, maak ik een aantal spreidingsdiagram
+Om een correlatie aan te tonen moet ik de verschillende concentraties aan suiker en zout inladen en combineren met de $CO_2$ productie.
+
+```{r}
+# laad gemeten concentraties
+path <- paste(here(), "/raw_data/data_gist_werkelijke_concentraties.csv", sep="")
+concentratie_data <- read.csv(path)
+
+# Combineer de concentraties met de productie dataframes
+sub_data_suiker <- subset(data_suiker, select = -c(datum, tijd, opmerking, meetniveau, null_waarde))
+sub_data_zout <- subset(data_zout, select = -c(datum, tijd, opmerking, meetniveau, null_waarde))
+
+# Concateneren van de dataframes
+mds <- merge(concentratie_data, sub_data_suiker, by = "experiment_id")
+mdz <- merge(concentratie_data, sub_data_zout, by = "experiment_id")
+mdsz <- rbind(mds, mdz)
+print(mdsz)
+```
+Nu om de spreidingsdiagram te maken.
+
+```{r}
+ggplot(mdsz, aes(x=suiker, y=zout,size = relatieve_productie, colour = experiment_id)) + 
+    geom_point() +
+    scale_size()
+
+
+ggplot(mdsz, aes(x=datetime, y=cumulatieve_productie, colour = experiment_id)) + 
+    geom_line() 
+
+```
+Er is geen goede manier om een spreidingsdiagram te maken met de data die wij hebben. Ik kan dus geen correlaties vast stellen. Een spreidingsdiagram is dus niet een goede optie.
+Toch kan ik in de grafiek zien welke permutaties wij hebben gebruik. Uit statistiek hebben wij te horen gekregen over "full factorial design"  en "fractal factorial design". Die gebruik kan worden om correlaties te leggen tussen verschillende variabelen. Voor fractal zou je dan de uiterste punten moeten hebben om een correlatie te kunnen leggen. Jammer genoeg hebben wij dat dus niet. 
+
+```{r}
+#data_suiker %>% mutate(group = case_match(
+#    experiment_id,
+#    c("S1", "Sd1") ~ "Es1",
+#    c("S2", "Sd2") ~ "Es2",
+#    c("S3", "Sd3") ~ "Es3"
+#))
+mdsz %>% mutate(group = case_match(
+    experiment_id,
+    c("S1", "Sd1", "S2", "Sd2", "S3", "Sd3") ~ "Suiker",
+    c("Z1", "Zd1", "Z2", "Zd2", "Z3", "Zd3") ~ "Zout"
+)) %>%
+ggplot(aes(x = relatieve_productie, fill = group)) +
+    
+    geom_histogram(
+        color = "#e9ecef",
+        alpha = 0.6,
+        binwidth = 15,
+        position = 'identity'
+    ) +
+    scale_fill_manual(name = "Experiment", values = c("#304FFE","#FF6D00")) +
+    xlab("Relatieve Productie (ml)") +
+    ylab("Aantal")
+```
+Hier leg ik de twee verdelingen van zout en suiker over elkaar een om te zien of deze normaal verdeeld zijn en of ze vergelijkbaar met elkaar zijn. Voor deze histogram heb ik een binwidth van 15 gebruik. Deze gaf het duidelijkste resultaat.
+Ik zie geen duidelijke normaal verdeling in deze waarden. 
+Er is wel een verschil te zien tussen de twee verdelingen. De waarden van suiker ligger dichter bij de 0 met een paar uitschieters. Zout daar in tegen lijk veel gelijkmatiger verdeelt te zijn.
+
+```{r}
+mdsz %>% mutate(group = case_match(
+    experiment_id,
+    c("S1", "Sd1", "S2", "Sd2", "S3", "Sd3") ~ "Suiker",
+    c("Z1", "Zd1", "Z2", "Zd2", "Z3", "Zd3") ~ "Zout"
+)) %>%
+ggplot(aes(x = group, y = relatieve_productie, fill = group)) +
+    geom_boxplot() +
+    scale_fill_manual(name = "Experiment", values = c("#304FFE","#FF6D00")) +
+    xlab("Relatieve Productie (ml)") +
+    ylab("Aantal")
+```
+
+
+
+
+
 
 
 

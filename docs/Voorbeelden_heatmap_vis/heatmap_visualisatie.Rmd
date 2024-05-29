@@ -1,0 +1,229 @@
+---
+title: "Voorbeeld_heatmap_data"
+author: "Stijn Vermeulen"
+date: "2024-05-28"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Library's
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(cowplot)
+library(ggcorrplot)
+library(tidyr)
+```
+
+## Plots
+
+```{r}
+x <- 1:10
+y <- paste0("var", seq(1:10))
+data <- expand.grid(X=x, Y=y)
+
+Z <- 1:10 + runif(10)
+for (i in 1:9){
+    add <- 1:10 + runif(10)
+  Z <- append(Z, add)
+}
+
+data$Z <- Z
+
+ggplot(data, aes(X, Y, fill = Z)) +
+    geom_tile() +
+    scale_fill_gradient(low = "green", high = "darkblue") +
+    theme_minimal()
+```
+
+## Correlogram
+
+```{r}
+data(mtcars)
+corr <- round(cor(mtcars), 1)
+head(corr[, 1:6])
+```
+
+```{r}
+ggcorrplot(corr)
+```
+
+```{r}
+ggcorrplot(corr, type = "lower", outline.color = "white", ggtheme = ggplot2::theme_minimal())
+```
+
+```{r}
+data <- datasets::iris
+
+save1 <- ggplot(data, aes(Species, Sepal.Length, fill= Sepal.Width)) + 
+          geom_tile() +
+          scale_fill_gradient(low = "turquoise", high = "darkblue") +
+          theme_minimal()
+
+save2 <- ggplot(data, aes(Species, Sepal.Length)) + 
+          geom_boxplot() +
+          theme_minimal()
+
+plot_grid(save1, save2, allign = c("v"))
+```
+
+```{r}
+data <- datasets::iris
+
+save1 <- ggplot(data, aes(Sepal.Width, Sepal.Length, fill= Petal.Length)) + 
+           geom_tile() +
+           scale_fill_gradient(low = "orange", high = "black") +
+           theme_minimal()
+
+save2 <- ggplot(data, aes(Sepal.Width, Sepal.Length)) +
+            geom_point() +
+            theme_minimal()
+
+plot_grid(save1, save2, allign = c("v"))
+```
+
+```{r}
+x <- 1:20
+y <- paste0("var", seq(1:20))
+data <- expand.grid(X=x, Y=y)
+data$Z <- runif(400, 0, 5)
+data$Z[150] <- c(200)
+
+ggplot(data, aes(X, Y, fill= Z)) + 
+  geom_tile() +
+  theme_minimal()
+```
+## Eigen data
+
+```{r}
+real_suiker <- read.csv(file = "../../raw_data/data_gist_suiker.csv")
+real_zout <- read.csv(file = "../../raw_data/data_gist_zout.csv")
+
+head(real_suiker)
+head(real_zout)
+```
+
+```{r}
+real_suiker_df <- as.data.frame(real_suiker)
+real_zout_df <- as.data.frame(real_zout)
+
+head(real_suiker_df)
+head(real_zout_df)
+```
+
+```{r}
+real_suiker_df <- real_suiker_df[c(1, 2, 4, 5)]
+real_zout_df <- real_zout_df[c(1, 2, 4, 5)]
+
+str(real_suiker_df)
+str(real_zout_df)
+```
+
+```{r}
+# Nieuwe variabelen die ik dan makkelijk kan veranderen
+real_viz_suiker_df <- real_suiker_df
+real_viz_zout_df <- real_zout_df
+
+# Ik maak hier verschillende heatmaps die ik later samen ga zetten 
+suiker_plot_rel <- ggplot(data = real_viz_suiker_df,
+            mapping = aes(x = meting_id, y = experiment_id, fill = relatieve_productie)) +
+            geom_tile() +
+            labs(y = "Experiment ID", x = "Meting(1 = 15 min)") +
+            scale_fill_gradient(limits = c(0, 210), low = "white", high = "red", na.value = "blue") +
+            theme_minimal()
+
+zout_plot_rel <- ggplot(data = real_viz_zout_df,
+            mapping = aes(x = meting_id, y = experiment_id, fill = relatieve_productie)) +
+            geom_tile() +
+            labs(y = "Experiment ID", x = "Meting(1 = 15 min)") +
+            scale_fill_gradient(limits = c(0, 210), low = "white", high = "red", na.value = "blue") +
+            theme_minimal()
+
+suiker_plot_cum <- ggplot(data = real_viz_suiker_df,
+            mapping = aes(x = meting_id, y = experiment_id, fill = cumulatieve_productie)) +
+            geom_tile() +
+            labs(y = "Experiment ID", x = "Meting(1 = 15 min)") +
+            scale_fill_gradient(limits = c(0, 800), low = "white", high = "red", na.value = "red4") +
+            theme_minimal()
+
+zout_plot_cum <- ggplot(data = real_viz_zout_df,
+            mapping = aes(x = meting_id, y = experiment_id, fill = cumulatieve_productie)) +
+            geom_tile() +
+            labs(y = "Experiment ID", x = "Meting(1 = 15 min)") +
+            scale_fill_gradient(limits = c(0, 800), low = "white", high = "red", na.value = "red4") +
+            theme_minimal()
+
+plot_grid(suiker_plot_rel, zout_plot_rel, suiker_plot_cum, zout_plot_cum, labels = c("Suiker", "Zout", "Suiker", "Zout"), label_size = 10, align = c("hv"))
+```
+
+```{r}
+# Ik haal hier de variabele die ik niet wil uit de dataframe
+rel_pr_suiker <- real_suiker_df[-c(4)]
+rel_pr_zout <- real_viz_zout_df[-c(4)]
+wider_suiker_rel <- rel_pr_suiker %>%
+    pivot_wider(
+        names_from = c(experiment_id),
+        values_from = c(relatieve_productie)
+    )
+wider_zout_rel <- rel_pr_zout %>%
+    pivot_wider(
+        names_from = c(experiment_id),
+        values_from = c(relatieve_productie)
+    )
+wider_suiker_rel
+wider_zout_rel
+```
+
+```{r}
+cum_pr_suiker <- real_suiker_df[-c(3)]
+cum_pr_zout <- real_viz_zout_df[-c(3)]
+wider_suiker_cum <- cum_pr_suiker %>%
+    pivot_wider(
+        names_from = c(experiment_id),
+        values_from = c(cumulatieve_productie)
+    )
+wider_zout_cum <- cum_pr_zout %>%
+    pivot_wider(
+        names_from = c(experiment_id),
+        values_from = c(cumulatieve_productie)
+    )
+wider_suiker_cum
+wider_zout_cum
+```
+
+```{r}
+corr_rel_suiker <- round(cor(wider_suiker_rel[-1]), 1)
+corr_rel_zout <- round(cor(wider_zout_rel[-1]), 1)
+corr_cum_suiker <- round(cor(tail(wider_suiker_rel[-1])), 1)
+corr_cum_zout <- round(cor(tail(wider_zout_cum[-1])), 1)
+
+head(corr_rel_suiker)
+head(corr_cum_suiker)
+head(corr_rel_zout)
+head(corr_cum_zout)
+```
+
+```{r}
+plot_S_rel <- ggcorrplot(corr_rel_suiker, type = "lower", colors = c("blue", "black", "red"))
+plot_S_cum <- ggcorrplot(corr_cum_suiker, type = "lower", colors = c("blue", "black", "red"))
+plot_Z_rel <- ggcorrplot(corr_rel_zout, type = "lower", colors = c("blue", "black", "red"))
+plot_Z_cum <-ggcorrplot(corr_cum_zout, type = "lower", colors = c("blue", "black", "red"))
+
+plot_grid(plot_S_rel, plot_Z_rel, plot_S_cum, plot_Z_cum, labels = c("relatief_suiker", "relatief_zout", "cumulatief_suiker", "cumulatief_zout"), label_size = 10, align = "hv")
+```
+
+```{r}
+sample_plot <- ggplot(data = real_viz_zout_df,
+            mapping = aes(x = meting_id, y = experiment_id, fill = cumulatieve_productie)) +
+            geom_tile() +
+            labs(y = "Experiment ID", x = "Meting") +
+            scale_fill_gradient(limits = c(0, 800), low = "white", high = "red") +
+            theme_minimal() +
+            geom_text(aes(label = cumulatieve_productie))
+sample_plot
+```
+

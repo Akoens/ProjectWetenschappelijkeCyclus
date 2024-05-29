@@ -1,4 +1,4 @@
-Experiment ID,Gist (g),Suiker (g),Zout (g),Water (g),Sum (g)
+experiment_id,gist,suiker,zout,water,totaal
 S1,7.03,0.00,1.14,192.79,200.96
 Sd1,7.08,0.00,1.02,191.90,200.00
 S2,7.06,6.06,1.01,186.10,200.23

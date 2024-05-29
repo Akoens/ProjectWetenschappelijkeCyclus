@@ -1,4 +1,4 @@
-Experiment ID,Gist (g),Suiker (g),Zout (g),Water (g),Sum (g)
+experiment_id,gist,suiker,zout,water,totaal
 S1,7.00,0.00,1.00,192.00,200.00
 S2,7.00,6.00,1.00,186.00,200.00
 S3,7.00,12.00,1.00,180.00,200.00

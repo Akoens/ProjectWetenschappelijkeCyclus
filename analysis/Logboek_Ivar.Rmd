@@ -10,10 +10,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r lib statements}
-library("pwr")
-# library("ggplot2")
-# library("dplyr")
-# library("tidyr")
+library("pwr") # powertests
+library("ggplot2") # plotjes
+library("dplyr") # data mutaties
+library("tidyr") # data mutaties
+library("zoo") # interpolatie
+
 ```
 # log maken voor library + versie
 ## Introductie
@@ -112,11 +114,11 @@ Voor de opzet data heb de suikerwaardes van een eerder onderzoek gebruikt en de 
 om deze data te gebruiken R code introduceren en uitlgeggen
 ```{r opzet data}
 
-test_suiker <- read.csv2("Maatsheet Experiment Gist suiker.csv")
-test_zout <- read.csv2("Maatsheet Experiment Gist zout.csv")
-data.frame(test_suiker)
-data.frame(test_zout)
-boxplot(test_suiker$CO...ml. , test_zout$CO...ml.)
+test_suiker <- read.csv("../raw_data/Maatsheet Experiment Gist_suiker.csv")
+test_zout <- read.csv("../raw_data/Maatsheet Experiment Gist_zout.csv")
+#head(test_suiker)
+#head(test_zout)
+#boxplot(test_suiker$ , test_zout$CO...ml.)
 ```
 
 
@@ -301,7 +303,7 @@ Resultaat en interpetatie
 oplossing voor ons statestiek probleem in de vorm van het uitvoeren van 2 keer een 1 weg anova
 notitie voor onderzoeksverslag vermelden dat een 2 weg anove de corecte manier was maar vanwege gebrek aan schaal 
 
------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
 
 
 logboek
@@ -358,20 +360,401 @@ imputatie startegie om de gemmiddelde productie van het punt voor en na de negat
 
 ---------------------------------------------------------------------------------------
 
-#logboek data verwerking 22-5, 
-motivatie
-```{r data inladen}
-suiker_data <- read.csv("data/Maatsheet Experiment Gist_Test Data Suiker.csv")
-zout_data <- read.csv("data/Maatsheet Experiment Gist_Test Data Zout.csv")
-data.frame(suiker_data)
+#logboek data verwerking 
+Datums: 22-5, 23-5, 24-5,27-5,28-5
 
+##Motivatie
+
+### Analyse bespreking
+van te voren met emil besproken hoe wij om kunnen gaan met onze onbetrouwbare data die waarschijnlijk niet normaal verdeeld is. Dit heb ik gedaan omdat ik niet zeker wist hoe wij dit op een betrouwbare manier kunnen testen
+
+### Data verwerking
+tijdens het verwerken van de data heb ik met michiel besproken hoe ik de foutive data corigeer. Dit heb ik gedaan omdat ik niet zeker wist hoe ik de meetfouten moest oplossen
+
+##Wat heb ik gedaan
+
+### Analyse bespreking
+Ik heb met emil besproken over hoe ik de data betrouwbaar analyseer, Omdat onze data niet normaal verdeeld is werd geadviseerd de niet-parametrische toets de kruskal walles uit te voeren of log(y) te gebruiken bij de 1 weg anova 
+
+### Data verwerking
+Samen met michiel een oplossing gevonden voor het extrapoleren doormiddel van de ZOO library die linaire interpolatie doet
+
+##Code boek
+Exp.ID = Experiment ID [S= Suiker, Z = Zout, d = duplo]
+Meeting.nmr = meting nummer op volgorde
+prdc = co2 productie in ml/co2
+Groep = Experiment origineel en duplo samen [E= experiment, s = suiker,z = zout, 
+getal = experiment groep
+
+---------------------------------------------------------------------------------------
+## Analyses
+
+### Inladen en selecteren van de data
+In dit blok worden de gegevens van het experiment ingeladen.
+
+#### Suiker
+
+Deze chunk is voor het inladen van de suiker data.
+```{r data inladen suiker}
+suiker_data_ruw <- read.csv("../raw_data/Maatsheet Experiment Gist_Suiker.csv")
+head(suiker_data_ruw)
+```
+
+In deze chunk selecter en hernoem de relevante colomen voor mijn analyse.
+```{r head suiker select}
+suiker_data <- suiker_data_ruw %>%
+    select(c(Exp.ID = Experiment.ID, 
+             Meeting.nmr = Meeting, 
+             prdc = CO...ml.))
+head(suiker_data)
+```
+
+#### Zout
+Deze chunk is voor het inladen van de zout data.
+```{r head zout}
+zout_data_ruw <- read.csv("../raw_data/Maatsheet Experiment Gist_Zout.csv")
+head(zout_data_ruw)
+```
+
+In deze chunk selecteer en hernoem ik de relevante colommen voor mijn analyses
+```{r head zout select}
+zout_data <- zout_data_ruw %>%
+    select(c(Exp.ID = Experiment.Id, 
+             Meeting.nmr = Meeting, 
+             prdc = CO...ml.))
+head(zout_data)
+```
+
+---------------------------------------------------------------------------------------
+### gemiddelden
+Ik bestudeer hier de gemidelden omdat ik inzicht wil krijgen in het verschil tussen het orginele experiment en het duplo experiment. 
+
+#### Suiker
+hieronder staan de gemiddelde productie waardes per experiment suiker, hieruit is af te lezen dat er een enorm verschil is in het orginele experiment en het duplo experiment.
+Er is wel een opbouwende trend te zien in hoe hoger de suikerconcentratie hoe hoger de productie.
+
+```{r gemmiddelde productie per suiker experiment}
+(suiker_mean_data <- suiker_data %>% group_by(Exp.ID) %>%
+    summarise(mean_s = mean(prdc)))
+```
+#### Zout
+Hieronder staan de gemiddelde prodictie waardes per experiment zout, hieruit kun je aflezen dat her verschil in experiment en duplo experiment er iets beter uitziet dan die van suiker. Maar nog steeds is hier stevig verschil tussen orgineel en duplo. De trend hier is de 2de concentratie de hoogste is en de andere 2 experimenten eronder vallen. dit kan duiden op een optimuum concentratie maar dat kan niet met zekerheid gezecht worden.
+
+```{r gemiddelde productie per zout experiment}
+(zout_mean_data <- zout_data %>% group_by(Exp.ID) %>%
+     summarise(mean_z = mean(prdc)))
+```
+
+### histogrammen
+Deze histogrammen heb ik gemaakt om te kijken of onze data een normaal verdeling heeft. 
+
+#### Suiker
+Hieronder staat de histogram, hieruit kun je opmaken dat onze data niet normaal verdeeld is bij suiker.
+```{r histogram met normaal verdeling suiker}
+hist(suiker_data$prdc, breaks = 10)
+```
+
+#### Zout
+Ook bij zout kun je zien dat de data niet normaal verdeeld is.
+```{r histogram met normaal verdeling zout}
+hist(zout_data$prdc, breaks = 10)
+```
+
+### Anova/Kruskal walles pipeline
+In dit blok is gemaakt voor de statische analyse van ons experiment. ik heb ervoor gekozen om zowel de 1 weg anova analyse te doen in log als de kruskal wallis analyse. Ik heb hiervoor gekozen omdat onze data niet normaal verdeeld is kunnen wij niet via de standaard statestiek toetsen kunnen toepassen. 
+
+#### Anova
+Bij de Anova toets liepen wij tegen 2 problemen aan. Het eerste probleem is dat we eigenlijk voor onze onderzoeksvraag we de 2-weg anova wilden toepassen omdat wij 2 factoren hebben die ik wil analyseren, maar dit bleek niet mogenlijke vanwege onze opzet.
+De opzet die wij nodig hadden voor een 2 weg anova is een 3x3 opzet van de verschillende concentratie's, tijdens de uitvoring hadden wij een 2x3 opzet van de concentratie's.
+Achteraf kwamen wij erachter dat je ook een fractal [design] 2 weg anova kunt doen met 5 data punten. maar wij hebben ervoor gekozen om het experiment niet opnieuw te doen vanwege het tijdsgebrek hebben wij dit niet gedaan
+
+Hierdoor moeten wij 2 keer de 1 weg anova uitvoeren omdat wij 3 groepen hebben per factor. Dit heeft als resulaat dat wij wel conclussie's kunnen trekken over of de factoren opzichzelf invloed hebben op de onderszoekvraag, maar we kunnen niet de factoren onderling ook nog invloed hebben.
+
+het tweede probleem dat wij onregelmatige data hebben en hierdoor niet de standaard anova toe kunnen passen omdat deze er van uit gaat dat de data normaal verdeeld is. omdat dit niet het geval is gebruiken we de log() van de data. Dit is volgens emil de manier om niet normaal verdeelde data te corigeren voor de anova.
+
+
+#### Kruskal Wallis
+De Kruskal Wallis toets voer ik uit omdat het een niet parametische toets is die mischien betrouwbaarder is op onze onbetrouwbare data dan de anova. in principe moet volgens emil hieruit ongeveer dezelfde resultaten uitkomen als de gecorigeerde anova.
+
+
+#### Samenvoeging duplo experimenten
+Hier voeg ik de orginele experimenten samen met de duplo versie hiervan. dit doe ik als voorbereiding van de anova en kruskal test. Omdat duplo en orgineel als 1 experiment moet worden gezien.  
+```{r suiker merge group}
+suiker_data <- suiker_data %>% mutate(groep = case_match(Exp.ID,
+                                          c("S1","Sd1") ~ "Es1",
+                                          c("S2","Sd2") ~ "Es2",
+                                            c("S3","Sd3") ~ "Es3"))
+head(suiker_data)
+```
+
+Hetzelfde als suiker
+```{r zout merge group}
+zout_data <- zout_data %>% mutate(groep = case_match(Exp.ID,
+                                          c("Z1","Zd1") ~ "Ez1",
+                                          c("Z2","Zd2") ~ "Ez2",
+                                            c("Z3","Zd3") ~ "Ez3"))
+head(zout_data)
+```
+
+#### Waarde preperatie
+
+De volgende stappen heb ik gedaan om de data klaar te zetten voor de opvolgende analyses.
+
+##### Data mutatie
+Voor het verwerken van de data ga ik de - waarden met imputatie corigeren omdat vanwege de setup in het experiment. 
+de 0 waardes worden veranderd naar 0,00000001 want omdat onze data niet normaal verdeeld is moeten we de log van de productie waardes nemen voor de anova analyse. Het probleem hiermee is dat log(0) een resultaat van [-inf] weergeeft. Wat als resutaat heeft dat de anova functie niet meer werkt.
+##### Variablen
+Per groep heb ik de gemiddelde productie, deviatie, en sample size in een tibble gezet zodat die later gebruikt kunnen worden.
+
+##### Suiker
+
+Hieronder word de data gecorigeerd doormiddel van imputatie en extrapolatie
+```{r}
+# getallen kleiner dan nul veranderen in NA vanwege meetfout
+suiker_data <- suiker_data %>% mutate(prdc = if_else(prdc < 0, NA, prdc))
+# 0 naar 0.000001 voor log test later
+suiker_data <- suiker_data %>% mutate(prdc = if_else(prdc == 0, 0.000001, prdc))
+# zoo::na.approx veranderd de na's naar een gemiddeld getal op linaire 
+suiker_data <- suiker_data %>% mutate(prdc = (zoo::na.approx(prdc)))
+head(suiker_data)
+```
+Hieronder staat de gemiddelde productie per groep in een tibble
+```{r suiker waardes gemiddelden}
+(gem_suiker_p_g <- suiker_data %>% group_by(groep) %>% summarise(mean(prdc)))
+```
+hieronder staat de standaard deviatie per groep
+```{r suiker waardes deviatie}
+(devi_suiker_p_g <- suiker_data %>% group_by(groep) %>% summarise(sd(prdc)))
+```
+hieronder staat de gemiddelde sample size per groep
+```{r suiker waardes sample size}
+(sample_size_suiker_p_g <- suiker_data %>% group_by(groep) %>% summarise(length(prdc)))
+```
+##### zout
+
+Hieronder word de data gecorigeerd doormiddel van imputatie en extrapolatie
+```{r}
+# getallen kleiner dan nul veranderen in NA vanwege meetfout
+zout_data <- zout_data %>% mutate(prdc = if_else(prdc < 0, NA, prdc))
+# 0 naar 0.000001 voor log test later
+zout_data <- zout_data %>% mutate(prdc = if_else(prdc == 0, 0.000001, prdc))
+# zoo::na.approx veranderd de na's naar een gemiddeld getal op linaire 
+zout_data <- zout_data %>% mutate(prdc = (zoo::na.approx(prdc)))
+head(zout_data)
+```
+Hieronder staat de gemiddelde productie per groep in een tibble
+```{r zout waardes gemiddelden}
+(gem_zout_p_g <- zout_data %>% group_by(groep) %>% summarise(mean(prdc)))
+```
+hieronder staat de standaard deviatie per groep
+```{r zout waardes deviatie}
+(devi_zout_p_g <- zout_data %>% group_by(groep) %>% summarise(sd(prdc)))
+```
+hieronder staat de gemiddelde sample size per groep
+```{r zout waardes sample size}
+(sample_size_zout_p_g <- zout_data %>% group_by(groep) %>% summarise(length(prdc)))
+```
+
+#### betrouwbaarheids interval
+
+In dit gedeelte bereken ik de betrouwbaarheids interval van zowel het totaal als de verschillende concentratie's.
+
+##### Suiker
+Hieronder staat de Betrouwbaarheids interval van het totaal.
+```{r bi suiker totaal}
+gem_totaal_suiker <- mean(suiker_data$prdc)
+divi_totaal_suiker <- sd(suiker_data$prdc)
+samples_totaal_suiker <-length(suiker_data$prdc)
+BI_totaal_suiker <- gem_totaal_suiker + qt(c(0.025, 0.975), samples_totaal_suiker-1)* divi_totaal_suiker/sqrt(samples_totaal_suiker)
+cat(BI_totaal_suiker,"Betrouwbaarheids interval totaal")
+```
+
+
+Suiker betrwoubaarheids interval per groep.
+Zoals te zien zit er aardig wat verschil in de intervallen per experiment. Expiriment 2 komt het dichste bij de BI van het totaal.
+```{r bi suiker per groep}
+# BI exp 1
+Es1_BI <- gem_suiker_p_g$`mean(prdc)`[1] + qt(c(0.025, 0.975), sample_size_suiker_p_g$`length(prdc)`[1])*devi_suiker_p_g$`sd(prdc)`[1] / sqrt(sample_size_suiker_p_g$`length(prdc)`[1])
+
+# BI exp 2 
+Es2_BI <- gem_suiker_p_g$`mean(prdc)`[2] + qt(c(0.025, 0.975), sample_size_suiker_p_g$`length(prdc)`[2])*devi_suiker_p_g$`sd(prdc)`[2] / sqrt(sample_size_suiker_p_g$`length(prdc)`[2])
+
+#BI exp 3
+Es3_BI <- gem_suiker_p_g$`mean(prdc)`[3] + qt(c(0.025, 0.975), sample_size_suiker_p_g$`length(prdc)`[3])*devi_suiker_p_g$`sd(prdc)`[3] / sqrt(sample_size_suiker_p_g$`length(prdc)`[3])
+
+cat(Es1_BI,"Betrouwbaarheids interval experiment 1\n",Es2_BI,"Betrouwbaarheids interval experiment 2\n",Es3_BI,"Betrouwaarheids interval experiment 3\n")
+```
+
+##### Zout
+
+Hieronder staat de betrouwbaarheids interval van het totaal.
+```{r bi suiker totaal}
+gem_totaal_zout <- mean(suiker_data$prdc)
+divi_totaal_zout <- sd(suiker_data$prdc)
+samples_totaal_zout <-length(suiker_data$prdc)
+BI_totaal_zout <- gem_totaal_zout + qt(c(0.025, 0.975), samples_totaal_zout-1)* divi_totaal_zout/sqrt(samples_totaal_zout)
+cat(BI_totaal_zout,"Betrouwbaarheids interval totaal")
+```
+zout betrouwbaarheids interval per groep.
+expiriment 3 komt het dichste bij het totaal
+```{r bi suiker per groep}
+# BI exp 1
+Ez1_BI <- gem_zout_p_g$`mean(prdc)`[1] + qt(c(0.025, 0.975), sample_size_zout_p_g$`length(prdc)`[1])*devi_zout_p_g$`sd(prdc)`[1] / sqrt(sample_size_zout_p_g$`length(prdc)`[1])
+
+# BI exp 2 
+Ez2_BI <- gem_zout_p_g$`mean(prdc)`[2] + qt(c(0.025, 0.975), sample_size_suiker_p_g$`length(prdc)`[2])*devi_suiker_p_g$`sd(prdc)`[2] / sqrt(sample_size_suiker_p_g$`length(prdc)`[2])
+
+#BI exp 3
+Ez3_BI <- gem_zout_p_g$`mean(prdc)`[3] + qt(c(0.025, 0.975), sample_size_zout_p_g$`length(prdc)`[3])*devi_zout_p_g$`sd(prdc)`[3] / sqrt(sample_size_zout_p_g$`length(prdc)`[3])
+cat(Ez1_BI,"Betrouwbaarheids interval experiment 1\n",Ez2_BI,"Betrouwbaarheids interval experiment 2\n",Ez3_BI,"Betrouwaarheids interval experiment 3\n")
+
+```
+
+#### T Test
+Hieronder voer ik een pairwise t test uit om te kijken of er correlatie's in de onderlinge groepen zit.
+
+##### suiker
+Aan de hand van deze T test kun je zien dat er een significant verschil is met Es3 tegenover Es1 en Es2
+```{r T test suiker}
+pairwise.t.test(suiker_data$prdc, suiker_data$groep, p.adjust.method = "none", pool.sd = T)
+```
+
+#####zout
+Aan de hand van deze T test kun je aflezen dat er alleen een significant verschil is tussen Ez2 en Ez3.
+```{r T test zout}
+pairwise.t.test(zout_data$prdc, zout_data$groep, p.adjust.method = "none", pool.sd = T)
+```
+
+
+#### log Anova
+
+Zoals bij de introductie van de analyses staat beschreven staan hieronder de 2 Anova's voor de verschillende factoren.
+
+##### Suiker
+Deze Anova test geeft aan dat er een significant verschil is tussen het gebruik van suiker op de co2 productie. 
+```{r anova suiker}
+# suiker_anova <- aov(prdc ~ groep, data = suiker_data)
+suiker_anova <- aov(log(prdc) ~ groep, data = suiker_data)
+# mailen hoe fix -inf en nans
+(suiker_aov_analyse <- summary(suiker_anova))
+```
+
+##### Zout
+Aan de hand van deze anova kan ik concluderen dat er geen significant verschil tussen de zout concentraties en de co2 productie van gist.
+```{r anova zout}
+zout_anova <- aov(log(prdc) ~ groep, data = zout_data)
+(zout_aov_analyse <- summary(zout_anova))
+```
+
+#### Effect sterkte eta2
+De effect sterkte wilde ik meten om te kijken hoe sterk het effect is dat we hebben gemeten.
+Benchmarks:
+
+   waarde eta2     effect A op y
+   -----------     -------------
+   0.01            zwak
+   0.06            matig
+   0.14            sterk
+##### Suiker
+Bij suiker hebben we een sterke effect sterkte, omdat 0.24>0.14. 
+```{r suiker eta2}
+suiker_SS.A <- suiker_aov_analyse[[1]]$`Sum Sq`[1]
+suiker_SS.tot <- sum(suiker_aov_analyse[[1]]$`Sum Sq`)
+(suiker_eta2 <- suiker_SS.A/suiker_SS.tot)
+```
+
+##### Zout
+Bij zout hebben we een zwak effect sterkte omdat het groter is dan 0.01 maar kleiner dan 0.06.
+```{r zout eta2}
+zout_SS.A <- zout_aov_analyse[[1]]$`Sum Sq`[1]
+zout_SS.tot <- sum(zout_aov_analyse[[1]]$`Sum Sq`)
+(zout_eta2 <- zout_SS.A/zout_SS.tot)
+```
+
+#### Power Anova
+
+De power test voor anova heb ik gedaan om te kijken of ik met zekerheid conclussie's kan trekken met de data die wij hebben.
+
+##### Suiker
+Bij suiker hebben we een power van 79%, dit is dicht bij de standaard van 80. Dus kan er bij suiker geconcludeerd worden dat op statistische basis kan zeggen dat suiker een sterke en significante invloed heeft op de co2 productie. 
+```{r power test suiker}
+aantal_suiker_groepen <- 3
+aantal_suiker_metingen <- 11
+alpha <- 0.05
+test <- sqrt(suiker_eta2/(1 - suiker_eta2))
+pwr.anova.test(k =  aantal_suiker_groepen, f= test,n = aantal_suiker_metingen, sig.level = alpha)
+```
+
+
+##### Zout
+Bij zout hebben we een power van 14% dit is te onbetrouwbaar om conclussies over te trekken.
+```{r power test zout}
+aantal_zout_groepen <- 3
+aantal_zout_metingen <- 11
+alpha <- 0.05
+test <- sqrt(zout_eta2/(1 - zout_eta2))
+pwr.anova.test(k =  aantal_suiker_groepen, f= test,n = aantal_suiker_metingen, sig.level = alpha,)
+```
+
+#### Kruskal Wallis
+
+De kruskal Wallis test heb ik erbij gedaan als extra controle op de anova. Dit is omdat onze data niet normaal verdeeld is en voor het geval de log anova een onregelmatig resultaat geeft.
+De Kruskal Wallis test is een niet parametische test en heeft daardoor geen last van de ongelijke verdeling van de data.
+In theorie moet er een gelijkwaardig resultaat uit de kruskal wallis test komen als de anova.
+
+##### Suiker
+Aan deze toets kun je concluderen dat suiker een significante invloed heeft op de co2 productie van gist
+```{r kruskal suiker test}
+kruskal.test(prdc~ groep, data = suiker_data)
+```
+
+##### Zout
+Aan de hand van deze toets kun je concluderen dat zout geen invloed heeft op de co2 productie van gist.
+```{r kruskal zout test}
+kruskal.test(prdc ~ groep, data = zout_data)
 ```
 
 
 
+## Conclusie
+
+### Suiker
+Aan de hand van de bovenstaande analyses kun je concluderen dat suiker een sterk effect heeft op de co2 productie van gist. Hierboven is er genoeg bewijs in zowel significantie als power om dit statistisch te bevestigen.
+
+Maar als groep zijn wij van mening dat het suiker experiment praktisch gezien de meest onbetrouwbare gegevens heeft gegenereerd, dus zijn wij niet zeker over dit resultaat
+
+### Zout
+Aan de hand van de bovenstaande analyses kun je eigenenlijk niks concluderen vanwege het zwakke power percentage(14%). De waardes die gegenereed werden uit de anova en effect sterte was dat zout geen significant verschil heeft op de co2 productie van gist, en de effect sterkte hiervan was zwak.
 
 
-
-
+### Kruskal en Anova
+De P waarden van Kruskal en Anova waren erg verschillend maar leverden wel hetzelfde resultaat op
+Suiker Kruskal 9.428e-05 / 0.000169 Anova < 0.05
+Zout Kruskal   0.09032 / 0.309 Anova >0.05
 
 ---------------------------------------------------------------------------------------
+
+# Logboek 29-5
+
+## Motivatie
+
+### Conclussie analyses
+Ik heb de conclussies vandaag de conclussie's van het bovenstaande logboek geschreven omdat dit nog afgemaakt moest worden.
+
+### Commentaar over de data van dit experiment
+Dit schrijf aan de hand van de ervaring bij het opstellen en afmeten van dit experiment en de data verwerking hiervan. ik vind dat er problemen zijn met de data die gegenereerd is. 
+
+### Begonnen met de inleiding en resultaten schrijven voor de paper
+
+
+## Wat heb ik gedaan
+
+### Commentaar over de data van dit experiment
+
+
+## Resultaten en interpetatie
+Logboek analyse afgemaakt.
+Commentaar voor eventuele opvolgers van dit experiment 
+
+-----------------------------------------------------------------------------------------------
+

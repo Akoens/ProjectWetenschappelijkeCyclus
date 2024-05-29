@@ -172,7 +172,7 @@ Michiel heeft een tabel met concentraties suiker en zout gemaakt waar wij ons aa
 
 ### Taak
 Materiaal meenemen voor experiment. Gaatjes boren in doppen.
-Osmotische stres berekenen voor bakkersgist.
+Osmotische stress berekenen voor bakkersgist.
 
 ### Motivatie
 Om het experiment uit te kunnen voeren hebben wij 12 flessen met doppen nodig en silicone slang. Voor de reactie is ook zout, suiker en gist nodig.
@@ -184,8 +184,8 @@ Daar naast heb ik ook nog een kilo suiker en circa 60g droge gist meegenomen.
 
 In de Makerspace heb ik een boormachine kunnen gebruiken en heb gaatjes van 7mm in de doppen geboord. 
 
-https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6333755/
-Uit het bovenstaande onderzoek kan bakkersgist tegen een osmotische concentratie van MIC 3.2 (M), dus ongeveer 32% van de oplossing zout / suiker.
+[Osmitische Stress in Gist](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6333755/)
+Uit het bovenstaande onderzoek wordt vermeld in Tabel 1 dat bakkersgist tegen een osmotische concentratie van MIC 3.2 (M) kan, dus ongeveer 32% van de oplossing zout / suiker.
 Ons protocol en proef experiment hadden dus veel te hoge waarden voor suiker en zijn dus nu aangepast naar de waarden gegeven door Michiel.
 
 ## Log [17-5-2024]
@@ -199,7 +199,6 @@ Om onze data te verzamelen gaan wij ons gistings experiment uit voeren. Dit doen
 
 
 ### Resultaat
-
 Uitvoering van het protocol met nog een aantal aanpassingen. De concentraties gaan wij meten op basis van totaal gewicht en maken nu toch gebruik van een waterbad.
 
 In het lab stond een ondersoort waterbad die groter is en niet afgedekt. Dit is perfect voor onze applicatie en alle flessjes passen er in. Deze gaan wij dus gebruiken. Eerder had wouden wij geen waterbad gebruiken, dus hebben wij bedacht om het waterbad wel te gebruiken om de gist reactie sneller te laten verlopen.
@@ -460,8 +459,25 @@ ggplot(aes(x = relatieve_productie, fill = group)) +
         binwidth = 15,
         position = 'identity'
     ) +
-    scale_fill_manual(values = c("#69b3a2", "#404080")) +
-    xlab("relatieve productie (ml)")
+    scale_fill_manual(name = "Experiment", values = c("#304FFE","#FF6D00")) +
+    xlab("Relatieve Productie (ml)") +
+    ylab("Aantal")
+```
+Hier leg ik de twee verdelingen van zout en suiker over elkaar een om te zien of deze normaal verdeeld zijn en of ze vergelijkbaar met elkaar zijn. Voor deze histogram heb ik een binwidth van 15 gebruik. Deze gaf het duidelijkste resultaat.
+Ik zie geen duidelijke normaal verdeling in deze waarden. 
+Er is wel een verschil te zien tussen de twee verdelingen. De waarden van suiker ligger dichter bij de 0 met een paar uitschieters. Zout daar in tegen lijk veel gelijkmatiger verdeelt te zijn.
+
+```{r}
+mdsz %>% mutate(group = case_match(
+    experiment_id,
+    c("S1", "Sd1", "S2", "Sd2", "S3", "Sd3") ~ "Suiker",
+    c("Z1", "Zd1", "Z2", "Zd2", "Z3", "Zd3") ~ "Zout"
+)) %>%
+ggplot(aes(x = group, y = relatieve_productie, fill = group)) +
+    geom_boxplot() +
+    scale_fill_manual(name = "Experiment", values = c("#304FFE","#FF6D00")) +
+    xlab("Relatieve Productie (ml)") +
+    ylab("Aantal")
 ```
 
 

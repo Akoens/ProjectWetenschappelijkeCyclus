@@ -21,10 +21,76 @@ output:
         in_header: include_tex_header.tex #will include rules for linespacing and figure floating
 
 ---
+
 # Introductie
 
 
 # Materialen en Methoden
+
+## Materialen
+
+Voor deze studie wordt standaard bakkersgist gebruikt. In totaal was 84g gist gebruikt. De suiker is standaard sucrose en daarvan was in totaal 72g en voor het zout wordt NaCl met 12g zout in totaal. Als water was kraanwater gebruikt.
+Wij hebben voor elk individuele proef een maatcilinder van 250 ml, een luchtdichte pot met een goed afsluitende deksel, een 30 cm lang buisje en een klem. In totaal zijn 12 proeven uitgevoerd voor dit experiment. Hiernaast is ook 1 waterbad gebruikt, met de afmetingen 35 x 70 x 15 cm, 4 waterbakken, met de afmetingen 20 x 20 x 15 cm en een rol duct tape.
+
+## Uitvoering
+
+Het waterbad werdt met kraanwater tot het 10 cm hoog stond en de verwarming van het waterbad op 30 °C gezet. Daarnaast werden ook de waterbakken gevuld tot het water tot 10±1.5 cm hoog stond. Hierna werden de maatcilinders vrijwel helemaal met water gevuld en werden ze op de kop neergezet in de waterbakken, zodat de waardes afgelezen konden worden en er te minste 2 cm ruimte tussen de bodem van de bak en het uiteinde van de maatcilinder zit. Als de waardes niet leesbaar waren of als de maatcilinder meer dan 60 ml aflas, werd de maatcilinder uit de bak gehaald en werd de stap herhaald. Als de stap goed was uitgevoerd werd het waterpeil afgelezen en genoteerd als de nulmeting. In de deksels van de potten werden gaten gemaakt en de buisjes werden vervolgens door de gaten gestopt. De mogelijke overige gaten werden afgeplakt met duct tape.
+Toen de opzet was voltooid konden de proeven worden gemaakt. Elke proef had 7 gram gist en een totaal gewicht van 200 g, met als variabele concentratie suiker en zout.
+Er werden 3 verschillende concentraties van suiker en zout getest, in duplo(aangegeven met een d in het ID).
+```{r echo=FALSE}
+concentraties <- read.csv(file = "../raw_data/data_gist_werkelijke_concentraties.csv")
+for (i in 1:length(concentraties$experiment_id)){
+cat("ID = ", concentraties$experiment_id[i], ": suiker = ", concentraties$suiker[i], "g, zout = ", concentraties$zout[i], "g\n")
+}
+```
+De concentratie werd aangevuld met water tot het in totaal 200 g is. De concentraties van de verschillende proeven waren:
+```{r echo=FALSE}
+for (i in 1:length(concentraties$experiment_id)){
+cat("ID = ", concentraties$experiment_id[i], ": suiker = ", (concentraties$suiker[i]/200)*100, "%, zout = ", (concentraties$zout[i]/200)*100, "%\n")
+}
+```
+Deze concentraties werden in verschillende potten gedaan en toen alles was opgelost, kon het deksel op de pot en werd de pot in het waterbad gezet. Het buisje werd daarna tot onder in de maatcilinder geleidt, zodat er een waterslot ontstond. Toen alle proeven in het waterbad stonden werd er om de 15 minuten het waterpeil van de maatcilinders afgemeten. Als het waterpeil niet leesbaar was door overproductie van gas, werd het maximale aantal(250ml) opgeschreven en moest de maatcilinder opnieuw worden gevuld en werd een nieuwe nulmeting genoteerd naast de meting.
+
+## Gebruikte tools
+```{r include=FALSE}
+# library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(pwr)
+library(zoo)
+#library(here)
+library(cowplot)
+library(ggcorrplot)
+```
+Voor de visualisatie en de tests worden verschillende tools gebruikt.
+tidyverse: waarvan de volgende library's worden gebruikt:
+
+>ggplot2 (versie 3.5.1): Die gebruikt wordt voor het visualiseren van data door middel van plotten. 
+
+>dplyr (versie 1.1.4): voor het aanpassen van data. 
+
+>tidyr (versie 1.3.1): om data op een 'tidy' manier in de code te krijgen. 
+
+De 'pwr' library is voor de power tests, de 1-weg-anova en t test op versie 1.3-0. 
+
+De 'zoo' library om lineaire interpolatie toe te kunnen passen. Dit wordt gedaan in versie 1.8-12
+
+*<Note: Ik weet niet of de volgende library's in deze paper worden toegepast, als ze niet teogepast worden moeten ze worden weggehaalt>*
+
+De 'cowplot' library wordt gebruikt voor het visualiseren van meerdere grafieken op specifieke manieren. Dit wordt gedaan met versie 1.1.3 en de 'ggcorrplot' library is voor het maken van correlogrammen. Deze worden gedaan in versie 0.1.4.1
+
+
+## Gebruikte methodes
+
+De pairwise t test wordt gebruikt om aan te tonen of er significante verschillen zitten tussen de verschillende concentraties van suiker en zout.
+
+De power analise is om te zien of er genoeg proeven zijn om iets te kunnen bewijzen, als power groter is dan 80%, is de kans op een type II fout klein genoeg.
+
+Cohens f wordt gebruikt om zeker te zijn dat als we een significant verschil waarnemen dat verschil ook relevant is.
+
+De one-weg-anova wordt twee keer gebruikt, omdat er op twee factoren worden getest(suiker en zout), maar er te weinig proeven waren om een 2-weg-anova te kunnen gebruiken. Het wordt gebruikt om te kijken of de groepen vergelijkbaar of precies hetzelfde als elkaar zijn, maar de 1-weg-anova heeft wel wat aannames, het gaat er bijvoorbeeld vanuit dat de data normaal verdeeld zijn.
+Dus als uit de histogram blijkt dat de data niet normaal verdeeld zijn, dan wordt de kruskal wallis test naast de 1-weg-anova ook gebruikt voor een beter idee of de groepen vergelijkbaar zijn.
 
 
 # Resultaten
@@ -44,7 +110,7 @@ output:
 ```{r wordcount, message=FALSE}
 #install.packages(devtools)
 #devtools::install_github("benmarwick/wordcountaddin", type = "source", dependencies = TRUE)
-wordcountaddin:::text_stats()
+#wordcountaddin:::text_stats()
 ```
 
 # Referenties

@@ -8,10 +8,17 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
+## Library's
+```{r}
+library(ggplot2)
+library(dplyr)
+library(cowplot)
+library(ggcorrplot)
+library(tidyr)
+```
 # Introductie
 
-
+Gist is een levensvorm die vooral wordt gebruikt voor 
 
 ## May 6 2024
 
@@ -50,13 +57,6 @@ Ik heb de uitvoering veranderd naar een stapgewijze schrijfwijze, zodat het prot
 
 Ik ga de komende dagen beginnen met het maken van een voorbeeld Heatmap, dit doe ik zodat ik de code al heb voor de uiteindelijke data.
 
-```{r}
-library(ggplot2)
-library(dplyr)
-library(cowplot)
-library(ggcorrplot)
-library(tidyr)
-```
 Ik wil weten waar ik zit zodat ik weet waar ik zit in vergelijking met de data
 ```{r}
 getwd()
@@ -545,3 +545,27 @@ Ik stop alleen de code voor het maken van de heatmaps in een ander bestand, zoad
 
 Ik heb de visualisatie die ik heb gemaakt op 23 mei, lijn 309, uit de powerpoint gehaalt, omdat het niet echt een limitatie is. Je kunt de rij gewoon een categorisch maken en dan is het probleem weg.
 
+## May 29 2024
+
+Vandaag bespreek ik de presentatie met de rest zodat er nog wat kleine verbeteringen in dingen zoals plaatjes en misschien structuur kunnen komen. 
+Uiteindelijk hebben we besloten om de achtergrond van de inleiding te veranderen en twee slides te fuseren tot een slide. Ook hebben we de reden voor het gebruiken van heatmaps op een aparte slide gezet in te plaats van het uit te leggen bij de soorten heatmaps.
+
+We hebben vandaag ook afgesproken wie welk deel van de paper gaat schrijven. Ik ga het Materialen en Methoden stukje schrijven, omdat ik ook al het protocool heb gemaakt. Na de presentatie heb ik geen energie meer, dus ik begin er morgen aan.
+
+## May 30 2024
+
+Vandaag wil ik een goed begin maken aan het materialen en methoden stuk.
+
+Ik heb het grootste gedeelte van materialen en uitvoering af, ik ga morgen verder en dat wil ik zo veel mogelijk af krijgen.
+
+## May 31 2024
+
+Vandaag ga ik verder met het schrijven van materialen en methoden. 
+
+
+
+## June 2 2024
+
+Vandaag ga ik proberen de eerste versie van materialen en methoden af te hebben
+
+Ik heb voor feedback gevraagd van mijn vader en heb het stuk op verschillende aspecten kunnen veranderen, bijvoorbeeld om de meeste dingen in verleden tijd aan te duiden.

@@ -78,7 +78,7 @@ De power analise is om te zien of er genoeg proeven zijn om iets te kunnen bewij
 Cohens f wordt gebruikt om zeker te zijn dat als we een significant verschil waarnemen dat verschil ook relevant is.
 
 De one-weg-anova wordt twee keer gebruikt, omdat er op twee factoren worden getest(suiker en zout), maar er te weinig proeven waren om een 2-weg-anova te kunnen gebruiken. Het wordt gebruikt om te kijken of de groepen vergelijkbaar of precies hetzelfde als elkaar zijn, maar de 1-weg-anova heeft wel wat aannames, het gaat er bijvoorbeeld vanuit dat de data normaal verdeeld zijn.
-Dus als uit de histogram blijkt dat de data niet normaal verdeeld zijn, dan wordt de kruskal wallis test naast de 1-weg-anova ook gebruikt voor een beter idee of de groepen vergelijkbaar zijn.
+Dus als uit de histogram blijkt dat de data niet normaal verdeeld zijn, dan wordt de kruskal wallis test naast de 1-weg-anova gebruikt voor een beter idee of de groepen vergelijkbaar zijn.
 
 
 # Resultaten

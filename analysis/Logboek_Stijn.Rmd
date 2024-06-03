@@ -18,7 +18,7 @@ library(tidyr)
 ```
 # Introductie
 
-Gist is een levensvorm die vooral wordt gebruikt voor 
+Gist is een levensvorm die vooral wordt gebruikt voor bakken, maar ze zijn ook interessant met hun groei en levensduur. Daarom willen wij weten wat er gebeurt als je gist in verschillende concentraties suiker en zout zet. Zou de gist doodgaan door een te hoge suiker concentratie of als er geen zout aanwezig is? Dit logboek is om mijn gedachten te laten zien gedurende dit project.
 
 ## May 6 2024
 
@@ -159,7 +159,7 @@ Vandaag wordt het experiment gedaan.
 Eerst voelde alles wat chaotisch, doordat er meer gist in de mengsels waren gedaan dan vooraf gepland(3g -> 7g). Er was veel meer gasproductie dan verwacht en daardoor hadden we besloten om de maatcilinders te hervullen als er teveel gasproductie was. Dit werd dan genoteerd in de spreadsheet onder het kopje "Opmerking". We hebben daarnaast ook het interval tussen meetpunten ingekort naar een keer per 15 minuten in te plaats van een keer per uur.
 We zijn uiteindelijk gestop na 11 meetpunten voor suiker en zout.
 
-De data is te vinden in dit [Doccument]("Placeholder")
+De data is te vinden in dit [Document](../raw_data/data_gist_suiker.csv) en dit [Document](../raw_data/data_gist_zout.csv)
 
 ## May 21 2024
 
@@ -562,10 +562,14 @@ Ik heb het grootste gedeelte van materialen en uitvoering af, ik ga morgen verde
 
 Vandaag ga ik verder met het schrijven van materialen en methoden. 
 
-
+Ik ben veel verder gekomen en ben bijna klaar met het stukje.
 
 ## June 2 2024
 
 Vandaag ga ik proberen de eerste versie van materialen en methoden af te hebben
 
 Ik heb voor feedback gevraagd van mijn vader en heb het stuk op verschillende aspecten kunnen veranderen, bijvoorbeeld om de meeste dingen in verleden tijd aan te duiden.
+
+## June 3 2024
+
+

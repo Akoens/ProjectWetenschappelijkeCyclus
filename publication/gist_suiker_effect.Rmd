@@ -27,6 +27,8 @@ output:
 
 # Materialen en Methoden
 
+Alle informatie is in een github repo opgeslagen. Die repo is [hier](https://github.com/Akoens/ProjectWetenschappelijkeCyclus) te vinden.
+
 ## Materialen
 
 Voor deze studie wordt standaard bakkersgist gebruikt. In totaal was 84g gist gebruikt. De suiker is standaard sucrose en daarvan was in totaal 72g en voor het zout wordt NaCl met 12g zout in totaal. Als water was kraanwater gebruikt.
@@ -34,7 +36,7 @@ Wij hebben voor elk individuele proef een maatcilinder van 250 ml, een luchtdich
 
 ## Uitvoering
 
-Het waterbad werdt met kraanwater tot het 10 cm hoog stond en de verwarming van het waterbad op 30 °C gezet. Daarnaast werden ook de waterbakken gevuld tot het water tot 10±1.5 cm hoog stond. Hierna werden de maatcilinders vrijwel helemaal met water gevuld en werden ze op de kop neergezet in de waterbakken, zodat de waardes afgelezen konden worden en er te minste 2 cm ruimte tussen de bodem van de bak en het uiteinde van de maatcilinder zit. Als de waardes niet leesbaar waren of als de maatcilinder meer dan 60 ml aflas, werd de maatcilinder uit de bak gehaald en werd de stap herhaald. Als de stap goed was uitgevoerd werd het waterpeil afgelezen en genoteerd als de nulmeting. In de deksels van de potten werden gaten gemaakt en de buisjes werden vervolgens door de gaten gestopt. De mogelijke overige gaten werden afgeplakt met duct tape.
+Het waterbad werd met kraanwater tot het 10 cm hoog stond en de verwarming van het waterbad op 30 °C gezet. Daarnaast werden ook de waterbakken gevuld tot het water tot 10±1.5 cm hoog stond. Hierna werden de maatcilinders vrijwel helemaal met water gevuld en werden ze op de kop neergezet in de waterbakken, zodat de waardes afgelezen konden worden en er te minste 2 cm ruimte tussen de bodem van de bak en het uiteinde van de maatcilinder zit. Als de waardes niet leesbaar waren of als de maatcilinder meer dan 60 ml aflas, werd de maatcilinder uit de bak gehaald en werd de stap herhaald. Als de stap goed was uitgevoerd werd het waterpeil afgelezen en genoteerd als de nulmeting. In de deksels van de potten werden gaten gemaakt en de buisjes werden vervolgens door de gaten gestopt. De mogelijke overige gaten werden afgeplakt met duct tape.
 Toen de opzet was voltooid konden de proeven worden gemaakt. Elke proef had 7 gram gist en een totaal gewicht van 200 g, met als variabele concentratie suiker en zout.
 Er werden 3 verschillende concentraties van suiker en zout getest, in duplo(aangegeven met een d in het ID).
 ```{r echo=FALSE}
@@ -59,33 +61,19 @@ library(dplyr)
 library(tidyr)
 library(pwr)
 library(zoo)
-#library(here)
 library(cowplot)
 library(ggcorrplot)
 ```
 Voor de visualisatie en de tests worden verschillende tools gebruikt.
-tidyverse: waarvan de volgende library's worden gebruikt:
 
->ggplot2 (versie 3.5.1): Die gebruikt wordt voor het visualiseren van data door middel van plotten. 
-
->dplyr (versie 1.1.4): voor het aanpassen van data. 
-
->tidyr (versie 1.3.1): om data op een 'tidy' manier in de code te krijgen. 
-
-De 'pwr' library is voor de power tests, de 1-weg-anova en t test op versie 1.3-0. 
-
-De 'zoo' library om lineaire interpolatie toe te kunnen passen. Dit wordt gedaan in versie 1.8-12
-
-*<Note: Ik weet niet of de volgende library's in deze paper worden toegepast, als ze niet teogepast worden moeten ze worden weggehaalt>*
-
-De 'cowplot' library wordt gebruikt voor het visualiseren van meerdere grafieken op specifieke manieren. Dit wordt gedaan met versie 1.1.3 en de 'ggcorrplot' library is voor het maken van correlogrammen. Deze worden gedaan in versie 0.1.4.1
-
+tidyverse, waarvan deze library's worden gebruikt: ggplot2 (versie 3.5.1), die gebruikt wordt voor het visualiseren van data door middel van plotten; dplyr (versie 1.1.4), voor het aanpassen van data; en tidyr (versie 1.3.1), om data op een 'tidy' manier in de code te krijgen. 
+Verder wordt de 'pwr' library gebruikt, voor de power tests, waarvan de 1-weg-anova en t test op versie 1.3-0 worden toegepast en de 'zoo' library om lineaire interpolatie toe te kunnen passen. Deze wordt gebruikt in versie 1.8-12.
 
 ## Gebruikte methodes
 
 De pairwise t test wordt gebruikt om aan te tonen of er significante verschillen zitten tussen de verschillende concentraties van suiker en zout.
 
-De power analise is om te zien of er genoeg proeven zijn om iets te kunnen bewijzen, als power groter is dan 80%, is de kans op een type II fout klein genoeg.
+De power analise is om te zien of er genoeg proeven zijn om iets te kunnen bewijzen. Als power groter is dan 80%, is de kans op een type II fout klein genoeg.
 
 Cohens f wordt gebruikt om zeker te zijn dat als we een significant verschil waarnemen dat verschil ook relevant is.
 

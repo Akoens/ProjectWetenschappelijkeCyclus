@@ -10,6 +10,11 @@ lang: nl # dit zorgt er voor dat "abstract" "samenvatting" gaat heten
 abstract: |
   Geef hier je samenvatting in maximaal 150 woorden. Het is een samenvatting van het hele artikel; niet alleen de resultaten! Begin met het belang van dit onderzoek, dan hoe het onderzoek is aangepakt en de belangrijkste resultaten en eindig met de implicaties ervan voor de wetenschap/de maatschappij. Neem nooit figuren of tabellen op in de samenvatting.
 
+
+waarom is het belangrijk
+resultaten
+implicatie
+
 bibliography: gist_suiker_effect.bib # naam van je .bib file. Deze moet hetzelfde zijn als je Rmd bestandsnaam
 
 output:
@@ -28,7 +33,124 @@ output:
 
 
 # Resultaten
+Met dit experiment willen wij onderzoeken of suiker en zout invloed hebben op de gasproductie van gist, Waarvan wij aannemen dat dit Co2 is.  We hebben hiervoor als volgt een experiment uitgevoerd zoals beschreven bij materialen en methode met de volgende concentraties. Hieronder staan de belangrijkste resultaten benoemd
+[tabel concentratie’s]
+```{r tabel concentraties}
+# concentratie variable van stijn pakken
+```
 
+##Ruwe data analyse 
+Tijdens de uitvoering van het experiment zagen we dat de duplo experimenten niet gelijk waren aan originele experimenten[figuur refereren]. Hieruit kwam een vermoeden dat de data niet normaal verdeeld zou zijn. Ook zijn er meetfouten gemaakt tijdens de uitvoering, hiervoor hebben wij een imputatie strategie uitgevoerd. 
+# ARJEN TIEF HIER JE LIJN GRAFIEK NEER DANK U WEL
+[lijngrafiek productie]
+```{r lijngrafiek}
+library("tidyverse")
+library("dplyr")
+library("ggplot2")
+library("zoo")
+library("ggpubr")
+```
+
+
+De co2 productie gemiddelden lopen verder uit elkaar dan verwacht. 
+```{r inladen en muteren data}
+suiker_data <- read.csv("../raw_data/data_gist_suiker.csv")
+zout_data <- read.csv("../raw_data/data_gist_zout.csv")
+# Mutatie suiker
+# uitleg hiervan staat in logboek ivar
+# suiker
+suiker_data <- suiker_data %>% mutate(relatieve_productie = if_else(relatieve_productie < 0, NA, relatieve_productie))
+suiker_data <- suiker_data %>% mutate(relatieve_productie = if_else(relatieve_productie == 0, 0.000001, relatieve_productie))
+suiker_data <- suiker_data %>% mutate(relatieve_productie = (zoo::na.approx(relatieve_productie)))
+# zout
+zout_data <- zout_data %>% mutate(relatieve_productie = if_else(relatieve_productie < 0, NA, relatieve_productie))
+zout_data <- zout_data %>% mutate(relatieve_productie = if_else(relatieve_productie == 0, 0.000001, relatieve_productie))
+zout_data <- zout_data %>% mutate(relatieve_productie = (zoo::na.approx(relatieve_productie)))
+```
+
+```{r productie gemiddelde tabel, }
+suiker_gem_tibble <- suiker_data %>% group_by(experiment_id) %>% 
+    summarise(gemmidelde_productie = mean(relatieve_productie))
+
+zout_gem_tibble <- zout_data %>% group_by(experiment_id) %>%
+    summarise(gemmidelde_productie = mean(relatieve_productie))
+
+kable(list(suiker_gem_tibble, zout_gem_tibble), digits = 2, caption = "Gemiddelde gasproductie")
+```
+
+Deze bovenstaande tabel en grafiek duiden aan dat er een fout was in de opstelling van dit experiment vanwege het verschil in origineel en duplo experiment.
+
+
+##Imputatie
+Bij het experiment zijn er negatieve waardes gemeten, omdat dit met onze opzet niet mogelijk is duidt dit op een meetfout. Er is gekozen om imputatie toe te passen in de vorm van interpolatie. Dit is bij het suiker experiment 11 keer toegepast en bij zout 8 keer.  
+Ook hebben we de productie metingen van 0 veranderd naar 0.00000001, zodat deze metingen gebruikt kunnen worden in het logaritme voor Anova. Hierdoor kunnen we het logaritme nemen voor deze meting zonder dat het de resultaten significant beïnvloed. Er is hier voor gekozen vanwege het sterke vermoeden dat de data geen normaal verdeling heeft.
+
+## Normaal verdeling
+```{r}
+tinytex::install_tinytex()
+```
+
+```{r histogrammen, fig.cap="Histogrammen over de gasproductie van gist"}
+suiker_hist <- ggplot(data = suiker_data, 
+       mapping = aes(x = relatieve_productie)) +
+    geom_histogram(binwidth = 10, colour = "black", fill="saddlebrown") + 
+    theme_minimal()
+
+zout_hist <- ggplot(data = zout_data,
+       mapping = aes(x = relatieve_productie)) +
+    geom_histogram(binwidth = 10, colour = "black", fill="saddlebrown") + 
+    theme_minimal()
+
+box_figure <- ggarrange(suiker_hist,zout_hist,
+                        labels = c("Suiker", "Zout"), 
+                        hjust = 0,vjust = 1,
+                        font.label = list(size = 12))
+```
+
+Zoals te zien aan de histogrammen hierboven van beide experiment groepen duidt dit op een niet normaal verdeelde dataset. Aan de hand van deze informatie hebben wij er voor gekozen om een Anova toets uit te voeren met de logaritme waardes van de gasproductie. De Anova zelf is voor het analyseren of de verschillende groepen significant van elkaar verschillen, en de logaritme waardes om de resultaten van toets statistisch en wiskundig te verantwoorden. 
+Hiernaast voeren wij ook een Kruskal Wallis toets uit ter controle van de Anova. Dit is omdat deze toets meestal dient als vervanging van de Anova als de data niet normaal verdeeld is. 
+
+
+##Pairwise T test 
+De pairwise T test hebben wij uitgevoerd om te kijken of er  significante correlaties zijn tussen de onderlinge testgroepen. Hieruit is gekomen dat bij het suiker experiment groep 3 significant verschilt van groep 1 en 2, en bij zout is er alleen een significant verschil tussen groep 2 en 3.
+
+Suiker
+    Es1     Es2  
+Es2 0.190   -    
+Es3 9.5e-05 0.006
+
+Zout
+    Ez1   Ez2  
+Ez2 0.442 -    
+Ez3 0.200 0.043
+
+Hierboven staan 2 tabbelen uit de Pairwise T test. de getallen in de tabel zijn de P waardes die uit de test komen. als een getal kleiner is dan 0.05 is het significant.
+[E = Experiment, s = suiker, z = zout]
+
+##Anova en Kruskal
+Om onze hypothese te bewijzen hebben er voor gekozen om een Anova toets uit te voeren. Dit zou statistisch weergeven of verschillende suiker en zout concentraties effect hebben op de Co2 productie van gist. 
+Omdat onze opzet niet een 2 weg anova toeliet hebben wij er voor gekozen om twee keer een 1 weg anova toe te passen. Dit heeft als nadeel dat wij niet het effect van suiker en zout onderling kunnen meten, maar wel of er een significant verschil is in productie.
+Uit de Anova in logaritme kwamen de volgende P waarden.
+De P waarde van suiker 0.000169 
+De P waarde van zout 0.309
+Uit deze P waarden kun je opmaken dat suiker een significante invloed heeft op de co2 productie van gist en zout niet.
+Uit de Kruskal wallis test kwamen de volgende P waarden.
+De P waarde van suiker 9.428e-05
+De P waarde van Zout 0.09032
+Hieruit kun je de zelfde conclussies trekken als bij de anova toets in logaritme. Wat hieraan wel opvalt is dat de P waardes van beide testen erg uit elkaar liggen.
+
+
+##Effect sterkte van Anova resultaten
+Aan de hand van de resultaten van de anova hebben wij ervoor gekozen om een Cohens F sterkte analyse uit te voeren om te bepalen hoe sterk het gemeten resultaat is.
+De F waarde van suiker is 0.563382
+De F waarde van zout is 0.1948619
+Aan de hand van de benchmark waarden van Cohens F kunnen we zeggen dat suiker een sterk effect heeft en zout een zwak effect heeft op de gasproductie van gist.
+
+##Power analyse van Anova resultaten
+De power analyse hebben wij gedaan om te kijken hoe betrouwbaar onze resultaten zijn. 
+Bij Suiker komt er een power waarde uit van 0.7923
+Bij zout komt er een power waarde uit van 0.1448
+Deze waardes vertellen ons dat wij met onze resultaten van suiker met zekerheid kunnen zeggen maar dat van zout niet. Dit is omdat suiker vlak bij de standaard powerwaarde van 0.80 zit en de waarde van zout hier ver vandaan zit.
 
 
 # Discussie en Conclusies

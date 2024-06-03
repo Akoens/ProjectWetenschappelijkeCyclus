@@ -396,16 +396,16 @@ In dit blok worden de gegevens van het experiment ingeladen.
 
 Deze chunk is voor het inladen van de suiker data.
 ```{r data inladen suiker}
-suiker_data_ruw <- read.csv("../raw_data/data_gist_suiker.csv)
+suiker_data_ruw <- read.csv("../raw_data/data_gist_suiker.csv")
 head(suiker_data_ruw)
 ```
 
 In deze chunk selecter en hernoem de relevante colomen voor mijn analyse.
 ```{r head suiker select}
 suiker_data <- suiker_data_ruw %>%
-    select(c(Exp.ID = Experiment.ID, 
-             Meeting.nmr = Meeting, 
-             prdc = CO...ml.))
+    select(c(Exp.ID = experiment_id, 
+             Meeting.nmr = meting_id, 
+             prdc = relatieve_productie))
 head(suiker_data)
 ```
 
@@ -419,9 +419,9 @@ head(zout_data_ruw)
 In deze chunk selecteer en hernoem ik de relevante colommen voor mijn analyses
 ```{r head zout select}
 zout_data <- zout_data_ruw %>%
-    select(c(Exp.ID = Experiment.Id, 
-             Meeting.nmr = Meeting, 
-             prdc = CO...ml.))
+    select(c(Exp.ID = experiment_id, 
+             Meeting.nmr = meting_id, 
+             prdc = relatieve_productie))
 head(zout_data)
 ```
 
@@ -648,13 +648,20 @@ zout_anova <- aov(log(prdc) ~ groep, data = zout_data)
 
 #### Effect sterkte eta2
 De effect sterkte wilde ik meten om te kijken hoe sterk het effect is dat we hebben gemeten.
-Benchmarks:
+Benchmarks:Eta2
 
    waarde eta2     effect A op y
    -----------     -------------
    0.01            zwak
    0.06            matig
    0.14            sterk
+Benchmarks:Cohen F
+
+   waarde f    effect van A op y
+   --------    -----------------
+   0.10        zwak
+   0.25        matig
+   0.40        sterk
 ##### Suiker
 Bij suiker hebben we een sterke effect sterkte, omdat 0.24>0.14. 
 ```{r suiker eta2}
@@ -662,6 +669,13 @@ suiker_SS.A <- suiker_aov_analyse[[1]]$`Sum Sq`[1]
 suiker_SS.tot <- sum(suiker_aov_analyse[[1]]$`Sum Sq`)
 (suiker_eta2 <- suiker_SS.A/suiker_SS.tot)
 ```
+Cohen's F
+Ook bij Cohens F is er een het effect sterkt te zien
+
+```{r suiker cohens F}
+(sqrt(suiker_eta2/(1-suiker_eta2)))
+```
+
 
 ##### Zout
 Bij zout hebben we een zwak effect sterkte omdat het groter is dan 0.01 maar kleiner dan 0.06.
@@ -670,7 +684,10 @@ zout_SS.A <- zout_aov_analyse[[1]]$`Sum Sq`[1]
 zout_SS.tot <- sum(zout_aov_analyse[[1]]$`Sum Sq`)
 (zout_eta2 <- zout_SS.A/zout_SS.tot)
 ```
-
+Cohen F
+```{r suiker cohens F}
+(sqrt(zout_eta2/(1-zout_eta2)))
+```
 #### Power Anova
 
 De power test voor anova heb ik gedaan om te kijken of ik met zekerheid conclussie's kan trekken met de data die wij hebben.
@@ -756,5 +773,19 @@ Dit schrijf aan de hand van de ervaring bij het opstellen en afmeten van dit exp
 Logboek analyse afgemaakt.
 Commentaar voor eventuele opvolgers van dit experiment 
 
------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+# logboek 30-5
+
+## motivatie
+
+## wat heb ik gedaan
+
+### Na meting
+
+```{r }
+
+```
+
+
+## resultaten en interpetatie
 

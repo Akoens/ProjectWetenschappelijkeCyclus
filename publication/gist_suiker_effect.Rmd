@@ -99,9 +99,9 @@ Dus als uit de histogram blijkt dat de data niet normaal verdeeld zijn, dan word
 
 ## Wordcount
 ```{r wordcount, message=FALSE}
-#install.packages(devtools)
+#install.packages("devtools")
 #devtools::install_github("benmarwick/wordcountaddin", type = "source", dependencies = TRUE)
-#wordcountaddin:::text_stats()
+wordcountaddin:::text_stats()
 ```
 
 # Referenties

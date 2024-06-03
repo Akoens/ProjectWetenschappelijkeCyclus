@@ -23,11 +23,11 @@ output:
 ---
 
 # Introductie
-Gist is een micro-orgasme dat al duizenden jaren wordt gebruikt door mensen voor verschillende applicaties. Voor het maken van brood, om lucht in het deeg te krijgen. Voor het maken van alcoholische dranken. Die door de alcohol veiliger waren om te drinken dan water. Om een degelijk resultaat te krijgen bij deze applicaties van gist is het dan ook van belang om te weten wat de ideale omstandigheden van gist zijn. Om deze ideale omstandigheden te bepalen wordt er in dit rapport gekeken de $CO_2$ van bakkersgist in verschillende zout en suiker concentraties. Waar suiker als voeding voor gist functioneert en zout als extra stress factor.
+Gist is een micro-orgasme dat al duizenden jaren wordt gebruikt door mensen voor verschillende applicaties. Voor het maken van brood, om lucht in het deeg te krijgen. Voor het maken van alcoholische dranken. Die door de alcohol veiliger waren om te drinken dan water. Om een degelijk resultaat te krijgen bij deze applicaties van gist is het dan ook van belang om te weten wat de ideale omstandigheden van gist zijn. 
 
 De opstelling van dit onderzoek is gebaseerd op het onderzoek \cite{Jerry2017} waar $CO_2$ productie van bakkersgist op verschillende suiker concentraties is onderzocht. Om dit als alternatief $CO_2$ productie medium te kunnen gebruiken in de BG-Sentinel® muggen val.
 
-Dit rapport dient om een optimaal suiker concentratie te vinden voor bakkersgist die resulteert in de snelste $CO_2$ productie. 
+Om deze ideale omstandigheden te bepalen wordt er in dit rapport gekeken de $CO_2$ van bakkersgist in verschillende zout en suiker concentraties. Waar suiker als voeding voor gist functioneert en zout als extra stress factor. Dit rapport dient om een optimaal suiker concentratie te vinden voor bakkersgist die resulteert in de hoogste $CO_2$ productie. Door verschillende suiker concentraties te nemen en de geproduceerde $CO_2$ van bakkersgist in deze concentraties te meten kan er mogelijk een correlatie en een optimum worden bepaald.
 
 
 # Materialen en Methoden

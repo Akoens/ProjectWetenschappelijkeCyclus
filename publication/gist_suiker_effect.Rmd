@@ -112,7 +112,6 @@ len_zout = length(percentages_zout)
 
 # Import een functie om percentage naar massa te berekenen 
 source(paste(here(), "/analysis/scripts/utilities.R", sep = ""), local = T)
-#source("../analysis/scripts/utilities.R")
 
 # Concentraties als percentage van totale massa
 massa_suiker <- perc_to_mass(percentages_suiker, totale_massa)
@@ -156,12 +155,10 @@ Tijdens de uitvoering van het experiment zagen we dat de duplo experimenten niet
 ```{r lijn grafiek productie over tijd,fig.cap="Lijn grafieken over de gasproductie van gist", echo=FALSE}
 # Ruwe data van suiker
 path <- paste(here(), "/raw_data/data_gist_suiker.csv", sep="")
-#path <- "../raw_data/data_gist_suiker.csv"
 data_suiker <- read.csv(path)
 
 # Ruwe data van zout halen
 path <- paste(here(), "/raw_data/data_gist_zout.csv", sep="")
-#path <- "../raw_data/data_gist_zout.csv"
 data_zout <- read.csv(path)
 
 # Data type correctie
@@ -183,13 +180,8 @@ zout_lijn <- ggplot(data_zout, aes(x=datetime, y=cumulatieve_productie, fill = e
     labs(x="Tijd", y="Productie (ml)")
     
 
-suiker_lijn
-zout_lijn
-#box_figure <- ggarrange(suiker_lijn,zout_lijn,
-#                        labels = c("Suiker", "Zout"), 
-#                        hjust = 0,vjust = 1,
-#                        font.label = list(size = 12))
-#box_figure
+#suiker_lijn
+#zout_lijn
 
 ```
 
@@ -295,16 +287,23 @@ Deze waardes vertellen ons dat wij met onze resultaten van suiker met zekerheid 
 
 # Discussie en Conclusies
 
-## validiteit
+## Validiteit
 Bij een verandering in de concentraties verschild de gemiddelde gasproductie onderscheidend met de duplo. Bij suiker is dit verschil van zeker 0.91 ml bij S1, 40 ml bij S2 en 90 ml bij S3. Bij zout is dit verschil kleiner met 23 ml bij Z1, 23 ml bij Z2 en 15 ml bij Z3. De gas productie bij Sd3 was het hoogste van de suiker experimenten met een gemiddelde productie van 107 ml per 15 minuut of 428 ml/h. 
-~Standaard deviatie verwerken?~ 
+Deze waarden zijn ver boven wat verwacht was aan productie. De verwachte productie aan $CO_2$ zou niet hoger zijn dan 25ml/h gebaseerd op het onderzoek van \cite{Jerry2017}. Dit had dan ook ter gevolg dat er complicaties waren tijdens het uitvoeren van het experiment. De maatcilinders die gebruikt werden hadden niet de capaciteit om de hoeveelheid gas op te vangen. 
+Een eventuele andere verklaring voor de hoeveelheid gemeten gas is het waterslot. Tijdens het uitvoeren van dit experiment kan er een lek zijn ontstaan in dit waterslot waar lucht door in de maatcilinder is gekomen. 
 
-resultaat interpreteren
+[](Interpretatie resultaat)
+Toch is een significant verschil in de gasproductie van bakkersgist tussen de verschillende suiker concentraties aangetoond. Bij zout daar in tegen is geen significant verschil aangetoond. 
 
-beperking
+[](Beperking)
+Door de gelimiteerde ruimte en materiaal konden er maar 6 experimenten opgesteld worden. Dit is minder dan wat eventueel nodig was om een effect vast te stellen tussen zout en suiker op de gas productie. Daar naast was tijd om het experiment uit te voeren ook gelimiteerd aangezien de ruimte beperkt gereserveerd was. Uiteindelijk duurde het experiment iets minder dan 4 uur en was korter dan gewenst. Gewenst was als het experiment een periode van 7 uur geduurd.
 
-implicaties aanduiding
-suggestie voor vervolgonderzoek geven
+[](Implicaties aanduiding)
+
+
+[](Suggestie voor vervolgonderzoek)
+
+
 
 # Online bijlagen
 
@@ -318,4 +317,8 @@ wordcountaddin:::text_stats()
 ```
 
 # Referenties
+Chen, S. L., & Gutmanis, F. (1976). Carbon dioxide inhibition of yeast growth in biomass production. Biotechnology and Bioengineering, 18(10), 1455–1462. https://doi.org/10.1002/bit.260181012
 
+  Jerry, D. C. T., Mohammed, T., & Mohammed, A. (2017). Yeast-generated CO2: A convenient source of carbon dioxide for mosquito trapping using the BG-Sentinel® traps. Asian Pacific Journal of Tropical Biomedicine, 7(10), 896–900. https://doi.org/10.1016/J.APJTB.2017.09.014
+
+  Silva-Grac °a, M., & Ndida Lucas, ". (n.d.). Physiological studies on long-term adaptation to salt stress in the extremely halotolerant yeast Candida versatilis CBS 4019 (syn. C. halophila). https://doi.org/10.1111/j.1567-1364.2003.tb00167.x

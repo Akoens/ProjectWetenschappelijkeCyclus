@@ -2,13 +2,13 @@
 title: De Effecten van Suiker op de CO2 Productie van Bakkersgist
 
 author: |
-  | Arjan Koens $^1$, Ivar Lottman $^1$, Stijn Vermeulen $^2$
+  | Arjan Koens $^1$, Ivar Lottman $^1$, Stijn Vermeulen $^1$
   | $^1$Hanzehogeschool
 
 lang: nl # dit zorgt er voor dat "abstract" "samenvatting" gaat heten
 
 abstract: |
-  Geef hier je samenvatting in maximaal 150 woorden. Het is een samenvatting van het hele artikel; niet alleen de resultaten! Begin met het belang van dit onderzoek, dan hoe het onderzoek is aangepakt en de belangrijkste resultaten en eindig met de implicaties ervan voor de wetenschap/de maatschappij. Neem nooit figuren of tabellen op in de samenvatting.
+  Gist is voor mensen handig voor het maken van brood en alcohol, maar dan moet het wel effectief werken. In dit onderzoek, wordt er gekeken in welke suiker- en zoutconcentraties gist het meeste produceerd. Dit wordt gedaan door gist in verschillende suiker- en zoutconcentraties op te lossen en te kijken naar hoeveel CO2 de gist dan produceerd. Hieruit was te zien dat suiker een sterk effect heeft op de CO2 productie van gist, maar er met ons onderzoek niks met zekerheid te zeggen valt over zout. Het is ook onzeker of onze data wel bruikbaar is, omdat ***stukje discussie***
 
 bibliography: gist_suiker_effect.bib # naam van je .bib file. Deze moet hetzelfde zijn als je Rmd bestandsnaam
 
@@ -70,7 +70,6 @@ library(cowplot)
 library(ggcorrplot)
 library(knitr)
 library(ggpubr)
-
 ```
 Voor de visualisatie en de tests worden verschillende tools gebruikt.
 

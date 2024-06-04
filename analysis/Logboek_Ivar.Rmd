@@ -144,7 +144,7 @@ boxplot(test_suiker$productie_co2 , test_zout$productie_co2)
 # logboek week 2 en 3
 
 ## Motivatie
-Ik heb op basis van de test dataset een fictieve statischtische 
+Ik heb op basis van de test dataset een fictieve statischtische analyse gemaakt om inzicht te krijgen over hoe onze analyse eruit zou kunnen zien.
 
 ## Wat heb ik gedaan
 Poweranalyse en T-tests
@@ -155,18 +155,20 @@ Suiker en zout hebben geen invloed op de groei.
 
 ```{r normaal verdeling}
 #suiker
-gem_output_s <- mean(test_suiker$CO...ml.)
-deviatie_s <- sd(test_suiker$CO...ml.)
-sample_count_s <- length(test_suiker$CO...ml.)
-hist(test_suiker$CO...ml.)
-curve(dnorm(x, mean = gem_output_s, sd = deviatie_s)*max(test_suiker$CO...ml.),  add = T)
+gem_output_s <- mean(test_suiker$productie_co2)
+deviatie_s <- sd(test_suiker$productie_co2)
+sample_count_s <- length(test_suiker$productie_co2)
+hist(test_suiker$productie_co2)
+curve(dnorm(x, mean = gem_output_s, sd = deviatie_s)*max(test_suiker$productie_co2),  add = T)
 
+```
+```{r}
 #zout
-gem_output_z <- mean(test_zout$CO...ml.)
-deviatie_z <- sd(test_zout$CO...ml.)
-sample_count_z <- length(test_zout$CO...ml.)
-hist(test_zout$CO...ml.)
-curve(dnorm(x,mean = gem_output_z, sd = deviatie_z)*max(test_zout$CO...ml.), add = T)
+gem_output_z <- mean(test_zout$productie_co2)
+deviatie_z <- sd(test_zout$productie_co2)
+sample_count_z <- length(test_zout$productie_co2)
+hist(test_zout$productie_co2)
+curve(dnorm(x,mean = gem_output_z, sd = deviatie_z)*max(test_zout$productie_co2), add = T)
 
 ```
 
@@ -184,11 +186,11 @@ Tweezijdige T test
 MU = 6 is een verwachte schatting als de output
 ```{r T test}
 # suiker
-t.test(test_suiker$CO...ml. , mu = 0,  alternative = "two.sided")
+t.test(test_suiker$productie_co2 , mu = 0,  alternative = "two.sided")
 # zout
-t.test(test_zout$CO...ml. , mu = 0,  alternative = "two.sided")
+t.test(test_zout$productie_co2 , mu = 0,  alternative = "two.sided")
 # dubbele t test
-t.test(test_suiker$CO...ml. ,mu = 0 ,test_zout$CO...ml. , alternative = "two.sided")
+t.test(test_suiker$productie_co2 ,mu = 0 ,test_zout$productie_co2 , alternative = "two.sided")
 ```
 de p waarde is veel groter dan 0,05 wat aangeeft dat er een significant verschil is met het gebruik van suiker en zout
 
@@ -204,12 +206,12 @@ cat(fout_in_gem_s,"dit is de fout in het gemmidelde bij suiker","       ",fout_i
 
 ```{r cohen d waarde}
 #suiker
-t_waarde_s <- t.test(test_suiker$CO...ml. , mu = 6, alternative = "two.sided")
+t_waarde_s <- t.test(test_suiker$productie_co2 , mu = 6, alternative = "two.sided")
 t_s <- t_waarde_s$statisti
 d_s <- t_s / sqrt(sample_count_s)
 cat(d_s,"d waarde suiker")
 # zout
-t_waarde_z <- t.test(test_zout$CO...ml. , mu = 6, alternative = "two.sided")
+t_waarde_z <- t.test(test_zout$productie_co2 , mu = 6, alternative = "two.sided")
 t_z <- t_waarde_z$statisti
 d_z <- t_z / sqrt(sample_count_z)
 cat("     ",d_z,"d waarde zout")
@@ -225,10 +227,13 @@ pwr.t.test(d= d_z, sig.level = 0.05,power = 0.8, type = "one.sample", alternativ
 ```
 
 ----------------------------------------------------------------------------------------
-logboek 
-13-5 ,14-5 en 15-5
 
-Wat heb ik gedaan
+# logboek 13-5 ,14-5 en 15-5
+
+## Motivatie
+opzetting van de huiswerk opdracht gemaakt om alvast een taakverdeling te maken.
+
+##Wat heb ik gedaan
 
 Journalclub heatmap opdracht
 op 13-5 hebben wij de opdracht gekregen om een geavanceerde statestiek plot te maken, onze eerste idieën waren heatmap en scatterplot met trendline's. ons 2de ideëe werd afgekeurd omdat die plot te simpel is opzichzelf, een voorwaarde om dit type plot goed te keuren is door het interactief te maken.
@@ -240,17 +245,17 @@ op 14-5 hebben wij met ronald de heatmap plot besproken en daarom kwam kritiek d
 Testdata opzetten
 14-5 en 15-5
 
-Motivatie
-opzetten van een huiswerk opdracht
-
-Resultaat en interpetatie
+## Resultaat en interpetatie
 heatmap met facet wrap vastgezet als project voor de journalclub
 
 
-------------------------------------------------------------------------------------------
-logboek groepswerk
-15-5 test experiment opzetting 
+----------------------------------------------------------------------------------------
+# logboek groepswerk 15-5 test experiment opzetting 
 
+## Motivatie 
+deze testopzet hebben we gedaan om ons protecol te testen en kijken waar wij eventueel tegen aan zouden lopen tijdens het exepriment.
+
+## Wat hebben we gedaan
 startconditie
 waterslot 192 ml 
 water 20 graden
@@ -286,14 +291,11 @@ gedachte de zout en suiker balans opmerking van michiel kan de reden zijn waarom
 meetpunt 3 11:55 9mml
 gezwenkt zelfde nivuea gas. straks magazijn vragen om kritisch naar onze opzet te kijken want we meten geen gasproductie maar er is wel zichtbaar reactie in ons experiment flesje zoals schuim
 meetpunt 4 12:10 mml
-na overleg en controle bleek dat het gist ook 3 maanden over datum was
-
-Motivatie 
-deze testopzet hebben we gedaan om ons protecol te testen en kijken waar wij eventueel tegen aan zouden lopen tijdens het exepriment.
+na overleg en controle bleek dat het gist ook 3 maanden over datum was.
 
 
 
-Resultaat en interpetatie
+## Resultaat en interpetatie
 Protocol aanpassingen
 hoger waternivaue in het tijltje.
 waterslot met maatcilinder als eerst opzetten.
@@ -302,42 +304,39 @@ vooraf de hoeveelheid gram suiker/zout opschrijven voor efficientie.
 Voor balans in de productie van gist bij alle opzetten een vaste zout en suiker concentratie toevoegen. de nieuwe concentratie hiervoor zijn gepost in teams door michiel noback 15-5 11:26.
 eventueel parafoom aanvragen of aluminiuum folie meenemen voor handigheid waterslot
 
----------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 
-Logboek
-16-5
+# Logboek 16-5
 
-Wat heb ik gedaan
+## Motivatie
+ik heb een gesprek met emil aangevraagd vanwege onzekerheid over het analyseren van ons onderzoek.
+
+## Wat heb ik gedaan
 Gesprek met emil appol over de statestiek van ons experiment. hieruit is vooruitgekomen dat vanwege het combineren van 2 factoren namenlijk zout en suiker een 2 weg anova de correcte analyse is, maar omdat wij praktisch niet de schaal hebben om het experiment op deze manier correct uit te voeren gaan wij 2 keer een 1 weg anova analyse voor de bijde factoren.
 
-
-motivatie
-dit heb ik gedaan vanwege onzekerheid over het analyseren van ons onderzoek
-
-
-Resultaat en interpetatie
+## Resultaat en interpetatie
 oplossing voor ons statestiek probleem in de vorm van het uitvoeren van 2 keer een 1 weg anova
 notitie voor onderzoeksverslag vermelden dat een 2 weg anove de corecte manier was maar vanwege gebrek aan schaal 
 
 ---------------------------------------------------------------------------------------
 
 
-logboek
-17-5
-wat heb gedaan
-Opzetten en uitvoeren van het experiment.
-In het gesprek met ronald tijdens het opzetten de hoeveelheid gist veranderd van 2 naar 7. en daarna heb ik concentratie berekening gemaakt voor de experimenten.
-Van het lab hebben wij een waterbad ter beschikking gekregen en hebben dit op 30 graden ingesteld.
+# logboek 17-5
 
-uitvoering
-tijden het experiment ging de gistproductie bij bepaalde experiment zo snel dat we al direct besloten om de meetfreqwentie van 1 keer per uur naar 1 keer per kwartier veranderen, omdat anders onze maatcilinders te lang leeg staan of we te lang of vaag co2 productie gaan loggen. ook hebben wij zodra het een meetcilinder leeg was hebben wij dit genoteerd bij de meting en hebben dit als 250 ml genoteerd en de cilinder opnieuw gevuld
-
-motivatie
+## Motivatie
 De reden dat wij toch een waterbad hebben gebruikt om dichter bij de optimuum tempratuur van gist te zitten dan dat de tempratuur was op de labzaal zelf.
 de meet freqwentie in verandering is gedaan vanwege de explosieve gastproductie waarvan wij dachten dat het binnen 250 ml gas zou blijven er binnen een kwartier al 2 experimenten zo veel produceerden dat zij over onze originele meetcapiciteit zouden gaan binnen een kwartier. d
 1 van deze experimenten bleek een lek te zijn bij inspectie.
 
-resultaten en interpetatie
+## Wat hebben we gedaan
+Opzetten en uitvoeren van het experiment.
+In het gesprek met ronald tijdens het opzetten de hoeveelheid gist veranderd van 2 naar 7. en daarna heb ik concentratie berekening gemaakt voor de experimenten.
+Van het lab hebben wij een waterbad ter beschikking gekregen en hebben dit op 30 graden ingesteld.
+
+### Uitvoering
+tijden het experiment ging de gistproductie bij bepaalde experiment zo snel dat we al direct besloten om de meetfreqwentie van 1 keer per uur naar 1 keer per kwartier veranderen, omdat anders onze maatcilinders te lang leeg staan of we te lang of vaag co2 productie gaan loggen. ook hebben wij zodra het een meetcilinder leeg was hebben wij dit genoteerd bij de meting en hebben dit als 250 ml genoteerd en de cilinder opnieuw gevuld
+
+## Resultaten en interpetatie
 de hoeveelheid gist veranderd van 2 naar 7 gram vanwege gemak in meting en sterkere co2 productie
 
 concentratie berekening per experiment gemaakt in de exel file meetsheet experiment in het suiker en zout concentratie blad.
@@ -346,7 +345,7 @@ experiment meetfreqwentie veranderd van om de 60 minuten naar 15 minuten.
 uitslagen gelogt in het meetsheet excel file in teams.
 
 
-----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 
 #logboek 21-5
 
@@ -361,7 +360,7 @@ Omreken van de meetwaardes in de meetcilinders naar co2 productie gedaan plus ee
 bij de 2 excel sheets de co2 productie gedeeltelijk uitgewerkt
 NOTE: de onregelmadigheden in de data bespreken met michiel en emil
 
-------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 #logboek 22-5
 
 ##motivatie
@@ -604,7 +603,7 @@ cat(Es1_BI,"Betrouwbaarheids interval experiment 1\n",Es2_BI,"Betrouwbaarheids i
 ##### Zout
 
 Hieronder staat de betrouwbaarheids interval van het totaal.
-```{r bi suiker totaal}
+```{r bi zout totaal}
 gem_totaal_zout <- mean(suiker_data$prdc)
 divi_totaal_zout <- sd(suiker_data$prdc)
 samples_totaal_zout <-length(suiker_data$prdc)
@@ -613,7 +612,7 @@ cat(BI_totaal_zout,"Betrouwbaarheids interval totaal")
 ```
 zout betrouwbaarheids interval per groep.
 expiriment 3 komt het dichste bij het totaal
-```{r bi suiker per groep}
+```{r bi zout per groep}
 # BI exp 1
 Ez1_BI <- gem_zout_p_g$`mean(prdc)`[1] + qt(c(0.025, 0.975), sample_size_zout_p_g$`length(prdc)`[1])*devi_zout_p_g$`sd(prdc)`[1] / sqrt(sample_size_zout_p_g$`length(prdc)`[1])
 
@@ -635,7 +634,7 @@ Aan de hand van deze T test kun je zien dat er een significant verschil is met E
 pairwise.t.test(suiker_data$prdc, suiker_data$groep, p.adjust.method = "none", pool.sd = T)
 ```
 
-#####zout
+##### Zout
 Aan de hand van deze T test kun je aflezen dat er alleen een significant verschil is tussen Ez2 en Ez3.
 ```{r T test zout}
 pairwise.t.test(zout_data$prdc, zout_data$groep, p.adjust.method = "none", pool.sd = T)
@@ -647,6 +646,7 @@ pairwise.t.test(zout_data$prdc, zout_data$groep, p.adjust.method = "none", pool.
 Zoals bij de introductie van de analyses staat beschreven staan hieronder de 2 Anova's voor de verschillende factoren.
 
 ##### Suiker
+
 Deze Anova test geeft aan dat er een significant verschil is tussen het gebruik van suiker op de co2 productie. 
 ```{r anova suiker}
 # suiker_anova <- aov(prdc ~ groep, data = suiker_data)
@@ -656,6 +656,7 @@ suiker_anova <- aov(log(prdc) ~ groep, data = suiker_data)
 ```
 
 ##### Zout
+
 Aan de hand van deze anova kan ik concluderen dat er geen significant verschil tussen de zout concentraties en de co2 productie van gist.
 ```{r anova zout}
 zout_anova <- aov(log(prdc) ~ groep, data = zout_data)
@@ -678,6 +679,7 @@ Benchmarks:Cohen F
    0.10        zwak
    0.25        matig
    0.40        sterk
+   
 ##### Suiker
 Bij suiker hebben we een sterke effect sterkte, omdat 0.24>0.14. 
 ```{r suiker eta2}
@@ -701,7 +703,7 @@ zout_SS.tot <- sum(zout_aov_analyse[[1]]$`Sum Sq`)
 (zout_eta2 <- zout_SS.A/zout_SS.tot)
 ```
 Cohen F
-```{r suiker cohens F}
+```{r zout cohens F}
 (sqrt(zout_eta2/(1-zout_eta2)))
 ```
 #### Power Anova
@@ -718,8 +720,8 @@ test <- sqrt(suiker_eta2/(1 - suiker_eta2))
 pwr.anova.test(k =  aantal_suiker_groepen, f= test,n = aantal_suiker_metingen, sig.level = alpha)
 ```
 
-
 ##### Zout
+
 Bij zout hebben we een power van 14% dit is te onbetrouwbaar om conclussies over te trekken.
 ```{r power test zout}
 aantal_zout_groepen <- 3
@@ -747,8 +749,6 @@ Aan de hand van deze toets kun je concluderen dat zout geen invloed heeft op de 
 kruskal.test(prdc ~ groep, data = zout_data)
 ```
 
-
-
 ## Conclusie
 
 ### Suiker
@@ -771,37 +771,24 @@ Zout Kruskal   0.09032 / 0.309 Anova >0.05
 
 ## Motivatie
 
-### Conclussie analyses
+## Conclussie analyses
 Ik heb de conclussies vandaag de conclussie's van het bovenstaande logboek geschreven omdat dit nog afgemaakt moest worden.
 
-### Commentaar over de data van dit experiment
-Dit schrijf aan de hand van de ervaring bij het opstellen en afmeten van dit experiment en de data verwerking hiervan. ik vind dat er problemen zijn met de data die gegenereerd is. 
-
-### Begonnen met de inleiding en resultaten schrijven voor de paper
-
-
-## Wat heb ik gedaan
-
-### Commentaar over de data van dit experiment
+## Begonnen met de inleiding en resultaten schrijven voor de paper
+Begonnen met het schrijven van het resultaten gedeelte van de paper. dit heb ik gedaan voor
 
 
 ## Resultaten en interpetatie
 Logboek analyse afgemaakt.
-Commentaar voor eventuele opvolgers van dit experiment 
 
 ---------------------------------------------------------------------------------------
-# logboek 30-5
+# logboek 30-5, 3-6, 4-6
 
 ## motivatie
+Feedback op mijn onderdeel uit het onderzoek gevraagd om te kijken of dit op de standaardt zit.
 
 ## wat heb ik gedaan
-
-### Na meting
-
-```{r }
-
-```
-
+Mijn deel van de paper geschreven en hergeschren aan de hand van de feedback van ronald en michiel.
 
 ## resultaten en interpetatie
-
+Mijn gedeelte van de paper afgemaakt.

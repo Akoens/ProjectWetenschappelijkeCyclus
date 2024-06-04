@@ -148,7 +148,7 @@ for (i in 1:6){
 plot_grid(suiker_plot, zout_plot, labels = c("Suiker", "Zout"), label_size = 10, align = c("v"))
 ```
 
-Op 14 Mei hebben wij een test run gedaan. Hierin hadden we gevonden dat het handiger is om de gist als laatst toe te voegen en eerst het waterslot te maken. Deze informatie heb ik later toegevoegd aan het [protocool]("placeholder")
+Op 14 Mei hebben wij een test run gedaan. Hierin hadden we gevonden dat het handiger is om de gist als laatst toe te voegen en eerst het waterslot te maken. Deze informatie heb ik later toegevoegd aan het [protocool](../docs/Onderzoeksopstel.docx)
 
 Voor meer details kun je kijken in het logboek van [Ivar](Logboek_Ivar.Rmd).
 

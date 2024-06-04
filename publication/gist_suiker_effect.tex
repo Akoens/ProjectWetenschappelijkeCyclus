@@ -1,0 +1,415 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+\babelprovide[main,import]{dutch}
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{float}
+\let\origfigure\figure
+\let\endorigfigure\endfigure
+\renewenvironment{figure}[1][2] {
+    \expandafter\origfigure\expandafter[H]
+} {
+    \endorigfigure
+}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={De Effecten van Suiker op de CO2 Productie van Bakkersgist},
+  pdflang={nl},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{De Effecten van Suiker op de CO2 Productie van Bakkersgist}
+\author{Arjan Koens \(^1\), Ivar Lottman \(^1\), Stijn Vermeulen \(^2\)\\
+\(^1\)Hanzehogeschool}
+\date{}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+Geef hier je samenvatting in maximaal 150 woorden. Het is een samenvatting van het hele artikel; niet alleen de resultaten! Begin met het belang van dit onderzoek, dan hoe het onderzoek is aangepakt en de belangrijkste resultaten en eindig met de implicaties ervan voor de wetenschap/de maatschappij. Neem nooit figuren of tabellen op in de samenvatting.
+\end{abstract}
+
+\section{Introductie}\label{introductie}
+
+Gist is een micro-orgasme dat al duizenden jaren wordt gebruikt door mensen voor verschillende applicaties. Voor het maken van brood, om lucht in het deeg te krijgen. Voor het maken van alcoholische dranken. Die door de alcohol veiliger waren om te drinken dan water. Om een degelijk resultaat te krijgen bij deze applicaties van gist is het dan ook van belang om te weten wat de ideale omstandigheden van gist zijn.
+
+De opstelling van dit onderzoek is gebaseerd op het onderzoek \cite{Jerry2017} waar \(CO_2\) productie van bakkersgist op verschillende suiker concentraties is onderzocht. Om dit als alternatief \(CO_2\) productie medium te kunnen gebruiken in de BG-Sentinel® muggen val.
+
+Om deze ideale omstandigheden te bepalen wordt er in dit rapport gekeken de \(CO_2\) van bakkersgist in verschillende zout en suiker concentraties. Waar suiker als voeding voor gist functioneert en zout als extra stress factor. Dit rapport dient om een optimaal suiker concentratie te vinden voor bakkersgist die resulteert in de hoogste \(CO_2\) productie. Door verschillende suiker concentraties te nemen en de geproduceerde \(CO_2\) van bakkersgist in deze concentraties te meten kan er mogelijk een correlatie en een optimum worden bepaald.
+
+\section{Materialen en Methoden}\label{materialen-en-methoden}
+
+Alle informatie is in een github repo opgeslagen. Die repo is \href{https://github.com/Akoens/ProjectWetenschappelijkeCyclus}{hier} te vinden.
+
+\subsection{Materialen}\label{materialen}
+
+Voor deze studie wordt standaard bakkersgist gebruikt. In totaal was 84g gist gebruikt. De suiker is standaard sucrose en daarvan was in totaal 72g en voor het zout wordt NaCl met 12g zout in totaal. Als water was kraanwater gebruikt.
+Wij hebben voor elk individuele proef een maatcilinder van 250 ml, een luchtdichte pot met een goed afsluitende deksel, een 30 cm lang buisje en een klem. In totaal zijn 12 proeven uitgevoerd voor dit experiment. Hiernaast is ook 1 waterbad gebruikt, met de afmetingen 35 x 70 x 15 cm, 4 waterbakken, met de afmetingen 20 x 20 x 15 cm en een rol duct tape.
+
+\subsection{Uitvoering}\label{uitvoering}
+
+Het waterbad werd met kraanwater tot het 10 cm hoog stond en de verwarming van het waterbad op 30 °C gezet. Daarnaast werden ook de waterbakken gevuld tot het water tot 10±1.5 cm hoog stond. Hierna werden de maatcilinders vrijwel helemaal met water gevuld en werden ze op de kop neergezet in de waterbakken, zodat de waardes afgelezen konden worden en er te minste 2 cm ruimte tussen de bodem van de bak en het uiteinde van de maatcilinder zit. Als de waardes niet leesbaar waren of als de maatcilinder meer dan 60 ml aflas, werd de maatcilinder uit de bak gehaald en werd de stap herhaald. Als de stap goed was uitgevoerd werd het waterpeil afgelezen en genoteerd als de nulmeting. In de deksels van de potten werden gaten gemaakt en de buisjes werden vervolgens door de gaten gestopt. De mogelijke overige gaten werden afgeplakt met duct tape.
+Toen de opzet was voltooid konden de proeven worden gemaakt. Elke proef had 7 gram gist en een totaal gewicht van 200 g, met als variabele concentratie suiker en zout.
+Er werden 3 verschillende concentraties van suiker en zout getest, in duplo(aangegeven met een d in het ID).
+
+\begin{verbatim}
+## ID =  S1 : suiker =  0 g, zout =  1.14 g
+## ID =  Sd1 : suiker =  0 g, zout =  1.02 g
+## ID =  S2 : suiker =  6.06 g, zout =  1.01 g
+## ID =  Sd2 : suiker =  6.08 g, zout =  1.06 g
+## ID =  S3 : suiker =  12.07 g, zout =  1.09 g
+## ID =  Sd3 : suiker =  12.03 g, zout =  1 g
+## ID =  Z1 : suiker =  6.11 g, zout =  0 g
+## ID =  Zd1 : suiker =  6.09 g, zout =  0 g
+## ID =  Z2 : suiker =  6.18 g, zout =  1 g
+## ID =  Zd2 : suiker =  6.16 g, zout =  1.03 g
+## ID =  Z3 : suiker =  6.06 g, zout =  2.04 g
+## ID =  Zd3 : suiker =  6.1 g, zout =  2.02 g
+\end{verbatim}
+
+De concentratie werd aangevuld met water tot het in totaal 200 g is. De concentraties van de verschillende proeven waren:
+
+\begin{verbatim}
+## ID =  S1 : suiker =  0 %, zout =  0.57 %
+## ID =  Sd1 : suiker =  0 %, zout =  0.51 %
+## ID =  S2 : suiker =  3.03 %, zout =  0.505 %
+## ID =  Sd2 : suiker =  3.04 %, zout =  0.53 %
+## ID =  S3 : suiker =  6.035 %, zout =  0.545 %
+## ID =  Sd3 : suiker =  6.015 %, zout =  0.5 %
+## ID =  Z1 : suiker =  3.055 %, zout =  0 %
+## ID =  Zd1 : suiker =  3.045 %, zout =  0 %
+## ID =  Z2 : suiker =  3.09 %, zout =  0.5 %
+## ID =  Zd2 : suiker =  3.08 %, zout =  0.515 %
+## ID =  Z3 : suiker =  3.03 %, zout =  1.02 %
+## ID =  Zd3 : suiker =  3.05 %, zout =  1.01 %
+\end{verbatim}
+
+Deze concentraties werden in verschillende potten gedaan en toen alles was opgelost, kon het deksel op de pot en werd de pot in het waterbad gezet. Het buisje werd daarna tot onder in de maatcilinder geleidt, zodat er een waterslot ontstond. Toen alle proeven in het waterbad stonden werd er om de 15 minuten het waterpeil van de maatcilinders afgemeten. Als het waterpeil niet leesbaar was door overproductie van gas, werd het maximale aantal(250ml) opgeschreven en moest de maatcilinder opnieuw worden gevuld en werd een nieuwe nulmeting genoteerd naast de meting.
+
+\subsection{Gebruikte tools}\label{gebruikte-tools}
+
+Voor de visualisatie en de tests worden verschillende tools gebruikt.
+
+tidyverse, waarvan deze library's worden gebruikt: ggplot2 (versie 3.5.1), die gebruikt wordt voor het visualiseren van data door middel van plotten; dplyr (versie 1.1.4), voor het aanpassen van data; en tidyr (versie 1.3.1), om data op een `tidy' manier in de code te krijgen.
+Verder wordt de `pwr' library gebruikt, voor de power tests, waarvan de 1-weg-anova en t test op versie 1.3-0 worden toegepast en de `zoo' library om lineaire interpolatie toe te kunnen passen. Deze wordt gebruikt in versie 1.8-12.
+
+\subsection{Gebruikte methodes}\label{gebruikte-methodes}
+
+De pairwise t test wordt gebruikt om aan te tonen of er significante verschillen zitten tussen de verschillende concentraties van suiker en zout.
+
+De power analise is om te zien of er genoeg proeven zijn om iets te kunnen bewijzen. Als power groter is dan 80\%, is de kans op een type II fout klein genoeg.
+
+Cohens f wordt gebruikt om zeker te zijn dat als we een significant verschil waarnemen dat verschil ook relevant is.
+
+De one-weg-anova wordt twee keer gebruikt, omdat er op twee factoren worden getest(suiker en zout), maar er te weinig proeven waren om een 2-weg-anova te kunnen gebruiken. Het wordt gebruikt om te kijken of de groepen vergelijkbaar of precies hetzelfde als elkaar zijn, maar de 1-weg-anova heeft wel wat aannames, het gaat er bijvoorbeeld vanuit dat de data normaal verdeeld zijn.
+Dus als uit de histogram blijkt dat de data niet normaal verdeeld zijn, dan wordt de kruskal wallis test naast de 1-weg-anova gebruikt voor een beter idee of de groepen vergelijkbaar zijn.
+
+\section{Resultaten}\label{resultaten}
+
+Met dit experiment willen wij onderzoeken of suiker en zout invloed hebben op de gasproductie van gist, Waarvan wij aannemen dat dit Co2 is. We hebben hiervoor als volgt een experiment uitgevoerd zoals beschreven bij materialen en methode met de volgende concentraties. Hieronder staan de belangrijkste resultaten benoemd
+{[}tabel concentratie's{]}
+
+\begin{verbatim}
+##   experiment suiker gist water zout totaal
+## 1         S1      0    7   192    1    200
+## 2         S2      6    7   186    1    200
+## 3         S3     12    7   180    1    200
+\end{verbatim}
+
+\begin{verbatim}
+##   experiment suiker gist water zout totaal
+## 1         Z1      6    7   187    0    200
+## 2         Z2      6    7   186    1    200
+## 3         Z3      6    7   185    2    200
+\end{verbatim}
+
+\subsection{Ruwe data analyse}\label{ruwe-data-analyse}
+
+Tijdens de uitvoering van het experiment zagen we dat de duplo experimenten niet gelijk waren aan originele experimenten{[}figuur refereren{]}. Hieruit kwam een vermoeden dat de data niet normaal verdeeld zou zijn. Ook zijn er meetfouten gemaakt tijdens de uitvoering, hiervoor hebben wij een imputatie strategie uitgevoerd.
+\includegraphics{gist_suiker_effect_files/figure-latex/lijn grafiek productie over tijd-1.pdf} \includegraphics{gist_suiker_effect_files/figure-latex/lijn grafiek productie over tijd-2.pdf}
+
+De co2 productie gemiddelden lopen verder uit elkaar dan verwacht.
+
+\begin{table}
+\caption{(\#tab:productie gemiddelde tabel)Gemiddelde gasproductie}
+
+\centering
+\begin{tabular}[t]{l|r}
+\hline
+experiment\_id & gemmidelde\_productie\\
+\hline
+S1 & 0.45\\
+\hline
+S2 & 0.55\\
+\hline
+S3 & 20.73\\
+\hline
+Sd1 & 1.36\\
+\hline
+Sd2 & 41.45\\
+\hline
+Sd3 & 107.55\\
+\hline
+\end{tabular}
+\centering
+\begin{tabular}[t]{l|r}
+\hline
+experiment\_id & gemmidelde\_productie\\
+\hline
+Z1 & 57.09\\
+\hline
+Z2 & 70.64\\
+\hline
+Z3 & 15.73\\
+\hline
+Zd1 & 34.77\\
+\hline
+Zd2 & 47.18\\
+\hline
+Zd3 & 32.73\\
+\hline
+\end{tabular}
+\end{table}
+
+Deze bovenstaande tabel en grafiek duiden aan dat er een fout was in de opstelling van dit experiment vanwege het verschil in origineel en duplo experiment.
+
+\subsection{Imputatie}\label{imputatie}
+
+Bij het experiment zijn er negatieve waardes gemeten, omdat dit met onze opzet niet mogelijk is duidt dit op een meetfout. Er is gekozen om imputatie toe te passen in de vorm van interpolatie. Dit is bij het suiker experiment 11 keer toegepast en bij zout 8 keer.\\
+Ook hebben we de productie metingen van 0 veranderd naar 0.00000001, zodat deze metingen gebruikt kunnen worden in het logaritme voor Anova. Hierdoor kunnen we het logaritme nemen voor deze meting zonder dat het de resultaten significant beïnvloed. Er is hier voor gekozen vanwege het sterke vermoeden dat de data geen normaal verdeling heeft.
+
+\subsection{Normaal verdeling}\label{normaal-verdeling}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{suiker\_hist }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ suiker\_data, }
+       \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ relatieve\_productie)) }\SpecialCharTok{+}
+    \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{binwidth =} \DecValTok{10}\NormalTok{, }\AttributeTok{colour =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fill=}\StringTok{"saddlebrown"}\NormalTok{) }\SpecialCharTok{+} 
+    \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{zout\_hist }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ zout\_data,}
+       \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ relatieve\_productie)) }\SpecialCharTok{+}
+    \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{binwidth =} \DecValTok{10}\NormalTok{, }\AttributeTok{colour =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fill=}\StringTok{"saddlebrown"}\NormalTok{) }\SpecialCharTok{+} 
+    \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{box\_figure }\OtherTok{\textless{}{-}} \FunctionTok{ggarrange}\NormalTok{(suiker\_hist,zout\_hist,}
+                        \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Suiker"}\NormalTok{, }\StringTok{"Zout"}\NormalTok{), }
+                        \AttributeTok{hjust =} \DecValTok{0}\NormalTok{,}\AttributeTok{vjust =} \DecValTok{1}\NormalTok{,}
+                        \AttributeTok{font.label =} \FunctionTok{list}\NormalTok{(}\AttributeTok{size =} \DecValTok{12}\NormalTok{))}
+\NormalTok{box\_figure}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{gist_suiker_effect_files/figure-latex/histogrammen-1.pdf}
+\caption{\label{fig:histogrammen}Histogrammen over de gasproductie van gist}
+\end{figure}
+
+Zoals te zien aan de histogrammen hierboven van beide experiment groepen duidt dit op een niet normaal verdeelde dataset. Aan de hand van deze informatie hebben wij er voor gekozen om een Anova toets uit te voeren met de logaritme waardes van de gasproductie. De Anova zelf is voor het analyseren of de verschillende groepen significant van elkaar verschillen, en de logaritme waardes om de resultaten van toets statistisch en wiskundig te verantwoorden.
+Hiernaast voeren wij ook een Kruskal Wallis toets uit ter controle van de Anova. Dit is omdat deze toets meestal dient als vervanging van de Anova als de data niet normaal verdeeld is.
+
+\subsection{Pairwise T test}\label{pairwise-t-test}
+
+De pairwise T test hebben wij uitgevoerd om te kijken of er significante correlaties zijn tussen de onderlinge test-groepen. Hieruit is gekomen dat bij het suiker experiment groep 3 significant verschilt van groep 1 en 2, en bij zout is er alleen een significant verschil tussen groep 2 en 3.
+
+Suiker
+Es1 Es2\\
+Es2 0.190 -\\
+Es3 9.5e-05 0.006
+
+Zout
+Ez1 Ez2\\
+Ez2 0.442 -\\
+Ez3 0.200 0.043
+
+Hierboven staan 2 tabellen uit de Pairwise T test. de getallen in de tabel zijn de P waardes die uit de test komen. als een getal kleiner is dan 0.05 is het significant.
+{[}E = Experiment, s = suiker, z = zout{]}
+
+\subsection{Anova en Kruskal}\label{anova-en-kruskal}
+
+Om onze hypothese te bewijzen hebben er voor gekozen om een Anova toets uit te voeren. Dit zou statistisch weergeven of verschillende suiker en zout concentraties effect hebben op de Co2 productie van gist.
+Omdat onze opzet niet een 2 weg anova toeliet hebben wij er voor gekozen om twee keer een 1 weg anova toe te passen. Dit heeft als nadeel dat wij niet het effect van suiker en zout onderling kunnen meten, maar wel of er een significant verschil is in productie.
+Uit de Anova in logaritme kwamen de volgende P waarden.
+De P waarde van suiker 0.000169
+De P waarde van zout 0.309
+Uit deze P waarden kun je opmaken dat suiker een significante invloed heeft op de co2 productie van gist en zout niet.
+Uit de Kruskal Wallis test kwamen de volgende P waarden.
+De P waarde van suiker 9.428e-05
+De P waarde van Zout 0.09032
+Hieruit kun je de zelfde conclusies trekken als bij de anova toets in logaritme. Wat hieraan wel opvalt is dat de P waardes van beide testen erg uit elkaar liggen.
+
+\subsection{Effect sterkte van Anova resultaten}\label{effect-sterkte-van-anova-resultaten}
+
+Aan de hand van de resultaten van de anova hebben wij ervoor gekozen om een Cohens F sterkte analyse uit te voeren om te bepalen hoe sterk het gemeten resultaat is.
+De F waarde van suiker is 0.563382
+De F waarde van zout is 0.1948619
+Aan de hand van de benchmark waarden van Cohens F kunnen we zeggen dat suiker een sterk effect heeft en zout een zwak effect heeft op de gasproductie van gist.
+
+\subsection{Power analyse van Anova resultaten}\label{power-analyse-van-anova-resultaten}
+
+De power analyse hebben wij gedaan om te kijken hoe betrouwbaar onze resultaten zijn.
+Bij Suiker komt er een power waarde uit van 0.7923
+Bij zout komt er een power waarde uit van 0.1448
+Deze waardes vertellen ons dat wij met onze resultaten van suiker met zekerheid kunnen zeggen maar dat van zout niet. Dit is omdat suiker vlak bij de standaard power-waarde van 0.80 zit en de waarde van zout hier ver vandaan zit.
+
+\section{Discussie en Conclusies}\label{discussie-en-conclusies}
+
+\subsection{validiteit}\label{validiteit}
+
+Bij een verandering in de concentraties verschild de gemiddelde gasproductie onderscheidend met de duplo. Bij suiker is dit verschil van zeker 0.91 ml bij S1, 40 ml bij S2 en 90 ml bij S3. Bij zout is dit verschil kleiner met 23 ml bij Z1, 23 ml bij Z2 en 15 ml bij Z3. De gas productie bij Sd3 was het hoogste van de suiker experimenten met een gemiddelde productie van 107 ml per 15 minuut of 428 ml/h.
+\textasciitilde Standaard deviatie verwerken?\textasciitilde{}
+
+resultaat interpreteren
+
+beperking
+
+implicaties aanduiding
+suggestie voor vervolgonderzoek geven
+
+\section{Online bijlagen}\label{online-bijlagen}
+
+\subsection{Wordcount}\label{wordcount}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#install.packages("devtools")}
+\CommentTok{\#devtools::install\_github("benmarwick/wordcountaddin", type = "source", dependencies = TRUE)}
+\NormalTok{wordcountaddin}\SpecialCharTok{:::}\FunctionTok{text\_stats}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|l|l}
+\hline
+Method & koRpus & stringi\\
+\hline
+Word count & 1845 & 1741\\
+\hline
+Character count & 10682 & 10676\\
+\hline
+Sentence count & 119 & Not available\\
+\hline
+Reading time & 9.2 minutes & 8.7 minutes\\
+\hline
+\end{tabular}
+
+\section{Referenties}\label{referenties}
+
+\end{document}

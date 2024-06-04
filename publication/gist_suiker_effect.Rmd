@@ -70,6 +70,8 @@ library(cowplot)
 library(ggcorrplot)
 library(knitr)
 library(ggpubr)
+library(here)
+library(lubridate)
 ```
 Voor de visualisatie en de tests worden verschillende tools gebruikt.
 
@@ -91,17 +93,108 @@ Dus als uit de histogram blijkt dat de data niet normaal verdeeld zijn, dan word
 # Resultaten
 Met dit experiment willen wij onderzoeken of suiker en zout invloed hebben op de gasproductie van gist, Waarvan wij aannemen dat dit Co2 is.  We hebben hiervoor als volgt een experiment uitgevoerd zoals beschreven bij materialen en methode met de volgende concentraties. Hieronder staan de belangrijkste resultaten benoemd
 [tabel concentratie’s]
-```{r tabel concentraties}
+```{r tabel concentraties, echo=FALSE}
 # concentratie variable van stijn pakken
+
+
+totale_massa <- 200
+
+massa_water <- 200
+massa_gist <- 7
+
+percentages_suiker <- c(0, 3, 6)
+percentage_zout_bij_suiker <- 0.5
+len_suiker = length(percentages_suiker)
+
+percentages_zout <- c(0, 0.5, 1)
+percentage_suiker_bij_zout <- 3
+len_zout = length(percentages_zout)
+
+# Import een functie om percentage naar massa te berekenen 
+source(paste(here(), "/analysis/scripts/utilities.R", sep = ""), local = T)
+#source("../analysis/scripts/utilities.R")
+
+# Concentraties als percentage van totale massa
+massa_suiker <- perc_to_mass(percentages_suiker, totale_massa)
+massa_zout_bij_suiker = perc_to_mass(percentage_zout_bij_suiker, totale_massa)
+
+massa_zout <- perc_to_mass(percentages_zout, totale_massa)
+massa_suiker_bij_zout = perc_to_mass(percentage_suiker_bij_zout, totale_massa)
+
+## Suiker
+vaste_massa <- massa_suiker + (massa_zout_bij_suiker + massa_gist)
+
+df = data.frame(
+    experiment = paste("S", 1:len_suiker, sep=""),
+    suiker = massa_suiker,
+    gist = rep(massa_gist, len_suiker),
+    water = (rep(totale_massa, len_suiker) - vaste_massa),
+    zout = rep(
+        massa_zout_bij_suiker,
+        len_suiker
+    )
+)
+df$totaal <- rowSums(df[-1])
+print(df)
+
+## Zout
+vaste_massa <- massa_zout + (massa_suiker_bij_zout + massa_gist)
+
+df = data.frame(
+    experiment = paste("Z", 1:len_zout, sep=""),
+    suiker = rep(massa_suiker_bij_zout, len_zout),
+    gist = rep(massa_gist, len_zout),
+    water = (rep(totale_massa, len_zout) - vaste_massa),
+    zout = massa_zout
+)
+df$totaal <- rowSums(df[-1])
+print(df)
 ```
 
 ## Ruwe data analyse 
 Tijdens de uitvoering van het experiment zagen we dat de duplo experimenten niet gelijk waren aan originele experimenten[figuur refereren]. Hieruit kwam een vermoeden dat de data niet normaal verdeeld zou zijn. Ook zijn er meetfouten gemaakt tijdens de uitvoering, hiervoor hebben wij een imputatie strategie uitgevoerd. 
-# ARJEN TIEF HIER JE LIJN GRAFIEK NEER DANK U WEL
-[lijngrafiek productie]
+```{r lijn grafiek productie over tijd,fig.cap="Lijn grafieken over de gasproductie van gist", echo=FALSE}
+# Ruwe data van suiker
+path <- paste(here(), "/raw_data/data_gist_suiker.csv", sep="")
+#path <- "../raw_data/data_gist_suiker.csv"
+data_suiker <- read.csv(path)
+
+# Ruwe data van zout halen
+path <- paste(here(), "/raw_data/data_gist_zout.csv", sep="")
+#path <- "../raw_data/data_gist_zout.csv"
+data_zout <- read.csv(path)
+
+# Data type correctie
+data_zout$cumulatieve_productie <- as.double(data_zout$cumulatieve_productie)
+data_zout$relatieve_productie <- as.double(data_zout$relatieve_productie)
+
+# Tijd correctie
+data_suiker$datetime <- with(data_suiker, ymd(data_suiker$datum) + hm(data_suiker$tijd))
+# Lijn grafiek
+suiker_lijn <- ggplot(data_suiker, aes(x=datetime, y=cumulatieve_productie, group = experiment_id, color=experiment_id)) +
+  geom_line() +
+    labs(x="Tijd", y="Productie (ml)")
+
+# Tijd correctie
+data_zout$datetime <- with(data_zout, ymd(data_zout$datum) + hm(data_zout$tijd))
+# Lijn grafiek
+zout_lijn <- ggplot(data_zout, aes(x=datetime, y=cumulatieve_productie, fill = experiment_id, color=experiment_id)) +
+  geom_line() +
+    labs(x="Tijd", y="Productie (ml)")
+    
+
+suiker_lijn
+zout_lijn
+#box_figure <- ggarrange(suiker_lijn,zout_lijn,
+#                        labels = c("Suiker", "Zout"), 
+#                        hjust = 0,vjust = 1,
+#                        font.label = list(size = 12))
+#box_figure
+
+```
 
 De co2 productie gemiddelden lopen verder uit elkaar dan verwacht. 
-```{r inladen en muteren data}
+```{r inladen en muteren data, echo=FALSE}
 suiker_data <- read.csv("../raw_data/data_gist_suiker.csv")
 zout_data <- read.csv("../raw_data/data_gist_zout.csv")
 # Mutatie suiker
@@ -116,7 +209,7 @@ zout_data <- zout_data %>% mutate(relatieve_productie = if_else(relatieve_produc
 zout_data <- zout_data %>% mutate(relatieve_productie = (zoo::na.approx(relatieve_productie)))
 ```
 
-```{r productie gemiddelde tabel}
+```{r productie gemiddelde tabel, fig.cap="Gemiddelde gas productie in ml, "echo=FALSE}
 suiker_gem_tibble <- suiker_data %>% group_by(experiment_id) %>% 
     summarise(gemmidelde_productie = mean(relatieve_productie))
 
@@ -136,7 +229,7 @@ Ook hebben we de productie metingen van 0 veranderd naar 0.00000001, zodat deze 
 
 ## Normaal verdeling
 
-```{r histogrammen, fig.cap="Histogrammen over de gasproductie van gist"}
+```{r histogrammen, fig.cap="Histogrammen over de gasproductie hoeveelheden van gist in gas per ml. de aan de linker grafiek is voor de gist experimenten met variërende suiker concentraties en de rechter grafiek is voor de experimenten met variërende zout concentraties."}
 suiker_hist <- ggplot(data = suiker_data, 
        mapping = aes(x = relatieve_productie)) +
     geom_histogram(binwidth = 10, colour = "black", fill="saddlebrown") + 
@@ -159,7 +252,7 @@ Hiernaast voeren wij ook een Kruskal Wallis toets uit ter controle van de Anova.
 
 
 ## Pairwise T test 
-De pairwise T test hebben wij uitgevoerd om te kijken of er  significante correlaties zijn tussen de onderlinge testgroepen. Hieruit is gekomen dat bij het suiker experiment groep 3 significant verschilt van groep 1 en 2, en bij zout is er alleen een significant verschil tussen groep 2 en 3.
+De pairwise T test hebben wij uitgevoerd om te kijken of er  significante correlaties zijn tussen de onderlinge test-groepen. Hieruit is gekomen dat bij het suiker experiment groep 3 significant verschilt van groep 1 en 2, en bij zout is er alleen een significant verschil tussen groep 2 en 3.
 
 Suiker
     Es1     Es2  
@@ -171,7 +264,7 @@ Zout
 Ez2 0.442 -    
 Ez3 0.200 0.043
 
-Hierboven staan 2 tabbelen uit de Pairwise T test. de getallen in de tabel zijn de P waardes die uit de test komen. als een getal kleiner is dan 0.05 is het significant.
+Hierboven staan 2 tabellen uit de Pairwise T test. de getallen in de tabel zijn de P waardes die uit de test komen. als een getal kleiner is dan 0.05 is het significant.
 [E = Experiment, s = suiker, z = zout]
 
 ## Anova en Kruskal
@@ -181,10 +274,10 @@ Uit de Anova in logaritme kwamen de volgende P waarden.
 De P waarde van suiker 0.000169 
 De P waarde van zout 0.309
 Uit deze P waarden kun je opmaken dat suiker een significante invloed heeft op de co2 productie van gist en zout niet.
-Uit de Kruskal wallis test kwamen de volgende P waarden.
+Uit de Kruskal Wallis test kwamen de volgende P waarden.
 De P waarde van suiker 9.428e-05
 De P waarde van Zout 0.09032
-Hieruit kun je de zelfde conclussies trekken als bij de anova toets in logaritme. Wat hieraan wel opvalt is dat de P waardes van beide testen erg uit elkaar liggen.
+Hieruit kun je de zelfde conclusies trekken als bij de anova toets in logaritme. Wat hieraan wel opvalt is dat de P waardes van beide testen erg uit elkaar liggen.
 
 
 ## Effect sterkte van Anova resultaten
@@ -197,11 +290,21 @@ Aan de hand van de benchmark waarden van Cohens F kunnen we zeggen dat suiker ee
 De power analyse hebben wij gedaan om te kijken hoe betrouwbaar onze resultaten zijn. 
 Bij Suiker komt er een power waarde uit van 0.7923
 Bij zout komt er een power waarde uit van 0.1448
-Deze waardes vertellen ons dat wij met onze resultaten van suiker met zekerheid kunnen zeggen maar dat van zout niet. Dit is omdat suiker vlak bij de standaard powerwaarde van 0.80 zit en de waarde van zout hier ver vandaan zit.
+Deze waardes vertellen ons dat wij met onze resultaten van suiker met zekerheid kunnen zeggen maar dat van zout niet. Dit is omdat suiker vlak bij de standaard power-waarde van 0.80 zit en de waarde van zout hier ver vandaan zit.
 
 
 # Discussie en Conclusies
 
+## validiteit
+Bij een verandering in de concentraties verschild de gemiddelde gasproductie onderscheidend met de duplo. Bij suiker is dit verschil van zeker 0.91 ml bij S1, 40 ml bij S2 en 90 ml bij S3. Bij zout is dit verschil kleiner met 23 ml bij Z1, 23 ml bij Z2 en 15 ml bij Z3. De gas productie bij Sd3 was het hoogste van de suiker experimenten met een gemiddelde productie van 107 ml per 15 minuut of 428 ml/h. 
+~Standaard deviatie verwerken?~ 
+
+resultaat interpreteren
+
+beperking
+
+implicaties aanduiding
+suggestie voor vervolgonderzoek geven
 
 # Online bijlagen
 

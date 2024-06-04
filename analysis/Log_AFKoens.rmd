@@ -420,7 +420,7 @@ sub_data_zout <- subset(data_zout, select = -c(datum, tijd, opmerking, meetnivea
 mds <- merge(concentratie_data, sub_data_suiker, by = "experiment_id")
 mdz <- merge(concentratie_data, sub_data_zout, by = "experiment_id")
 mdsz <- rbind(mds, mdz)
-print(mdsz)
+head(mdsz)
 ```
 Nu om de spreidingsdiagram te maken.
 

@@ -8,7 +8,7 @@ author: |
 lang: nl # dit zorgt er voor dat "abstract" "samenvatting" gaat heten
 
 abstract: |
-  Gist is voor mensen handig voor het maken van brood en alcohol, maar dan moet het wel effectief werken. In dit onderzoek, wordt er gekeken in welke suiker- en zoutconcentraties gist het meeste produceerd. Dit wordt gedaan door gist in verschillende suiker- en zoutconcentraties op te lossen en te kijken naar hoeveel CO2 de gist dan produceerd. Hieruit was te zien dat suiker een sterk effect heeft op de CO2 productie van gist, maar er met ons onderzoek niks met zekerheid te zeggen valt over zout. Het is ook onzeker of onze data wel bruikbaar is, omdat ***stukje discussie***
+  Gist is voor mensen handig voor het maken van brood en alcohol, maar dan moet het wel effectief werken. In dit onderzoek, wordt er gekeken in welke suiker- en zoutconcentraties gist het meeste produceerd. Dit wordt gedaan door gist in verschillende suiker- en zoutconcentraties op te lossen en te kijken naar hoeveel CO2 de gist dan produceerd. Hieruit was te zien dat suiker een sterk effect heeft op de CO2 productie van gist, maar er met ons onderzoek niks met zekerheid te zeggen valt over zout. Het is wel onzeker of onze data bruikbaar is, doordat er duidelijk meer CO2 was geproduceerd dan verwacht. Voor vervolgonderzoek zou er meer verschillende concentraties moeten worden gemeten, de concentraties precieser moeten worden afgemeten en het experiment op een overzichtelijke manier moeten worden opgezet.
 
 bibliography: gist_suiker_effect.bib # naam van je .bib file. Deze moet hetzelfde zijn als je Rmd bestandsnaam
 
@@ -66,8 +66,6 @@ library(dplyr)
 library(tidyr)
 library(pwr)
 library(zoo)
-library(cowplot)
-library(ggcorrplot)
 library(knitr)
 library(ggpubr)
 library(here)
@@ -302,8 +300,7 @@ Door de gelimiteerde ruimte en materiaal konden er maar 6 experimenten opgesteld
 
 
 [](Suggestie voor vervolgonderzoek)
-
-
+Voor vervolgonderzoek is het dus handiger om meer combinaties te testen zodat er een 2-way-anova uitgevoerd kan worden, dit is handig voor overzichtelijkere interpretatie en om een mogelijke correlatie tussen suiker en zout aan te tonen. Verder kan de opzet ook verbeterd worden, de duplo's kwamen bij dit onderzoek niet helemaal overeen met de basis, dat kan verbeterd worden door de concentraties op meer decimalen af te meten. Het is mogelijk ook beter om de opzet op een overzichtelijkere manier op te zetten, om snel een lek of fout in de opstelling te spotten en op te lossen.
 
 # Online bijlagen
 

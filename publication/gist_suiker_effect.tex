@@ -243,7 +243,6 @@ Met dit experiment willen wij onderzoeken of suiker en zout invloed hebben op de
 \subsection{Ruwe data analyse}\label{ruwe-data-analyse}
 
 Tijdens de uitvoering van het experiment zagen we dat de duplo experimenten niet gelijk waren aan originele experimenten{[}figuur refereren{]}. Hieruit kwam een vermoeden dat de data niet normaal verdeeld zou zijn. Ook zijn er meetfouten gemaakt tijdens de uitvoering, hiervoor hebben wij een imputatie strategie uitgevoerd.
-\includegraphics{gist_suiker_effect_files/figure-latex/lijn grafiek productie over tijd-1.pdf} \includegraphics{gist_suiker_effect_files/figure-latex/lijn grafiek productie over tijd-2.pdf}
 
 De co2 productie gemiddelden lopen verder uit elkaar dan verwacht.
 
@@ -372,17 +371,23 @@ Deze waardes vertellen ons dat wij met onze resultaten van suiker met zekerheid 
 
 \section{Discussie en Conclusies}\label{discussie-en-conclusies}
 
-\subsection{validiteit}\label{validiteit}
+\subsection{Validiteit}\label{validiteit}
 
 Bij een verandering in de concentraties verschild de gemiddelde gasproductie onderscheidend met de duplo. Bij suiker is dit verschil van zeker 0.91 ml bij S1, 40 ml bij S2 en 90 ml bij S3. Bij zout is dit verschil kleiner met 23 ml bij Z1, 23 ml bij Z2 en 15 ml bij Z3. De gas productie bij Sd3 was het hoogste van de suiker experimenten met een gemiddelde productie van 107 ml per 15 minuut of 428 ml/h.
-\textasciitilde Standaard deviatie verwerken?\textasciitilde{}
+Deze waarden zijn ver boven wat verwacht was aan productie. De verwachte productie aan \(CO_2\) zou niet hoger zijn dan 25ml/h gebaseerd op het onderzoek van \cite{Jerry2017}. Dit had dan ook ter gevolg dat er complicaties waren tijdens het uitvoeren van het experiment. De maatcilinders die gebruikt werden hadden niet de capaciteit om de hoeveelheid gas op te vangen.
+Een eventuele andere verklaring voor de hoeveelheid gemeten gas is het waterslot. Tijdens het uitvoeren van dit experiment kan er een lek zijn ontstaan in dit waterslot waar lucht door in de maatcilinder is gekomen.
 
-resultaat interpreteren
+\subsection{Interpretatie resultaat}\label{interpretatie-resultaat}
 
-beperking
+Er is een significant verschil in de gasproductie van bakkersgist tussen de verschillende suiker concentraties aangetoond. Bij zout daar in tegen is geen significant verschil aangetoond.
 
-implicaties aanduiding
-suggestie voor vervolgonderzoek geven
+\subsection{Beperking}\label{beperking}
+
+Door de gelimiteerde ruimte en materiaal konden er maar 6 experimenten opgesteld worden. Dit is minder dan wat eventueel nodig was om een effect vast te stellen tussen zout en suiker op de gas productie. Daar naast was tijd om het experiment uit te voeren ook gelimiteerd aangezien de ruimte beperkt gereserveerd was. Uiteindelijk duurde het experiment iets minder dan 4 uur en was korter dan gewenst. Gewenst was als het experiment een periode van 7 uur geduurd.
+
+\subsection{Implicaties aanduiding}\label{implicaties-aanduiding}
+
+\subsection{Suggestie voor vervolgonderzoek}\label{suggestie-voor-vervolgonderzoek}
 
 \section{Online bijlagen}\label{online-bijlagen}
 
@@ -396,20 +401,30 @@ suggestie voor vervolgonderzoek geven
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+## Warning in scan(filename, "character", quiet = TRUE): EOF within quoted string
+\end{verbatim}
+
 \begin{tabular}{l|l|l}
 \hline
 Method & koRpus & stringi\\
 \hline
-Word count & 1845 & 1741\\
+Word count & 2132 & 2019\\
 \hline
-Character count & 10682 & 10676\\
+Character count & 12487 & 12572\\
 \hline
-Sentence count & 119 & Not available\\
+Sentence count & 146 & Not available\\
 \hline
-Reading time & 9.2 minutes & 8.7 minutes\\
+Reading time & 10.7 minutes & 10.1 minutes\\
 \hline
 \end{tabular}
 
 \section{Referenties}\label{referenties}
+
+Chen, S. L., \& Gutmanis, F. (1976). Carbon dioxide inhibition of yeast growth in biomass production. Biotechnology and Bioengineering, 18(10), 1455--1462. \url{https://doi.org/10.1002/bit.260181012}
+
+Jerry, D. C. T., Mohammed, T., \& Mohammed, A. (2017). Yeast-generated CO2: A convenient source of carbon dioxide for mosquito trapping using the BG-Sentinel® traps. Asian Pacific Journal of Tropical Biomedicine, 7(10), 896--900. \url{https://doi.org/10.1016/J.APJTB.2017.09.014}
+
+Silva-Grac °a, M., \& Ndida Lucas, ``. (n.d.). Physiological studies on long-term adaptation to salt stress in the extremely halotolerant yeast Candida versatilis CBS 4019 (syn. C. halophila). \url{https://doi.org/10.1111/j.1567-1364.2003.tb00167.x}
 
 \end{document}

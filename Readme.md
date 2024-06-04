@@ -1,15 +1,23 @@
-# Een heel eenvoudige template voor een scientific paper
-
-Voor gebruik in het curriculum van de opleiding bio-informatica van de Hanzehogeschool Groningen
+# Wetenschappelijke cyclus Suiker en Zout
+Dit is het project van de agrariers group van de wetenschappelijke cyclus
 
 ## Requirements
 
-RStudio en R moeten geinstalleerd zijn. Je moet een Latex distributie geïnstalleerd hebben. Meest voor de hand liggend: tinytex.
+RStudio en R moeten geinstalleerd zijn. Je moet een Latex distributie geïnstalleerd hebben.
 
-## Gebruik
+## Project structuur
 
-Clone de repo, open de Rmd in RStudio en werk aan je paper in de aangegeven secties. Knit tot pdf.
+### analyses
+In deze map staan alle logboeken en analyses die uitgevoerd zijn tijdens het onderzoek.
 
-Vergeet niet voordat je de definitieve versie knit om introductie van de template te verwijderen!
+### docs
+Hierin staan documenten voor de journal club presentatie en ons onderzoeks opstel.
 
-© Michiel Noback, 2022
+### publicatie
+In staan de publicatie bestanden
+
+### raw_data
+Hierin staan de verzamelde ruwe data.
+
+## Gemaakt door
+Ivar Lottman, Stijn Vermeulen, Arjen Koens.

@@ -287,27 +287,25 @@ Bij een verandering in de concentraties verschild de gemiddelde gasproductie ond
 Deze waarden zijn ver boven wat verwacht was aan productie. De verwachte productie aan $CO_2$ zou niet hoger zijn dan 25ml/h gebaseerd op het onderzoek van \cite{Jerry2017}. Dit had dan ook ter gevolg dat er complicaties waren tijdens het uitvoeren van het experiment. De maatcilinders die gebruikt werden hadden niet de capaciteit om de hoeveelheid gas op te vangen. 
 Een eventuele andere verklaring voor de hoeveelheid gemeten gas is het waterslot. Tijdens het uitvoeren van dit experiment kan er een lek zijn ontstaan in dit waterslot waar lucht door in de maatcilinder is gekomen. 
 
-[](Interpretatie resultaat)
+### Interpretatie resultaat
 Toch is een significant verschil in de gasproductie van bakkersgist tussen de verschillende suiker concentraties aangetoond. Bij zout daar in tegen is geen significant verschil aangetoond. 
 
-[](Beperking)
+### Beperking
 Door de gelimiteerde ruimte en materiaal konden er maar 6 experimenten opgesteld worden. Dit is minder dan wat eventueel nodig was om een effect vast te stellen tussen zout en suiker op de gas productie. Daar naast was tijd om het experiment uit te voeren ook gelimiteerd aangezien de ruimte beperkt gereserveerd was. Uiteindelijk duurde het experiment iets minder dan 4 uur en was korter dan gewenst. Gewenst was als het experiment een periode van 7 uur geduurd.
 
-[](Implicaties aanduiding)
+### Implicaties aanduiding
 Dit onderzoek legt de basis voor het uitzoeken van de optimale suiker en zout concentratie op gist activitiet. Deze informatie is belangrijk voor bakkers- en alcohol industrie om met deze gegevens hun productie effecïenter te maken.
 
-[](Suggestie voor vervolgonderzoek)
+### Suggestie voor vervolgonderzoek
 Voor vervolgonderzoek is het dus handiger om meer combinaties te testen zodat er een 2-way-anova uitgevoerd kan worden, dit is handig voor overzichtelijkere interpretatie en om een mogelijke correlatie tussen suiker en zout aan te tonen. Verder kan de opzet ook verbeterd worden, de duplo's kwamen bij dit onderzoek niet helemaal overeen met de basis, dat kan verbeterd worden door de concentraties op meer decimalen af te meten. Het is mogelijk ook beter om de opzet op een overzichtelijkere manier op te zetten, om snel een lek of fout in de opstelling te spotten en op te lossen.
 
-# Online bijlagen
 
-
-
-## Wordcount
-```{r wordcount, message=FALSE}
+```{r wordcount, message=FALSE, echo=FALSE,include=FALSE}
 #install.packages("devtools")
 #devtools::install_github("benmarwick/wordcountaddin", type = "source", dependencies = TRUE)
 wordcountaddin:::text_stats()
+# wordcount circa 2200
+# reading 10 min circa
 ```
 
 # Referenties

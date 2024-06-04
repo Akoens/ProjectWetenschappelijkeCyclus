@@ -9,44 +9,58 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Introductie
+Dit logboek is gemaakt voor een experiment om te meten of suiker en zout invloed hebben op de gasproductie van gist.
+
+# Library en versie
+R 4.4.0
+dplyr 1.1.4
+ggplot2 3.5.1
+tidyr 1.3.1
+zoo 1.8-12
+pwr 1.3-0
+
+Uitleg van de library's
+dplyr en tidyr zijn library's voor het muteren en opmaken van data. 
+ggplot2 gebruik ik om nette plotjes te maken.
+De library zoo heb ik gebruikt voor het extrapoleren van data en pwr heb ik gebruikt voor de statistische toetsten.
+
 ```{r lib statements}
 library("pwr") # powertests
 library("ggplot2") # plotjes
 library("dplyr") # data mutaties
 library("tidyr") # data mutaties
 library("zoo") # interpolatie
-
 ```
-# log maken voor library + versie
-## Introductie
-Dit logboek is gemaakt voor het experiment 
-# notevolgorde motivatie wat gedaan
-data sets herbases
-inputatie plan maken
-
----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 Groeps logboek
-#Logboek 26-4-2024 
+# Logboek 26-4-2024 
 
-Wat hebben we gedaan 
+## Motivatie 
+
+opstellen van het protocol hebben wij gedaan om een inschatting te krijgen van de volumes en resultaten dat wij kunnen verwachten met dit experiment 
+
+
+## Wat hebben we gedaan 
 
 Opstelling van het protocol 
 
 Bij het opstellen van het protocol hebben wij eerst wat bronnenonderzoek gedaan, hier is één artikel ​(Jerry et al., 2017) ​uitgekomen die wij gaan gebruiken als referentie punt voor ons protocol op het gebied van volume gist en volume suiker. 
 
-Motivatie 
-
-Dit hebben wij gedaan om een inschatting te krijgen van de volumes en resultaten dat wij kunnen verwachten met dit experiment 
-
-Resultaat en interpretatie 
+## Resultaat en interpretatie 
 
 Bronnen voor referentie in het onderzoek wat inzicht geeft in de opzet hiervan 
 
---------------------------------------------------------------------------------------------------- 
-Groepslogboek
-#Logboek 26-4-2024 
+----------------------------------------------------------------------------------------
 
-Wat hebben we gedaan 
+Groepslogboek
+# Logboek 26-4-2024 
+
+## Motivatie 
+
+we hebben het magazijn bezocht wij om te kijken of ons experiment mogelijk is op school en voor eventueel advies van de chemische/medische/biologische tak van ons instituut te krijgen. 
+
+## Wat hebben we gedaan 
 
 Magazijn bezoek  
 
@@ -54,83 +68,85 @@ We hebben het magazijn op het ILST bezocht om te vragen over de mogelijkheden bi
 
 Verder hebben we via e-mail contact opgezocht met Folkert Fabel en Gert Hofstede voor verdere mogelijkheden.  
 
-Motivatie 
 
-Dit hebben wij gedaan om te kijken of ons experiment mogelijk is op school en voor eventueel advies van de chemische/medische/biologische tak van ons instituut te krijgen. 
-
-Resultaat en interpretatie 
+## Resultaat en interpretatie 
 
 Op basis van het advies hebben wij ons protocol aangepast.
 
 contact opgezocht met de 2 bovenstaande docenten om de vervolg stappen te bepalen. hier is nog geen reactie op gekomen. 
 
------------------------------------------------------------------------------------------------------ 
+----------------------------------------------------------------------------------------
 
-Logboek 
-6-5-2024
-Wat heb ik gedaan
+# Logboek 6-5-2024 
+
+## Motivatie
+Voor onderzoek powertest heb ik gedaan om een beetje inzicht te krijgen in het statischtisch bewijzen van een onderzoek.
+
+## Wat heb ik gedaan
 Voor onderzoek powertest
 https://wikistatistiek.amc.nl/Poweranalyse
 
-note to self:in de les statestiek 
+### note to self:in de les statestiek 
 95% betrouwbaarheids interval met de powertest invoeren in het logboek. mischien via de Rnorm een theoretische dataset opbouwen met of een geschaalde suiker naar co2 data met of het vorige onderzoek (https://www.sciencedirect.com/science/article/pii/S2221169117309802#:~:text=3.-,Results,solution)%20(Figure%201).) of een rekenmethode van 1 van mijn colega's om te bepalen wat we nodig hebben.
 
-Motivatie
-Dit wil ik opzetten om een inschatting te krijgen over hoeveel testen wij moeten maken.
 
-Resutaat en interpetatie
+## Resutaat en interpetatie
 na de statestiek les van woensdag 8-5-2024 een theoretische opzet maken om te bepalen wat de minimale hoeveelheid tests zijn.
 
------------------------------------------------------------------------------------------------------------
-logboek
-7-5-2024
-wat heb ik gedaan
+----------------------------------------------------------------------------------------
+
+#logboek 7-5-2024
+
+## Motivatie
+Concretere antwoorden krijgen over wat wij mogen lenen voor ons experiment [magazijn boezoek]. Dit heb ik gedaan omdat het onduidelijk is 
+Aangeven waar wij staan in ons project en de moeilijkheden waar wij tegen aanlopen i.v.m. matriaal [gesprek ronald]. dit is als tussen gesprek met de docent.
+
+## Wat heb ik gedaan
 2de bezoek magazijn en gesprek ronald
 In het gesprek met ronald hebben wij over de situatie rondom ons matriaal besproken hieruit zijn een aantal optie's naar voren gekomen waaronder potentieële locatie of het fermolab of d1.08. ook hebben we eventuele alternatieve opzetten besproken.
 Er is ook ter sprake gekomen om het hoeveelheid testen van 5(keer 2 want duplo keer 2 want 2 factoren) variable metingen te verlagen naar 3 om het experiment praktisch uitvoerbaarder te maken omdat 2*10 sample's te veel opzet werk is
 
 In het bezoek naar het magazijn hebben om duidelijkheid gevraagd over wat wij mogen lenen voor ons experiment. hieruit is gebleken vanwege het voormaat van het waterbad en het feit dat er geen doppen met slang zijn voor de elymer dat we daar een vervanging voor moeten regelen
 
-Motivatie
-Concretere antwoorden krijgen over wat wij mogen lenen voor ons experiment [magazijn boezoek]
-Aangeven waar wij staan in ons project en de moeilijkheden waar wij tegen aanlopen i.v.m. matriaal [gesprek ronald]
-
-Resultaat en interpetatie
+## Resultaat en interpetatie
 Vervanger regelen voor elemyer.
 toestemming gekregen voor het lenen van een waterbad
 toestemming van gekregen van peter voor het eventueel opzetten van ons experiment in het klaslokaal mits er voorzorgmaatregelen worden getroffen.
-mail-adres magazijn(MagazijnILST@org.hanze.nl) voor het opstellen van een verzoek mail voor waneer de datum bekent is op welke datum wij het experiment willen uitvoeren
-
-
+mail-adres magazijn(MagazijnILST@org.hanze.nl) voor het opstellen van een verzoek mail voor waneer de datum bekent is op welke datum wij het experiment willen uitvoeren.
 
 ----------------------------------------------------------------------------------------
 
 #logboek 8-5-2024
-Wat heb ik gedaan 
-Na overleg met michiel over de mogenlijkheden van het experiment is er ter sprake gekomen dat we een leeg lablokaal kunnen gebruiken. naar overleg met michiel en docenten van het biologisch onderzoeks team lijkt het mogenlijk dat we een regelmatig lege labzaal kunnen gebruiken(H0.99), zoek hier voor contact met het magazijn.  
-#refereren onderzoek 
+
+## Motivatie
+Overleg met michiel was voor het voortgangs gesprek en samen met de docenten van de labzalen overlegt om te vragen of wij ook 1 van hun ruimtes mogen gebruiken.
+
+## Wat heb ik gedaan 
+Na overleg met michiel over de mogenlijkheden van het experiment is er ter sprake gekomen dat we een leeg lablokaal kunnen gebruiken. naar overleg met michiel en docenten van het biologisch onderzoeks team lijkt het mogenlijk dat we een regelmatig lege labzaal kunnen gebruiken(H0.99), zoek hier voor contact met het magazijn. 
+
+##refereren onderzoek 
 Voor de opzet data heb de suikerwaardes van een eerder onderzoek gebruikt en de zout waardes heb ik verzonnen vanwege een gebrek aan referentie punten. uit de verwachting vanuit de litratuur ben ik er van uitgegaan dat deze waardes lager zijn dan die van suiker
 
 om deze data te gebruiken R code introduceren en uitlgeggen
 ```{r opzet data}
 
-test_suiker <- read.csv("../raw_data/Maatsheet Experiment Gist_suiker.csv")
-test_zout <- read.csv("../raw_data/Maatsheet Experiment Gist_zout.csv")
+test_suiker <- read.csv("../analysis/data/data_gist_testsheet_suiker.csv")
+test_zout <- read.csv("../analysis/data/data_gist_testsheet_zout.csv")
 #head(test_suiker)
 #head(test_zout)
-#boxplot(test_suiker$ , test_zout$CO...ml.)
+boxplot(test_suiker$productie_co2 , test_zout$productie_co2)
 ```
 
-
-Motivatie
-Overleg met docent was voor het voortgangs gesprek.
-
-Resultaat en interpetatie
+## Resultaat en interpetatie
 2 potentiële experiment locatie's H0.99 [vragen aan labmagazijn] en het masterlokaal
 
 ---------------------------------------------------------------------------------------
-logboek 
-week 2 en 3
+# logboek week 2 en 3
+
+## Motivatie
+Ik heb op basis van de test dataset een fictieve statischtische 
+
+## Wat heb ik gedaan
 Poweranalyse en T-tests
 
 Nul hypothese test
@@ -208,7 +224,7 @@ pwr.t.test(d= d_s, sig.level = 0.05,power = 0.8, type = "one.sample", alternativ
 pwr.t.test(d= d_z, sig.level = 0.05,power = 0.8, type = "one.sample", alternative = "two.sided")
 ```
 
---------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 logboek 
 13-5 ,14-5 en 15-5
 

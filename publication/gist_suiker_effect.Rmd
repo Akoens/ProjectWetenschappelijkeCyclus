@@ -92,11 +92,7 @@ Dus als uit de histogram blijkt dat de data niet normaal verdeeld zijn, dan word
 
 
 # Resultaten
-Met dit experiment willen wij onderzoeken of suiker en zout invloed hebben op de gasproductie van gist, Waarvan wij aannemen dat dit Co2 is.  We hebben hiervoor als volgt een experiment uitgevoerd zoals beschreven bij materialen en methode met de volgende concentraties. Hieronder staan de belangrijkste resultaten benoemd
-[tabel concentratie’s]
-```{r tabel concentraties}
-# concentratie variable van stijn pakken
-```
+Met dit experiment willen wij onderzoeken of suiker en zout invloed hebben op de gasproductie van gist, Waarvan wij aannemen dat dit Co2 is.  We hebben hiervoor als volgt een experiment uitgevoerd zoals beschreven bij materialen en methode met de volgende concentraties. Hieronder staan de belangrijkste resultaten benoemd.
 
 ##Ruwe data analyse 
 Tijdens de uitvoering van het experiment zagen we dat de duplo experimenten niet gelijk waren aan originele experimenten[figuur refereren]. Hieruit kwam een vermoeden dat de data niet normaal verdeeld zou zijn. Ook zijn er meetfouten gemaakt tijdens de uitvoering, hiervoor hebben wij een imputatie strategie uitgevoerd. 
@@ -127,7 +123,7 @@ zout_data <- zout_data %>% mutate(relatieve_productie = if_else(relatieve_produc
 zout_data <- zout_data %>% mutate(relatieve_productie = (zoo::na.approx(relatieve_productie)))
 ```
 
-```{r productie gemiddelde tabel, }
+```{r productie gemiddelde tabel, fig.cap="Gemiddelde gas productie in ml "}
 suiker_gem_tibble <- suiker_data %>% group_by(experiment_id) %>% 
     summarise(gemmidelde_productie = mean(relatieve_productie))
 
@@ -145,11 +141,8 @@ Bij het experiment zijn er negatieve waardes gemeten, omdat dit met onze opzet n
 Ook hebben we de productie metingen van 0 veranderd naar 0.00000001, zodat deze metingen gebruikt kunnen worden in het logaritme voor Anova. Hierdoor kunnen we het logaritme nemen voor deze meting zonder dat het de resultaten significant beïnvloed. Er is hier voor gekozen vanwege het sterke vermoeden dat de data geen normaal verdeling heeft.
 
 ## Normaal verdeling
-```{r}
-tinytex::install_tinytex()
-```
 
-```{r histogrammen, fig.cap="Histogrammen over de gasproductie van gist"}
+```{r histogrammen, fig.cap="Histogrammen over de gasproductie hoeveelheden van gist in gas per ml. de aan de linker grafiek is voor de gist experimenten met variërende suiker concentraties en de rechter grafiek is voor de experimenten met variërende zout concentraties."}
 suiker_hist <- ggplot(data = suiker_data, 
        mapping = aes(x = relatieve_productie)) +
     geom_histogram(binwidth = 10, colour = "black", fill="saddlebrown") + 
@@ -164,6 +157,7 @@ box_figure <- ggarrange(suiker_hist,zout_hist,
                         labels = c("Suiker", "Zout"), 
                         hjust = 0,vjust = 1,
                         font.label = list(size = 12))
+box_figure
 ```
 
 Zoals te zien aan de histogrammen hierboven van beide experiment groepen duidt dit op een niet normaal verdeelde dataset. Aan de hand van deze informatie hebben wij er voor gekozen om een Anova toets uit te voeren met de logaritme waardes van de gasproductie. De Anova zelf is voor het analyseren of de verschillende groepen significant van elkaar verschillen, en de logaritme waardes om de resultaten van toets statistisch en wiskundig te verantwoorden. 

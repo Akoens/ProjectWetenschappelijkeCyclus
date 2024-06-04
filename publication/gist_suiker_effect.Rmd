@@ -177,10 +177,9 @@ zout_lijn <- ggplot(data_zout, aes(x=datetime, y=cumulatieve_productie, fill = e
   geom_line() +
     labs(x="Tijd", y="Productie (ml)")
     
+lijn_arange <- ggarrange(suiker_lijn, zout_lijn, labels = c("Suiker","Zout"), hjust = 0, vjust = 1, font.label = list(size= 12) )
 
-#suiker_lijn
-#zout_lijn
-
+lijn_arange
 ```
 
 De co2 productie gemiddelden lopen verder uit elkaar dan verwacht. 
@@ -297,7 +296,7 @@ Toch is een significant verschil in de gasproductie van bakkersgist tussen de ve
 Door de gelimiteerde ruimte en materiaal konden er maar 6 experimenten opgesteld worden. Dit is minder dan wat eventueel nodig was om een effect vast te stellen tussen zout en suiker op de gas productie. Daar naast was tijd om het experiment uit te voeren ook gelimiteerd aangezien de ruimte beperkt gereserveerd was. Uiteindelijk duurde het experiment iets minder dan 4 uur en was korter dan gewenst. Gewenst was als het experiment een periode van 7 uur geduurd.
 
 [](Implicaties aanduiding)
-
+Dit onderzoek legt de basis voor het uitzoeken van de optimale suiker en zout concentratie op gist activitiet. Deze informatie is belangrijk voor bakkers- en alcohol industrie om met deze gegevens hun productie effecïenter te maken.
 
 [](Suggestie voor vervolgonderzoek)
 

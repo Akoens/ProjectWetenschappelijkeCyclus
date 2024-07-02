@@ -89,9 +89,9 @@ Dus als uit de histogram blijkt dat de data niet normaal verdeeld zijn, dan word
 
 
 # Resultaten
-Met dit experiment willen wij onderzoeken of suiker en zout invloed hebben op de gasproductie van gist, Waarvan wij aannemen dat dit Co2 is.  We hebben hiervoor als volgt een experiment uitgevoerd zoals beschreven bij materialen en methode met de volgende concentraties. Hieronder staan de belangrijkste resultaten benoemd
+Met dit experiment willen wij onderzoeken of suiker en zout invloed hebben op de gasproductie van gist, waarvan wij aannemen dat dit CO2 is. Hiervoor hebben wij een experiment uitgevoerd zoals beschreven bij materialen en methode met de volgende concentraties. Hieronder staan de belangrijkste resultaten benoemd
 
-```{r tabel concentraties, echo=FALSE}
+```{r echo=FALSE}
 
 totale_massa <- 200
 
@@ -119,7 +119,7 @@ massa_suiker_bij_zout = perc_to_mass(percentage_suiker_bij_zout, totale_massa)
 ## Suiker
 vaste_massa <- massa_suiker + (massa_zout_bij_suiker + massa_gist)
 
-df = data.frame(
+df_suiker = data.frame(
     experiment = paste("S", 1:len_suiker, sep=""),
     suiker = massa_suiker,
     gist = rep(massa_gist, len_suiker),
@@ -129,26 +129,28 @@ df = data.frame(
         len_suiker
     )
 )
-df$totaal <- rowSums(df[-1])
-print(df)
+df_suiker$totaal <- rowSums(df_suiker[-1])
+#print(df)
+#kable(df)
 
 ## Zout
 vaste_massa <- massa_zout + (massa_suiker_bij_zout + massa_gist)
 
-df = data.frame(
+df_zout = data.frame(
     experiment = paste("Z", 1:len_zout, sep=""),
     suiker = rep(massa_suiker_bij_zout, len_zout),
     gist = rep(massa_gist, len_zout),
     water = (rep(totale_massa, len_zout) - vaste_massa),
     zout = massa_zout
 )
-df$totaal <- rowSums(df[-1])
-print(df)
+df_zout$totaal <- rowSums(df_zout[-1])
+#print(df)
+kable(list(df_suiker,df_zout),caption = "Tabel voor de hoeveelheid gram per stof per experiment. [S = Suikergroep, Z = Zoutgroep]")
 ```
 
-## Ruwe data analyse 
-Tijdens de uitvoering van het experiment zagen we dat de duplo experimenten niet gelijk waren aan originele experimenten[figuur refereren]. Hieruit kwam een vermoeden dat de data niet normaal verdeeld zou zijn. Ook zijn er meetfouten gemaakt tijdens de uitvoering, hiervoor hebben wij een imputatie strategie uitgevoerd. 
-```{r lijn grafiek productie over tijd,fig.cap="Lijn grafieken over de gasproductie van gist", echo=FALSE}
+## Ruwe data verkenning
+Tijdens de uitvoering van het experiment zagen we dat de duplo experimenten niet gelijk waren aan originele experimentent zoals te zien is in de lijngrafieken hieronder. Hieruit kwam een vermoeden dat de data niet normaal verdeeld zou zijn. Ook zijn er meetfouten gemaakt tijdens de uitvoering, hiervoor hebben wij een imputatie strategie uitgevoerd. 
+```{r echo=FALSE}
 # Ruwe data van suiker
 path <- paste(here(), "/raw_data/data_gist_suiker.csv", sep="")
 data_suiker <- read.csv(path)
@@ -166,21 +168,21 @@ data_suiker$datetime <- with(data_suiker, ymd(data_suiker$datum) + hm(data_suike
 # Lijn grafiek
 suiker_lijn <- ggplot(data_suiker, aes(x=datetime, y=cumulatieve_productie, group = experiment_id, color=experiment_id)) +
   geom_line() +
-    labs(x="Tijd", y="Productie (ml)")
+    labs(x="Tijd", y="Productie (ml)", caption = "Cumulatieve gasproductie in ml.")
 
 # Tijd correctie
 data_zout$datetime <- with(data_zout, ymd(data_zout$datum) + hm(data_zout$tijd))
 # Lijn grafiek
 zout_lijn <- ggplot(data_zout, aes(x=datetime, y=cumulatieve_productie, fill = experiment_id, color=experiment_id)) +
   geom_line() +
-    labs(x="Tijd", y="Productie (ml)")
+    labs(x="Tijd", y="Productie (ml)", caption = "[S = Suiker, Z = Zout, d = Duplo, Getal = Concentratie]")
     
 lijn_arange <- ggarrange(suiker_lijn, zout_lijn, labels = c("Suiker","Zout"), hjust = 0, vjust = 1, font.label = list(size= 12) )
 
 lijn_arange
 ```
 
-De co2 productie gemiddelden lopen verder uit elkaar dan verwacht. 
+De CO2 productie gemiddelden van het orginele experiment en de duplo versie hiervan lopen verder uit elkaar dan verwacht. 
 ```{r inladen en muteren data, echo=FALSE}
 suiker_data <- read.csv("../raw_data/data_gist_suiker.csv")
 zout_data <- read.csv("../raw_data/data_gist_zout.csv")
@@ -196,14 +198,14 @@ zout_data <- zout_data %>% mutate(relatieve_productie = if_else(relatieve_produc
 zout_data <- zout_data %>% mutate(relatieve_productie = (zoo::na.approx(relatieve_productie)))
 ```
 
-```{r productie gemiddelde tabel, fig.cap="Gemiddelde gas productie in ml van de verschillende experimenten. S=Suiker, Z=Zout, d= Duplo, getal=experiment concentratie.", echo=FALSE}
+```{r echo=FALSE}
 suiker_gem_tibble <- suiker_data %>% group_by(experiment_id) %>% 
     summarise(gemmidelde_productie = mean(relatieve_productie))
 
 zout_gem_tibble <- zout_data %>% group_by(experiment_id) %>%
     summarise(gemmidelde_productie = mean(relatieve_productie))
 
-(kable(list(suiker_gem_tibble, zout_gem_tibble), digits = 2, caption = "Gemiddelde gasproductie"))
+(kable(list(suiker_gem_tibble, zout_gem_tibble), digits = 2, caption = "Gemiddelde gas productie in ml van de verschillende experimenten. [S=Suiker, Z=Zout, d= Duplo, getal=experiment concentratie.]"))
 
 ```
 
@@ -216,7 +218,8 @@ Ook hebben we de productie metingen van 0 veranderd naar 0.00000001, zodat deze 
 
 ## Normaal verdeling
 
-```{r histogrammen, fig.cap="Histogrammen over de gasproductie hoeveelheden en hoe vaak ze voorkomen van gist in gas per ml. de aan de linker grafiek is voor de gist experimenten met variërende suiker concentraties en de rechter grafiek is voor de experimenten met variërende zout concentraties.", echo=FALSE}
+```{r histogrammen, echo=FALSE, fig.cap = "Histogrammen over de gasproductie hoeveelheden en hoe vaak ze voorkomen van gist in gas per ml.de aan de linker grafiek is voor de gist experimenten met variërende suiker concentraties en de rechter grafiek is voor de experimenten met variërende zout concentraties."}
+
 suiker_hist <- ggplot(data = suiker_data, 
        mapping = aes(x = relatieve_productie)) +
     geom_histogram(binwidth = 10, colour = "black", fill="saddlebrown") + 
@@ -231,7 +234,10 @@ box_figure <- ggarrange(suiker_hist,zout_hist,
                         labels = c("Suiker", "Zout"), 
                         hjust = 0,vjust = 1,
                         font.label = list(size = 12))
+
 box_figure
+#labs(caption ="Histogrammen over de gasproductie hoeveelheden en hoe vaak ze voorkomen van gist in #gas per ml. de aan de linker grafiek is voor de gist experimenten met variërende suiker #concentraties en de rechter grafiek is voor de experimenten met variërende zout concentraties.")
+#theme(plot.caption = element_text(hjust = 0))
 ```
 
 Zoals te zien aan de histogrammen hierboven van beide experiment groepen duidt dit op een niet normaal verdeelde dataset. Aan de hand van deze informatie hebben wij er voor gekozen om een Anova toets uit te voeren met de logaritme waardes van de gasproductie. De Anova zelf is voor het analyseren of de verschillende groepen significant van elkaar verschillen, en de logaritme waardes om de resultaten van toets statistisch en wiskundig te verantwoorden. 
@@ -240,7 +246,18 @@ Hiernaast voeren wij ook een Kruskal Wallis toets uit ter controle van de Anova.
 
 ## Pairwise T test 
 De pairwise T test hebben wij uitgevoerd om te kijken of er  significante correlaties zijn tussen de onderlinge test-groepen. Hieruit is gekomen dat bij het suiker experiment groep 3 significant verschilt van groep 1 en 2, en bij zout is er alleen een significant verschil tussen groep 2 en 3.
+```{r echo=FALSE}
+suiker_matrix = matrix(c(0.190, 9.5e-05, NaN, 0.006), ncol = 2)
+colnames(suiker_matrix) = c("Es1", "Es2")
+rownames(suiker_matrix) = c("Es2", "Es3")
+#kable(suiker_matrix)
+zout_matrix = matrix(c(0.442, 0.2, NaN, 0.043), ncol = 2)
+colnames(zout_matrix) = c("Ez1", "Ez2")
+rownames(zout_matrix) = c("Ez2", "Ez3")
+kable(list(suiker_matrix, zout_matrix), caption = "test")
+```
 
+nee
 Suiker
     Es1     Es2  
 Es2 0.190   -    

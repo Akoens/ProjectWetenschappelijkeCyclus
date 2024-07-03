@@ -23,12 +23,20 @@ output:
 ---
 
 # Introductie
-Gist is een micro-orgasme dat al duizenden jaren wordt gebruikt door mensen voor verschillende applicaties. Voor het maken van brood, om lucht in het deeg te krijgen. Voor het maken van alcoholische dranken. Die door de alcohol veiliger waren om te drinken dan water. Om een degelijk resultaat te krijgen bij deze applicaties van gist is het dan ook van belang om te weten wat de ideale omstandigheden van gist zijn. 
+Bakkersgist, of Saccharomyces cerevisiae, is een essentieel micro-organisme in de voedselindustrie, met name in de bakkerijsector. Het wordt veelvuldig gebruikt vanwege zijn vermogen om suikers om te zetten in kooldioxide (CO2) en ethanol via het proces van fermentatie. Deze CO2-productie is cruciaal voor het rijzen van deeg, wat resulteert in luchtig brood en andere gebakken producten.  
 
-De opstelling van dit onderzoek is gebaseerd op het onderzoek \cite{Jerry2017} waar $CO_2$ productie van bakkersgist op verschillende suiker concentraties is onderzocht. Om dit als alternatief $CO_2$ productie medium te kunnen gebruiken in de BG-Sentinel® muggen val.
+Hoewel het algemene fermentatieproces van bakkersgist goed gedocumenteerd is, is er minder bekend over hoe specifieke variabelen, zoals suiker- en zoutconcentraties, de CO2-productie beïnvloeden. Aangezien zowel suiker als zout belangrijke ingrediënten zijn in de meeste deegrecepten, is het essentieel om te begrijpen hoe variaties in hun concentraties de efficiëntie van het fermentatieproces beïnvloeden.  
 
-Om deze ideale omstandigheden te bepalen wordt er in dit rapport gekeken de $CO_2$ van bakkersgist in verschillende zout en suiker concentraties. Waar suiker als voeding voor gist functioneert en zout als extra stress factor. Dit rapport dient om een optimaal suiker concentratie te vinden voor bakkersgist die resulteert in de hoogste $CO_2$ productie. Door verschillende suiker concentraties te nemen en de geproduceerde $CO_2$ van bakkersgist in deze concentraties te meten kan er mogelijk een correlatie en een optimum worden bepaald.
+Hoe beïnvloeden verschillende suikerconcentraties de CO2-productie van bakkersgist?  
+Wat is de impact van zoutconcentraties op de CO2-productie van bakkersgist?  
+Zijn er optimale concentraties van suiker en zout die de CO2-productie maximaliseren?  
 
+Het doel van dit onderzoek is om de optimale omstandigheden te identificeren waarin bakkersgist de meeste CO2 produceert, met een specifieke focus op de concentraties van suiker en zout. Door een beter begrip te krijgen van deze relaties, kunnen bakkerijen en andere voedselproducenten hun productieprocessen verbeteren, resulterend in beter gerezen en kwalitatief hoogwaardigere producten. Bovendien kan deze kennis bijdragen aan het optimaliseren van recepten en het verminderen van kosten door efficiënter gebruik van ingrediënten.  
+
+In de volgende secties van dit rapport zullen we eerst een overzicht geven van de bestaande literatuur over de rol van suiker en zout in het fermentatieproces. Vervolgens beschrijven we de methodologie die we hebben gebruikt om de CO2-productie van bakkersgist onder verschillende omstandigheden te meten. De resultaten van onze experimenten worden gepresenteerd en geanalyseerd, waarna we deze bevindingen bespreken in de context van de huidige wetenschappelijke kennis. Ten slotte zullen we conclusies trekken en aanbevelingen doen voor toekomstig onderzoek en praktische toepassingen.
+
+
+# Literatuuronderzoek
 
 # Materialen en Methoden
 
@@ -153,7 +161,7 @@ kable(list(df_suiker,df_zout),caption = "Tabel voor de hoeveelheid gram per stof
 ## Ruwe data verkenning
 Tijdens de uitvoering van het experiment zagen we dat de duplo experimenten niet gelijk waren aan originele experimentent zoals te zien is in de lijngrafieken hieronder. Hieruit kwam een vermoeden dat de data niet normaal verdeeld zou zijn. Ook zijn er meetfouten gemaakt tijdens de uitvoering, hiervoor hebben wij een imputatie strategie uitgevoerd. 
 
-```{r echo=FALSE}
+```{r productielijnen, echo=FALSE, fig.cap = "[S = Suiker, Z = Zout, d = Duplo, Getal = Concentratie]"}
 # Ruwe data van suiker
 path <- paste(here(), "/raw_data/data_gist_suiker.csv", sep="")
 data_suiker <- read.csv(path)
@@ -168,21 +176,33 @@ data_zout$relatieve_productie <- as.double(data_zout$relatieve_productie)
 
 # Tijd correctie
 data_suiker$datetime <- with(data_suiker, ymd(data_suiker$datum) + hm(data_suiker$tijd))
-# Lijn grafiek
-suiker_lijn <- ggplot(data_suiker, aes(x=datetime, y=cumulatieve_productie, group = experiment_id, color=experiment_id)) +
-  geom_line() +
-    labs(x="Tijd", y="Productie (ml)", caption = "Cumulatieve gasproductie in ml.")
-
-# Tijd correctie
 data_zout$datetime <- with(data_zout, ymd(data_zout$datum) + hm(data_zout$tijd))
-# Lijn grafiek
-zout_lijn <- ggplot(data_zout, aes(x=datetime, y=cumulatieve_productie, fill = experiment_id, color=experiment_id)) +
-  geom_line() +
-    labs(x="Tijd", y="Productie (ml)", caption = "[S = Suiker, Z = Zout, d = Duplo, Getal = Concentratie]")
-    
-lijn_arange <- ggarrange(suiker_lijn, zout_lijn, labels = c("Suiker","Zout"), hjust = 0, vjust = 1, font.label = list(size= 12) )
 
-lijn_arange
+
+override.shape <- c(1, 2, 3, 1, 2, 3)
+override.linetype <- c(1, 1, 1, 2, 2, 2)
+
+# Suiker lijn grafiek
+g <- ggplot(data_suiker, aes(x=datetime, y=cumulatieve_productie, color=experiment_id, shape=experiment_id, linetype=experiment_id, group=experiment_id)) + geom_line(linewidth=0.75) + geom_point()
+g <- g + labs(x="Tijd", y="Productie (ml)", title = "Suiker")
+
+
+g <- g + guides(color = guide_legend(override.aes = list(name = "Experiment", shape = override.shape, linetype = override.linetype)))
+g <- g + scale_shape(guide = FALSE)
+g <- g + scale_linetype(guide = FALSE)
+print(g)
+
+# Lijn grafiek
+g <- ggplot(data_zout, aes(x=datetime, y=cumulatieve_productie, color=experiment_id, shape=experiment_id, linetype=experiment_id, group=experiment_id)) + geom_line(linewidth=0.75) + geom_point()
+g <- g + labs(x="Tijd", y="Productie (ml)", title = "Zout")
+
+g <- g + guides(color = guide_legend(name = "Experiment", override.aes = list( shape = override.shape, linetype = override.linetype)))
+g <- g + scale_shape(guide = FALSE)
+g <- g + scale_linetype(guide = FALSE)
+print(g)
+
+#lijn_arange <- ggarrange(suiker_lijn, zout_lijn, labels=c("",""), hjust=0, vjust=0, nrow=2, ncol=0, font.label=list(size=12) )
+#print(lijn_arange)
 ```
 
 
@@ -301,23 +321,22 @@ Deze waardes vertellen ons dat wij met onze resultaten van suiker met zekerheid 
 
 
 # Discussie en Conclusies
-
 ## Validiteit
-Bij een verandering in de concentraties verschild de gemiddelde gasproductie onderscheidend met de duplo. Bij suiker is dit verschil van zeker 0.91 ml bij S1, 40 ml bij S2 en 90 ml bij S3. Bij zout is dit verschil kleiner met 23 ml bij Z1, 23 ml bij Z2 en 15 ml bij Z3. De gas productie bij Sd3 was het hoogste van de suiker experimenten met een gemiddelde productie van 107 ml per 15 minuut of 428 ml/h. 
-Deze waarden zijn ver boven wat verwacht was aan productie. De verwachte productie aan $CO_2$ zou niet hoger zijn dan 25ml/h gebaseerd op het onderzoek van \cite{Jerry2017}. Dit had dan ook ter gevolg dat er complicaties waren tijdens het uitvoeren van het experiment. De maatcilinders die gebruikt werden hadden niet de capaciteit om de hoeveelheid gas op te vangen. 
-Een eventuele andere verklaring voor de hoeveelheid gemeten gas is het waterslot. Tijdens het uitvoeren van dit experiment kan er een lek zijn ontstaan in dit waterslot waar lucht door in de maatcilinder is gekomen. 
+De experimenten lieten zien dat de gasproductie variërend was afhankelijk van de suiker- en zoutconcentraties. Bij de suikerexperimenten vertoonde de gasproductie significante verschillen tussen de duplo's: S1 had een verschil van 0.91 ml, S2 van 40 ml en S3 van 90 ml. Bij de zoutexperimenten was dit verschil kleiner: Z1 en Z2 toonden beide een verschil van 23 ml, terwijl Z3 een verschil van 15 ml vertoonde.
 
-### Interpretatie resultaat
-Toch is een significant verschil in de gasproductie van bakkersgist tussen de verschillende suiker concentraties aangetoond. Bij zout daar in tegen is geen significant verschil aangetoond. 
+De hoogste gasproductie werd waargenomen bij de hoogste suikerconcentratie (Sd3), met een gemiddelde productie van 107 ml per 15 minuten of 428 ml per uur. Deze waarden zijn aanzienlijk hoger dan verwacht; eerder onderzoek door [@Jerry2017] suggereerde een maximale productie van 25 ml CO2 per uur. Dit onverwacht hoge resultaat leidde tot complicaties tijdens de uitvoering van het experiment, aangezien de gebruikte maatcilinders niet voldoende capaciteit hadden om de geproduceerde hoeveelheid gas op te vangen. Een andere mogelijke verklaring voor de hoge gemeten gasproductie is een mogelijk lek in het waterslot, waardoor lucht in de maatcilinder terecht kon komen.
 
-### Beperking
-Door de gelimiteerde ruimte en materiaal konden er maar 6 experimenten opgesteld worden. Dit is minder dan wat eventueel nodig was om een effect vast te stellen tussen zout en suiker op de gas productie. Daar naast was tijd om het experiment uit te voeren ook gelimiteerd aangezien de ruimte beperkt gereserveerd was. Uiteindelijk duurde het experiment iets minder dan 4 uur en was korter dan gewenst. Gewenst was als het experiment een periode van 7 uur geduurd.
+## Interpretatie van de Resultaten
+Het onderzoek toonde een significant verschil aan in de CO2-productie van bakkersgist bij verschillende suikerconcentraties, terwijl er geen significant verschil werd waargenomen bij de verschillende zoutconcentraties. Dit suggereert dat suiker een belangrijker factor is in de gasproductie van gist dan zout.
 
-### Implicaties aanduiding
-Dit onderzoek legt de basis voor het uitzoeken van de optimale suiker en zout concentratie op gist activitiet. Deze informatie is belangrijk voor bakkers- en alcohol industrie om met deze gegevens hun productie effecïenter te maken.
+## Beperkingen
+Het onderzoek kende enkele beperkingen. Vanwege beperkte ruimte en materialen konden slechts zes experimenten worden uitgevoerd, wat mogelijk onvoldoende was om significante effecten van zowel suiker als zout op de gasproductie vast te stellen. Daarnaast was de tijd beperkt, waardoor het experiment slechts minder dan vier uur duurde in plaats van de gewenste zeven uur. Deze beperkingen kunnen de robuustheid en betrouwbaarheid van de resultaten hebben beïnvloed.
 
-### Suggestie voor vervolgonderzoek
-Voor vervolgonderzoek is het dus handiger om meer combinaties te testen zodat er een 2-way-anova uitgevoerd kan worden, dit is handig voor overzichtelijkere interpretatie en om een mogelijke correlatie tussen suiker en zout aan te tonen. Verder kan de opzet ook verbeterd worden, de duplo's kwamen bij dit onderzoek niet helemaal overeen met de basis, dat kan verbeterd worden door de concentraties op meer decimalen af te meten. Het is mogelijk ook beter om de opzet op een overzichtelijkere manier op te zetten, om snel een lek of fout in de opstelling te spotten en op te lossen.
+## Implicaties
+Dit onderzoek biedt een basis voor het bepalen van de optimale suiker- en zoutconcentraties voor gistactiviteit. Deze informatie is cruciaal voor de bakkerij- en alcoholindustrie, aangezien een beter begrip van deze factoren kan leiden tot efficiëntere productieprocessen.
+
+# Aanbevelingen voor Vervolgonderzoek
+Voor toekomstig onderzoek is het aan te raden om meer combinaties van suiker- en zoutconcentraties te testen, zodat een 2-weg ANOVA kan worden uitgevoerd. Dit zou een duidelijker beeld geven van de interactie tussen deze factoren en hun gezamenlijke invloed op de gasproductie. Daarnaast kan de experimentele opzet verbeterd worden door concentraties nauwkeuriger af te meten en meer replicaten te gebruiken. Het zou ook nuttig zijn om een robuustere opstelling te ontwerpen, die lekken of fouten snel kan identificeren en corrigeren.
 
 
 ```{r wordcount, message=FALSE, echo=FALSE,include=FALSE}
@@ -329,8 +348,3 @@ wordcountaddin:::text_stats()
 ```
 
 # Referenties
-Chen, S. L., & Gutmanis, F. (1976). Carbon dioxide inhibition of yeast growth in biomass production. Biotechnology and Bioengineering, 18(10), 1455–1462. https://doi.org/10.1002/bit.260181012
-
-  Jerry, D. C. T., Mohammed, T., & Mohammed, A. (2017). Yeast-generated CO2: A convenient source of carbon dioxide for mosquito trapping using the BG-Sentinel® traps. Asian Pacific Journal of Tropical Biomedicine, 7(10), 896–900. https://doi.org/10.1016/J.APJTB.2017.09.014
-
-  Silva-Grac °a, M., & Ndida Lucas, ". (n.d.). Physiological studies on long-term adaptation to salt stress in the extremely halotolerant yeast Candida versatilis CBS 4019 (syn. C. halophila). https://doi.org/10.1111/j.1567-1364.2003.tb00167.x

@@ -50,36 +50,38 @@ Het doel van dit onderzoek is om de optimale omstandigheden te identificeren waa
 
 In de volgende secties van dit rapport zullen we eerst een overzicht geven van de bestaande literatuur over de rol van suiker en zout in het fermentatieproces. Vervolgens beschrijven we de methodologie die we hebben gebruikt om de CO2-productie van bakkersgist onder verschillende omstandigheden te meten. De resultaten van onze experimenten worden gepresenteerd en geanalyseerd, waarna we deze bevindingen bespreken in de context van de huidige wetenschappelijke kennis. Ten slotte zullen we conclusies trekken en aanbevelingen doen voor toekomstig onderzoek en praktische toepassingen.
 
-
 # Materialen en Methoden
-
 Alle informatie is in een github repo opgeslagen. Die repo is [$\text{\underline{hier}}$](https://github.com/Akoens/ProjectWetenschappelijkeCyclus) te vinden.
 
 ## Materialen
-
-Voor deze studie werd bakkersgist van de Jumbo gekocht op dezelfde dag als het experiment werd uitgevoerd, batchnummer is onbekend. Suiker en zout waren respectievelijk sucrose en NaCl, deze waren allebei uit het magazijn van de Hanzehogeschool Groningen gehaald. Als water was kraanwater gebruikt.
+Alle stoffen met houdbaarheidsdatum werden op de dag van het experiment gekocht bij de Jumbo. De bakkersgist is van het Jumbo huismerk, met het batchnummer L916579 3. De suiker is kristalsuiker van Van Gilse, met het batchnummer L3416520 11. Het zout is fijn zeezout van La Baleine, met het batchnummer LA 240231144. Als water was kraanwater gebruikt.
 Wij hebben voor elke individuele proef een maatcilinder van 250 ml, een luchtdichte pot met een goed afsluitende deksel, een 30 cm lang buisje en een klem. In totaal zijn 12 proeven uitgevoerd voor dit experiment. Hiernaast is ook 1 waterbad gebruikt, met de afmetingen 35 x 70 x 15 cm, 4 waterbakken, met de afmetingen 20 x 20 x 15 cm en een rol duct tape.
 
 ## Uitvoering
 
-Het waterbad werd met kraanwater tot het 10 cm hoog stond en de verwarming van het waterbad op 30 °C gezet. Daarnaast werden ook de waterbakken gevuld tot het water tot 10±1.5 cm hoog stond. Hierna werden de maatcilinders vrijwel helemaal met water gevuld en werden ze op de kop neergezet in de waterbakken, zodat de waardes afgelezen konden worden en er te minste 2 cm ruimte tussen de bodem van de bak en het uiteinde van de maatcilinder zit. Als de waardes niet leesbaar waren of als de maatcilinder meer dan 60 ml aflas, werd de maatcilinder uit de bak gehaald en werd de stap herhaald. Als de stap goed was uitgevoerd werd het waterpeil afgelezen en genoteerd als de nulmeting. In de deksels van de potten werden gaten gemaakt en de buisjes werden vervolgens door de gaten gestopt. De mogelijke overige gaten werden afgeplakt met duct tape.Uiteindelijk moet het er ongeveer zo uit zien:
+Het waterbad werd met kraanwater tot het 10 cm hoog stond en de verwarming van het waterbad op 30 °C gezet. Daarnaast werden ook de waterbakken gevuld tot het water tot 10±1.5 cm hoog stond. Hierna werden de maatcilinders vrijwel helemaal met water gevuld en werden ze op de kop neergezet in de waterbakken, zodat de waardes afgelezen konden worden en er te minste 2 cm ruimte tussen de bodem van de bak en het uiteinde van de maatcilinder zit. Als de waardes niet leesbaar waren of als de maatcilinder meer dan 60 ml aflas, werd de maatcilinder uit de bak gehaald en werd de stap herhaald. Als de stap goed was uitgevoerd werd het waterpeil afgelezen en genoteerd als de nulmeting. In de deksels van de potten werden gaten gemaakt en de buisjes werden vervolgens door de gaten gestopt. De mogelijke overige gaten werden afgeplakt met duct tape. Uiteindelijk moet het er ongeveer zo uit zien:
 
 ![Voorbeeld](../docs/Voorbeeld.jpeg)
 
 Toen de opzet was voltooid konden de proeven worden uitgevoerd. Elke proef had 7 gram gist en een totaal gewicht van 200 g, met als variabele concentratie suiker en zout.
 
 Er werden 3 verschillende concentraties van suiker en zout getest, in duplo(aangegeven met een d in het ID).
+
+De concentratie werd aangevuld met water tot het in totaal 200 g was. De concentraties van de verschillende proeven waren:
+
 ```{r echo=FALSE}
 concentraties <- read.csv(file = "../raw_data/data_gist_werkelijke_concentraties.csv")
-for (i in 1:length(concentraties$experiment_id)){
-cat("ID = ", concentraties$experiment_id[i], ": suiker = ", concentraties$suiker[i], "g, zout = ", concentraties$zout[i], "g\n")
-}
+viz_conc <- tibble(experiment = concentraties$experiment_id,
+                       suiker = concentraties$suiker,
+                       zout = concentraties$zout)
+kable(
+    list(viz_conc), caption = "Suiker- en zoutconcentraties in g/L", col.names = c("ID's", "Suiker g/L", "Zout g/L")
+    )
 ```
-De concentratie werd aangevuld met water tot het in totaal 200 g is. De concentraties van de verschillende proeven waren:
 ```{r echo=FALSE}
-for (i in 1:length(concentraties$experiment_id)){
-cat("ID = ", concentraties$experiment_id[i], ": suiker = ", (concentraties$suiker[i]/200)*100, "%, zout = ", (concentraties$zout[i]/200)*100, "%\n")
-}
+viz_conc$suiker <- (concentraties$suiker/200) * 100
+viz_conc$zout <- (concentraties$zout/200) * 100
+kable(list(viz_conc), caption = "Suiker- en zoutconcentraties in procenten", col.names = c("ID's", "Suiker %", "Zout %"))
 ```
 Deze concentraties werden in verschillende potten gedaan en toen alles was opgelost, kon het deksel op de pot en werd de pot in het waterbad gezet. Het buisje werd daarna tot onder in de maatcilinder geleidt, zodat er een waterslot ontstond. Toen alle proeven in het waterbad stonden werd er om de 15 minuten het waterpeil van de maatcilinders afgemeten. Als het waterpeil niet leesbaar was door overproductie van gas, werd het maximale aantal(250ml) opgeschreven en moest de maatcilinder opnieuw worden gevuld en werd een nieuwe nulmeting genoteerd naast de meting.
 
@@ -101,6 +103,9 @@ Cohens f wordt gebruikt om zeker te zijn dat als we een significant verschil waa
 De one-way-anova wordt twee keer gebruikt, omdat er op twee factoren worden getest(suiker en zout), maar er te weinig proeven waren om een two-way-anova te kunnen gebruiken. Het wordt gebruikt om te kijken of de groepen vergelijkbaar of precies hetzelfde zijn, maar de 1-weg-anova heeft wel wat aannames, het gaat er bijvoorbeeld vanuit dat de data normaal verdeeld zijn.
 Dus als uit de histogram blijkt dat de data niet normaal verdeeld zijn, dan wordt de Kruskal Wallis test naast de 1-weg-anova gebruikt voor een beter idee of de groepen vergelijkbaar zijn.
 
+## Imputatie
+Bij het experiment zijn er negatieve waardes gemeten, omdat dit met onze opzet niet mogelijk is duidt dit op een meetfout. Er is gekozen om imputatie toe te passen in de vorm van interpolatie. Dit is bij het suiker experiment 11 keer toegepast en bij zout 8 keer op advies van Emil Appol.  
+Ook hebben we de productie metingen met een waarde van 0 veranderd naar 0.00000001, zodat deze metingen gebruikt kunnen in een logaritme functie. Hierdoor kunnen we het logaritme nemen voor deze meting zonder dat het de resultaten significant beïnvloed. Er is hier voor gekozen vanwege het sterke vermoeden dat de data geen normaal verdeling heeft en op basis hiervan. Hebben we een shapiro wilk uitgevoerd.
 
 # Resultaten
 Met dit experiment willen wij onderzoeken of suiker en zout invloed hebben op de gasproductie van gist, waarvan wij aannemen dat dit CO2 is. Hiervoor hebben wij een experiment uitgevoerd zoals beschreven bij materialen en methode met de concentraties in tabel 1 hierboven. Hieronder staan de belangrijkste resultaten benoemd.
@@ -163,9 +168,9 @@ kable(list(df_suiker,df_zout))
 
 
 ## Data verkenning
-Tijdens de uitvoering van het experiment zagen we dat de duplo experimenten niet gelijk waren aan originele experimentent zoals te zien is in de lijngrafieken hieronder. Hieruit kwam een vermoeden dat de data niet normaal verdeeld zou zijn. Ook zijn er meetfouten gemaakt tijdens de uitvoering, hiervoor hebben wij een imputatie strategie uitgevoerd. 
-
+Tijdens de uitvoering van het experiment zagen we dat de duplo experimenten niet gelijk waren aan originele experiment zoals te zien is in de lijngrafieken hieronder. Hieruit kwam een vermoeden dat de data niet normaal verdeeld zou zijn. Ook zijn er meetfouten gemaakt tijdens de uitvoering, hiervoor hebben wij een imputatie strategie uitgevoerd zoals beschreven bij matriaal en methode.  
 ```{r productielijnen, echo=FALSE, fig.cap = "Gas productie van verschillende suiker en zout consentraties naast elkaar. [S = Suiker, Z = Zout, d = Duplo, Getal = Concentratie]"}
+
 # Ruwe data van suiker
 path <- paste(here(), "/raw_data/data_gist_suiker.csv", sep="")
 data_suiker <- read.csv(path)
@@ -199,7 +204,7 @@ print(lijn_arange)
 ```
 
 
-De CO2 productie gemiddelden van het orginele experiment en de duplo versie hiervan lopen verder uit elkaar dan verwacht. 
+De CO2 productie gemiddelden van het originele experiment en de duplo versie hiervan lopen verder uit elkaar dan verwacht. 
 ```{r inladen en muteren data, echo=FALSE}
 suiker_data <- read.csv("../raw_data/data_gist_suiker.csv")
 zout_data <- read.csv("../raw_data/data_gist_zout.csv")
@@ -228,26 +233,11 @@ zout_gem_tibble <- zout_data %>% group_by(experiment_id) %>%
 Deze bovenstaande tabel en grafiek duiden aan dat er een fout was in de opstelling van dit experiment vanwege het verschil in origineel en duplo experiment.
 
 
-## Imputatie
-Bij het experiment zijn er negatieve waardes gemeten, omdat dit met onze opzet niet mogelijk is duidt dit op een meetfout. Er is gekozen om imputatie toe te passen in de vorm van interpolatie. Dit is bij het suiker experiment 11 keer toegepast en bij zout 8 keer.  
-Ook hebben we de productie metingen met een waarde van 0 veranderd naar 0.00000001, zodat deze metingen gebruikt kunnen in een logaritme functie. Hierdoor kunnen we het logaritme nemen voor deze meting zonder dat het de resultaten significant beïnvloed. Er is hier voor gekozen vanwege het sterke vermoeden dat de data geen normaal verdeling heeft hebben we een shapiro wilk uitgevoerd.
-
-hieruit kwam voor het suiker experiment een p waarde van 1.902e-12 uit en voor het zout experiment een p waarde van 5.402e-09. 
-
-Beide getallen zijn kleiner dan 0.05 dus kan er geconcludeerd worden dat data uit het experiment niet betrouwbaar is.
-
-```{r echo=FALSE, include=FALSE}
-
-shapiro.test(suiker_data$relatieve_productie)
-shapiro.test(zout_data$relatieve_productie)
-```
-
-
 ## Normaal verdeling
 
 ```{r histogrammen, echo=FALSE, fig.cap = "Histogrammen over de gasproductie hoeveelheden en hoe vaak ze voorkomen van gist in gas per ml. De linker grafiek is voor de gist experimenten met variërende suiker concentraties en de rechter grafiek is voor de experimenten met variërende zout concentraties. Beide grafieken bestaat uit 66 metingen "}
-
 suiker_data$Productie = suiker_data$relatieve_productie
+
 suiker_hist <- ggplot(data = suiker_data, 
        mapping = aes(x = Productie)) +
     geom_histogram(binwidth = 10, colour = "black", fill="saddlebrown") + 
@@ -256,7 +246,7 @@ suiker_hist <- ggplot(data = suiker_data,
 
 zout_hist <- ggplot(data = zout_data,
        mapping = aes(x = relatieve_productie)) +
-    geom_histogram(binwidth = 10, colour = "black", fill="saddlebrown") + 
+    geom_histogram(binwidth = 10, colour = "black", fill="saddlebrown") +
     labs(x="Productie in ml",y="Frequentie")+
     theme_minimal()
 
@@ -266,6 +256,16 @@ box_figure <- ggarrange(suiker_hist,zout_hist,
                         font.label = list(size = 12))
 
 box_figure
+
+```
+
+Uit de Shapiro wilks test komen de volgende resultaten. Voor het suiker experiment een p waarde van 1.902e-12 uit en voor het zout experiment een p waarde van 5.402e-09. 
+
+Beide getallen zijn kleiner dan 0.05 dus kan er geconcludeerd worden dat data uit het experiment niet betrouwbaar is.
+
+```{r echo=FALSE, include=FALSE}
+shapiro.test(suiker_data$relatieve_productie)
+shapiro.test(zout_data$relatieve_productie)
 ```
 
 Zoals te zien aan de histogrammen hierboven van beide experiment groepen weergeeft dit de resultaten van de shapiro-wilks test duidelijk weer. Aan de hand van deze informatie hebben wij er voor gekozen om een Anova toets uit te voeren met de logaritme waardes van de gasproductie. De Anova zelf is voor het analyseren of de verschillende groepen significant van elkaar verschillen, en de logaritme waardes om de resultaten van toets statistisch en wiskundig te verantwoorden. 
@@ -273,7 +273,9 @@ Hiernaast voeren wij ook een Kruskal Wallis toets uit aanvullend op de Anova. Di
 
 
 ## Pairwise T test 
-De pairwise T test hebben wij uitgevoerd om te kijken of er significante correlaties zijn tussen de onderlinge test-groepen. Hieruit is gekomen dat bij het suiker experiment groep 3 significant verschilt van groep 1 en 2, en bij zout is er alleen een significant verschil tussen groep 2 en 3. dit is geconcludeerd uit [tabel 3] met P waardes lager dan 0.05.
+
+De pairwise T test hebben wij uitgevoerd om te kijken of er significante correlaties zijn tussen de onderlinge test-groepen. Hieruit is gekomen dat bij het suiker experiment groep 3 significant verschilt van groep 1 en 2, en bij zout is er alleen een significant verschil tussen groep 2 en 3. dit is geconcludeerd uit [tabel 3] met P waardes lager dan 0.05 
+
 ```{r echo=FALSE}
 suiker_matrix = matrix(c(0.190, 9.5e-05, NaN, 0.006), ncol = 2)
 colnames(suiker_matrix) = c("Es1", "Es2")
@@ -286,24 +288,25 @@ kable(list(suiker_matrix, zout_matrix), caption = "Resultaat Pair wise T test. D
 ```
 
 
-
 ## Anova en Kruskal
 Om onze hypothese te bewijzen hebben er voor gekozen om een Anova toets uit te voeren. Dit zou statistisch weergeven of verschillende suiker en zout concentraties effect hebben op de Co2 productie van gist. 
 Omdat onze opzet niet een 2 weg anova toeliet hebben wij er voor gekozen om twee keer een 1 weg anova toe te passen. Dit heeft als nadeel dat wij niet het effect van suiker en zout onderling kunnen meten, maar wel of er een significant verschil is in productie.
 
-Uit de Anova toets met logaritme waardes kwamen de volgende P waarden.
+Uit de Anova toets met logaritmische waardes kwamen de volgende P waardes.
 
 De P waarde van suiker 0.000169 
 
 De P waarde van zout 0.309
 
 Uit deze P waarden kun je opmaken dat suiker een significante invloed heeft op de CO2 productie van gist en zout niet.
+
 Uit de Kruskal Wallis test kwamen de volgende P waarden.
 
 De P waarde van suiker 9.428e-05
+
 De P waarde van Zout 0.09032
 
-Hieruit kun je de zelfde conclusies trekken als bij de anova toets in logaritme. Wat hieraan wel opvalt is dat de P waardes van beide testen erg uit elkaar liggen.
+Hieruit kun je de zelfde conclusies trekken als bij de Anova toets met logaritmische waarden. Wat hieraan wel opvalt is dat de P waardes van beide testen erg uit elkaar liggen.
 
 
 ## Effect sterkte van Anova resultaten
@@ -336,7 +339,6 @@ Dit onderzoek biedt een basis voor het bepalen van de optimale suiker- en zoutco
 
 ## Aanbevelingen voor Vervolgonderzoek
 Voor toekomstig onderzoek is het aan te raden om meer combinaties van suiker- en zoutconcentraties te testen, zodat een 2-weg ANOVA kan worden uitgevoerd. Dit zou een duidelijker beeld geven van de interactie tussen deze factoren en hun gezamenlijke invloed op de gasproductie. Daarnaast kan de experimentele opzet verbeterd worden door gasproductie nauwkeuriger af te meten en meer replicaten te gebruiken. Het zou ook nuttig zijn om een robuustere opstelling te ontwerpen, die lekken of fouten snel kan identificeren en corrigeren.
-
 
 ```{r wordcount, message=FALSE, echo=FALSE,include=FALSE}
 #install.packages("devtools")

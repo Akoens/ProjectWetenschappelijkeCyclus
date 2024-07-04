@@ -105,8 +105,8 @@ De one-way-anova wordt twee keer gebruikt, omdat er op twee factoren worden gete
 Dus als uit de histogram blijkt dat de data niet normaal verdeeld zijn, dan wordt de Kruskal Wallis test naast de 1-weg-anova gebruikt voor een beter idee of de groepen vergelijkbaar zijn.
 
 ## Imputatie
-Bij het experiment zijn er negatieve waardes gemeten, omdat dit met onze opzet niet mogelijk is duidt dit op een meetfout. Er is gekozen om imputatie toe te passen in de vorm van interpolatie op advies van Emil Appol. Dit is bij het suiker experiment 11 keer toegepast en bij zout 8 keer.  
-Ook hebben we de productie metingen met een waarde van 0 veranderd naar 0.00000001, zodat deze metingen gebruikt kunnen in een logaritme functie. Hierdoor kunnen we het logaritme nemen voor deze meting zonder dat het de resultaten significant beïnvloed. Er is hier voor gekozen vanwege het sterke vermoeden dat de data geen normaal verdeling heeft en op basis hiervan hebben we een shapiro wilk toets uitgevoerd om de normaliteit te bepalen.
+Tijdens dit experiment zijn er negatieve waardes gemeten. Een negatieve gasproductie is met onze opzet niet mogenlijk concluderen wij hieruit dat dit een meetfout is. Er is gekozen om imputatie toe te passen in de vorm van interpolatie op advies van Emil Appol. Dit is bij het suiker experiment 11 keer toegepast en bij zout 8 keer.  
+Ook hebben we de productie metingen met een waarde van 0 veranderd naar 0.00000001, zodat deze metingen gebruikt kunnen in een logaritme functie. Hierdoor kunnen we deze waardes gebruiken zonder dat het de resultaten significant beïnvloed. Er is hier voor gekozen vanwege het sterke vermoeden dat de data geen normaal verdeling heeft en op basis hiervan hebben we een shapiro wilk toets uitgevoerd om de normaliteit te bepalen.
 
 
 # Resultaten

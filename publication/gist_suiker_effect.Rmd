@@ -202,21 +202,24 @@ data_zout <- data_zout %>%
   group_by(experiment_id) %>%
   mutate(elapsed_hours = as.numeric(difftime(datetime, min(datetime), units = "hours")))
 
-# Suiker lijn grafiek
-g <- ggplot(data_suiker, aes(x=elapsed_hours, y=cumulatieve_productie, color=experiment_id, shape=experiment_id, linetype=experiment_id)) + 
-  geom_line(linewidth=0.75) #+ geom_point()
+# Bepaal de minimum en maximum cumulatieve productie voor beide datasets
+min_cum_prod <- min(c(data_suiker$cumulatieve_productie, data_zout$cumulatieve_productie))
+max_cum_prod <- max(c(data_suiker$cumulatieve_productie, data_zout$cumulatieve_productie))
 
-g <- g + labs(x="Tijd (h)", y="Productie (ml)", title = "Suiker", color = "Experiment", linetype = "Experiment", shape = "Experiment")
-suiker_lijn <- g
+# Suiker lijn grafiek
+g_suiker <- ggplot(data_suiker, aes(x=elapsed_hours, y=cumulatieve_productie, color=experiment_id, shape=experiment_id, linetype=experiment_id)) + 
+  geom_line(linewidth=0.75) + 
+  labs(x="Tijd (h)", y="Productie (ml)", title = "Suiker", color = "Experiment", linetype = "Experiment", shape = "Experiment") +
+  ylim(min_cum_prod, max_cum_prod)
 
 # Zout lijn grafiek
-g <- ggplot(data_zout, aes(x=elapsed_hours, y=cumulatieve_productie, color=experiment_id, shape=experiment_id, linetype=experiment_id)) + 
-  geom_line(linewidth=0.75) #+ geom_point()
+g_zout <- ggplot(data_zout, aes(x=elapsed_hours, y=cumulatieve_productie, color=experiment_id, shape=experiment_id, linetype=experiment_id)) + 
+  geom_line(linewidth=0.75) + 
+  labs(x="Tijd (h)", y="Productie (ml)", title = "Zout", color = "Experiment", linetype = "Experiment", shape = "Experiment") +
+  ylim(min_cum_prod, max_cum_prod)
 
-g <- g + labs(x="Tijd (h)", y="Productie (ml)", title = "Zout", color = "Experiment", linetype = "Experiment", shape = "Experiment")
-zout_lijn <- g
-
-lijn_arange <- ggarrange(suiker_lijn, zout_lijn, nrow=2, font.label=list(size=12))
+# Combineer de grafieken
+lijn_arange <- ggarrange(g_suiker, g_zout, nrow=2, font.label=list(size=12))
 print(lijn_arange)
 ```
 
@@ -246,7 +249,7 @@ suiker_gem_tibble <- suiker_data %>% group_by(experiment_id) %>%
 zout_gem_tibble <- zout_data %>% group_by(experiment_id) %>%
     summarise(gemmidelde_productie = mean(relatieve_productie))
 
-(kable(list(suiker_gem_tibble, zout_gem_tibble),col.names = c("Experiment", "Gemiddelde Productie (ml)"), digits = 2, caption = "Gemiddelde gas productie in ml van de verschillende experimenten. (S=Suiker, Z=Zout, d= Duplo, getal=experiment concentratie.)"))
+(kable(list(suiker_gem_tibble, zout_gem_tibble),col.names = c("Experiment", "Gemiddelde Productie (ml)"), digits = 2, caption = "Gemiddelde gas productie in ml van de verschillende experimenten. (S = Suiker, Z = Zout, d = Duplo, Getal = Concentratie)"))
 
 ```
 Deze bovenstaande tabel en grafiek duiden aan dat er een fout was in de opstelling van dit experiment vanwege het verschil in origineel en duplo experiment(tabel 4, figuur 2).

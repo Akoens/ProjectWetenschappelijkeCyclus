@@ -246,7 +246,7 @@ suiker_gem_tibble <- suiker_data %>% group_by(experiment_id) %>%
 zout_gem_tibble <- zout_data %>% group_by(experiment_id) %>%
     summarise(gemmidelde_productie = mean(relatieve_productie))
 
-(kable(list(suiker_gem_tibble, zout_gem_tibble),col.names = c("Experiment", "Gemiddelde Productie (ml)"), digits = 2, caption = "Gemiddelde gas productie in ml van de verschillende experimenten. [S=Suiker, Z=Zout, d= Duplo, getal=experiment concentratie.]"))
+(kable(list(suiker_gem_tibble, zout_gem_tibble),col.names = c("Experiment", "Gemiddelde Productie (ml)"), digits = 2, caption = "Gemiddelde gas productie in ml van de verschillende experimenten. (S=Suiker, Z=Zout, d= Duplo, getal=experiment concentratie.)"))
 
 ```
 Deze bovenstaande tabel en grafiek duiden aan dat er een fout was in de opstelling van dit experiment vanwege het verschil in origineel en duplo experiment(tabel 4, figuur 2).

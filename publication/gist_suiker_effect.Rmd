@@ -75,13 +75,13 @@ viz_conc <- tibble(experiment = concentraties$experiment_id,
                        suiker = concentraties$suiker,
                        zout = concentraties$zout)
 kable(
-    list(viz_conc), caption = "Suiker- en zoutconcentraties in g/L", col.names = c("ID's", "Suiker g/L", "Zout g/L")
+    list(viz_conc), caption = "Suiker- en zoutconcentraties in g/L", col.names = c("Experiment", "Suiker g/L", "Zout g/L")
     )
 ```
 ```{r echo=FALSE}
 viz_conc$suiker <- (concentraties$suiker/200) * 100
 viz_conc$zout <- (concentraties$zout/200) * 100
-kable(list(viz_conc), caption = "Suiker- en zoutconcentraties in procenten", col.names = c("ID's", "Suiker %", "Zout %"))
+kable(list(viz_conc), caption = "Suiker- en zoutconcentraties in procenten", col.names = c("Experiment", "Suiker %", "Zout %"))
 ```
 
 Deze concentraties werden in verschillende potten gedaan en toen alles was opgelost, kon het deksel op de pot en werd de pot in het waterbad gezet. Het buisje werd daarna tot onder in de maatcilinder geleidt, zodat er een waterslot ontstond. Toen alle proeven in het waterbad stonden werd er om de 15 minuten het waterpeil van de maatcilinders afgemeten. Als het waterpeil niet leesbaar was door overproductie van gas, werd het maximale aantal(250ml) opgeschreven en moest de maatcilinder opnieuw worden gevuld en werd een nieuwe nulmeting genoteerd naast de meting.
@@ -141,11 +141,11 @@ massa_suiker_bij_zout = perc_to_mass(percentage_suiker_bij_zout, totale_massa)
 vaste_massa <- massa_suiker + (massa_zout_bij_suiker + massa_gist)
 
 df_suiker = data.frame(
-    experiment = paste("S", 1:len_suiker, sep=""),
-    suiker = massa_suiker,
-    gist = rep(massa_gist, len_suiker),
-    water = (rep(totale_massa, len_suiker) - vaste_massa),
-    zout = rep(
+    Experiment = paste("S", 1:len_suiker, sep=""),
+    Suiker = massa_suiker,
+    Gist = rep(massa_gist, len_suiker),
+    Water = (rep(totale_massa, len_suiker) - vaste_massa),
+    Zout = rep(
         massa_zout_bij_suiker,
         len_suiker
     )
@@ -158,11 +158,11 @@ df_suiker$totaal <- rowSums(df_suiker[-1])
 vaste_massa <- massa_zout + (massa_suiker_bij_zout + massa_gist)
 
 df_zout = data.frame(
-    experiment = paste("Z", 1:len_zout, sep=""),
-    suiker = rep(massa_suiker_bij_zout, len_zout),
-    gist = rep(massa_gist, len_zout),
-    water = (rep(totale_massa, len_zout) - vaste_massa),
-    zout = massa_zout
+    Experiment = paste("Z", 1:len_zout, sep=""),
+    Suiker = rep(massa_suiker_bij_zout, len_zout),
+    Gist = rep(massa_gist, len_zout),
+    Water = (rep(totale_massa, len_zout) - vaste_massa),
+    Zout = massa_zout
 )
 df_zout$totaal <- rowSums(df_zout[-1])
 #print(df)
@@ -245,7 +245,7 @@ suiker_gem_tibble <- suiker_data %>% group_by(experiment_id) %>%
 zout_gem_tibble <- zout_data %>% group_by(experiment_id) %>%
     summarise(gemmidelde_productie = mean(relatieve_productie))
 
-(kable(list(suiker_gem_tibble, zout_gem_tibble), digits = 2, caption = "Gemiddelde gas productie in ml van de verschillende experimenten. [S=Suiker, Z=Zout, d= Duplo, getal=experiment concentratie.]"))
+(kable(list(suiker_gem_tibble, zout_gem_tibble),col.names = c("Experiment", "Gemiddelde Productie (ml)"), digits = 2, caption = "Gemiddelde gas productie in ml van de verschillende experimenten. [S=Suiker, Z=Zout, d= Duplo, getal=experiment concentratie.]"))
 
 ```
 Deze bovenstaande tabel en grafiek duiden aan dat er een fout was in de opstelling van dit experiment vanwege het verschil in origineel en duplo experiment[tabel 4, figuur 2].
@@ -342,7 +342,7 @@ Deze waardes vertellen ons dat wij met onze resultaten van suiker met zekerheid 
 
 # Discussie en Conclusies
 ## Validiteit
-De experimenten lieten zien dat de gasproductie variërend was afhankelijk van de suiker- en zoutconcentraties. Bij de suikerexperimenten vertoonde de gasproductie significante verschillen tussen de duplo's: S1 had een verschil van 0.91 ml, S2 van 40 ml en S3 van 90 ml. Bij de zoutexperimenten was dit verschil kleiner: Z1 en Z2 toonden beide een verschil van 23 ml, terwijl Z3 een verschil van 15 ml vertoonde.
+De experimenten lieten zien dat de gasproductie variërend was afhankelijk van de suiker- en zoutconcentraties. Bij de suikerexperimenten vertoonde de gasproductie significante verschillen tussen de duplo's: S1 had een verschil van 0.91 ml, S2 van 40 ml en S3 van 90 ml. Bij de zoutexperimenten was dit verschil kleiner: Z1 en Z2 toonden beide een verschil van 23 ml, terwijl Z3 een verschil van 15 ml vertoonde. (Zie Tabel 4)
 
 De hoogste gasproductie werd waargenomen bij de hoogste suikerconcentratie (Sd3), met een gemiddelde productie van 107 ml per 15 minuten of 428 ml per uur. Deze waarden zijn aanzienlijk hoger dan verwacht; eerder onderzoek door [@Jerry2017] suggereerde een maximale productie van 25 ml CO2 per uur. Dit onverwacht hoge resultaat leidde tot complicaties tijdens de uitvoering van het experiment, aangezien de gebruikte maatcilinders niet voldoende capaciteit hadden om de geproduceerde hoeveelheid gas op te vangen. Een andere mogelijke verklaring voor de hoge gemeten gasproductie is een mogelijk lek in het waterslot, waardoor lucht in de maatcilinder terecht kon komen. Dit soort technische problemen benadrukt de noodzaak van nauwkeurige en betrouwbare meetapparatuur en zorgvuldigere uitvoering om betrouwbare resultaten te waarborgen.
 

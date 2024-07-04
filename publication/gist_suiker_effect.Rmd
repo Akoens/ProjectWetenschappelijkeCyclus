@@ -303,7 +303,7 @@ rownames(suiker_matrix) = c("Es2", "Es3")
 zout_matrix = matrix(c(0.442, 0.2, NaN, 0.043), ncol = 2)
 colnames(zout_matrix) = c("Ez1", "Ez2")
 rownames(zout_matrix) = c("Ez2", "Ez3")
-kable(list(suiker_matrix, zout_matrix), caption = "Resultaat Pair wise T test. De waardes in de tabel zijn P waardes. [E = Experiment, s = suiker, z = zout]")
+kable(list(suiker_matrix, zout_matrix), caption = "Resultaat Pair wise T test. De waardes in de tabel zijn P waardes. (E = Experiment, s = suiker, z = zout)")
 ```
 
 

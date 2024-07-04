@@ -8,7 +8,7 @@ author: |
 lang: nl # dit zorgt er voor dat "abstract" "samenvatting" gaat heten
 
 abstract: |
-  Gist is voor mensen handig voor het maken van brood en alcohol, maar dan moet het wel effectief werken. In dit onderzoek, wordt er gekeken in welke suiker- en zoutconcentraties gist het effectiefst CO2 produceerd. Dit wordt gedaan door gist in verschillende suiker- en zoutconcentraties op te lossen en te kijken naar hoeveel CO2 de gist dan produceerd. Hieruit was te zien dat suiker een sterk effect heeft op de CO2 productie van gist, maar er met ons onderzoek niks met zekerheid te zeggen valt over zout. Het is wel onzeker of onze data bruikbaar is, doordat er duidelijk meer CO2 was geproduceerd dan verwacht. Voor vervolgonderzoek zou er meer verschillende concentraties moeten worden gemeten, de concentraties precieser moeten worden afgemeten en het experiment op een overzichtelijke manier moeten worden opgezet.
+  Gist is essentieel voor het maken van brood en alcohol, maar het moet effectief werken om deze producten te kunnen produceren. In dit onderzoek hebben we onderzocht in welke suiker- en zoutconcentraties gist het meest effectief CO2 produceert. Dit werd gedaan door gist in verschillende suiker- en zoutconcentraties op te lossen en de geproduceerde hoeveelheid CO2 te meten. Uit de resultaten bleek dat suiker een sterk effect heeft op de CO2-productie van gist, maar ons onderzoek leverde geen duidelijke conclusies op over de invloed van zout. Er bestaat onzekerheid over de bruikbaarheid van onze data, aangezien er aanzienlijk meer CO2 werd geproduceerd dan verwacht. Voor toekomstig onderzoek zouden verschillende concentraties moeten worden onderzocht, de concentraties nauwkeuriger moeten worden afgemeten en het experiment op een overzichtelijkere manier moeten worden opgezet.
 
 bibliography: gist_suiker_effect.bib # naam van je .bib file. Deze moet hetzelfde zijn als je Rmd bestandsnaam
 
@@ -187,19 +187,31 @@ data_zout <- read.csv(path)
 data_zout$cumulatieve_productie <- as.double(data_zout$cumulatieve_productie)
 data_zout$relatieve_productie <- as.double(data_zout$relatieve_productie)
 
-# Tijd correctie
+# Tijd correctie en omzetting naar verstreken uren
 data_suiker$datetime <- with(data_suiker, ymd(data_suiker$datum) + hm(data_suiker$tijd))
 data_zout$datetime <- with(data_zout, ymd(data_zout$datum) + hm(data_zout$tijd))
 
+# Bereken verstreken uren voor suiker
+data_suiker <- data_suiker %>%
+  group_by(experiment_id) %>%
+  mutate(elapsed_hours = as.numeric(difftime(datetime, min(datetime), units = "hours")))
+
+# Bereken verstreken uren voor zout
+data_zout <- data_zout %>%
+  group_by(experiment_id) %>%
+  mutate(elapsed_hours = as.numeric(difftime(datetime, min(datetime), units = "hours")))
 
 # Suiker lijn grafiek
-g <- ggplot(data_suiker, aes(x=datetime, y=cumulatieve_productie, color=experiment_id, shape=experiment_id, linetype=experiment_id)) + geom_line(linewidth=0.75) #+ geom_point()
+g <- ggplot(data_suiker, aes(x=elapsed_hours, y=cumulatieve_productie, color=experiment_id, shape=experiment_id, linetype=experiment_id)) + 
+  geom_line(linewidth=0.75) #+ geom_point()
 
 g <- g + labs(x="Tijd (h)", y="Productie (ml)", title = "Suiker", color = "Experiment", linetype = "Experiment", shape = "Experiment")
 suiker_lijn <- g
 
-# Lijn grafiek
-g <- ggplot(data_zout, aes(x=datetime, y=cumulatieve_productie, color=experiment_id, shape=experiment_id, linetype=experiment_id)) + geom_line(linewidth=0.75) #+ geom_point()
+# Zout lijn grafiek
+g <- ggplot(data_zout, aes(x=elapsed_hours, y=cumulatieve_productie, color=experiment_id, shape=experiment_id, linetype=experiment_id)) + 
+  geom_line(linewidth=0.75) #+ geom_point()
+
 g <- g + labs(x="Tijd (h)", y="Productie (ml)", title = "Zout", color = "Experiment", linetype = "Experiment", shape = "Experiment")
 zout_lijn <- g
 

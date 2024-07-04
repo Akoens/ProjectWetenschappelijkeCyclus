@@ -98,6 +98,10 @@ Cohens f wordt gebruikt om zeker te zijn dat als we een significant verschil waa
 De one-way-anova wordt twee keer gebruikt, omdat er op twee factoren worden getest(suiker en zout), maar er te weinig proeven waren om een two-way-anova te kunnen gebruiken. Het wordt gebruikt om te kijken of de groepen vergelijkbaar of precies hetzelfde zijn, maar de 1-weg-anova heeft wel wat aannames, het gaat er bijvoorbeeld vanuit dat de data normaal verdeeld zijn.
 Dus als uit de histogram blijkt dat de data niet normaal verdeeld zijn, dan wordt de Kruskal Wallis test naast de 1-weg-anova gebruikt voor een beter idee of de groepen vergelijkbaar zijn.
 
+## Imputatie
+Bij het experiment zijn er negatieve waardes gemeten, omdat dit met onze opzet niet mogelijk is duidt dit op een meetfout. Er is gekozen om imputatie toe te passen in de vorm van interpolatie. Dit is bij het suiker experiment 11 keer toegepast en bij zout 8 keer op advies van Emil Appol.  
+Ook hebben we de productie metingen met een waarde van 0 veranderd naar 0.00000001, zodat deze metingen gebruikt kunnen in een logaritme functie. Hierdoor kunnen we het logaritme nemen voor deze meting zonder dat het de resultaten significant beïnvloed. Er is hier voor gekozen vanwege het sterke vermoeden dat de data geen normaal verdeling heeft en op basis hiervan. Hebben we een shapiro wilk uitgevoerd.
+
 # Resultaten
 Met dit experiment willen wij onderzoeken of suiker en zout invloed hebben op de gasproductie van gist, waarvan wij aannemen dat dit CO2 is. Hiervoor hebben wij een experiment uitgevoerd zoals beschreven bij materialen en methode met de concentraties in tabel 1 hierboven. Hieronder staan de belangrijkste resultaten benoemd.
 
@@ -160,8 +164,9 @@ kable(list(df_suiker,df_zout),caption = "Tabel voor de hoeveelheid gram per stof
 ```
 
 
-## Ruwe data verkenning
-Tijdens de uitvoering van het experiment zagen we dat de duplo experimenten niet gelijk waren aan originele experimentent zoals te zien is in de lijngrafieken hieronder. Hieruit kwam een vermoeden dat de data niet normaal verdeeld zou zijn. Ook zijn er meetfouten gemaakt tijdens de uitvoering, hiervoor hebben wij een imputatie strategie uitgevoerd. 
+## Data verkenning
+Tijdens de uitvoering van het experiment zagen we dat de duplo experimenten niet gelijk waren aan originele experiment zoals te zien is in de lijngrafieken hieronder. Hieruit kwam een vermoeden dat de data niet normaal verdeeld zou zijn. Ook zijn er meetfouten gemaakt tijdens de uitvoering, hiervoor hebben wij een imputatie strategie uitgevoerd zoals beschreven bij matriaal en methode.  
+
 
 ```{r echo=FALSE}
 # Ruwe data van suiker
@@ -196,7 +201,7 @@ lijn_arange
 ```
 
 
-De CO2 productie gemiddelden van het orginele experiment en de duplo versie hiervan lopen verder uit elkaar dan verwacht. 
+De CO2 productie gemiddelden van het originele experiment en de duplo versie hiervan lopen verder uit elkaar dan verwacht. 
 ```{r inladen en muteren data, echo=FALSE}
 suiker_data <- read.csv("../raw_data/data_gist_suiker.csv")
 zout_data <- read.csv("../raw_data/data_gist_zout.csv")
@@ -225,22 +230,21 @@ zout_gem_tibble <- zout_data %>% group_by(experiment_id) %>%
 Deze bovenstaande tabel en grafiek duiden aan dat er een fout was in de opstelling van dit experiment vanwege het verschil in origineel en duplo experiment.
 
 
-## Imputatie
-Bij het experiment zijn er negatieve waardes gemeten, omdat dit met onze opzet niet mogelijk is duidt dit op een meetfout. Er is gekozen om imputatie toe te passen in de vorm van interpolatie. Dit is bij het suiker experiment 11 keer toegepast en bij zout 8 keer.  
-Ook hebben we de productie metingen van 0 veranderd naar 0.00000001, zodat deze metingen gebruikt kunnen worden in het logaritme voor Anova. Hierdoor kunnen we het logaritme nemen voor deze meting zonder dat het de resultaten significant beïnvloed. Er is hier voor gekozen vanwege het sterke vermoeden dat de data geen normaal verdeling heeft.
-
 ## Normaal verdeling
 
-```{r histogrammen, echo=FALSE, fig.cap = "Histogrammen over de gasproductie hoeveelheden en hoe vaak ze voorkomen van gist in gas per ml.de aan de linker grafiek is voor de gist experimenten met variërende suiker concentraties en de rechter grafiek is voor de experimenten met variërende zout concentraties."}
+```{r histogrammen, echo=FALSE, fig.cap = "Histogrammen over de gasproductie hoeveelheden en hoe vaak ze voorkomen van gist in gas per ml. De linker grafiek is voor de gist experimenten met variërende suiker concentraties en de rechter grafiek is voor de experimenten met variërende zout concentraties. Beide grafieken bestaat uit 66 metingen "}
+suiker_data$Productie = suiker_data$relatieve_productie
 
 suiker_hist <- ggplot(data = suiker_data, 
-       mapping = aes(x = relatieve_productie)) +
+       mapping = aes(x = Productie)) +
     geom_histogram(binwidth = 10, colour = "black", fill="saddlebrown") + 
+    labs(x="Productie in ml",y="Frequentie")+
     theme_minimal()
 
 zout_hist <- ggplot(data = zout_data,
        mapping = aes(x = relatieve_productie)) +
-    geom_histogram(binwidth = 10, colour = "black", fill="saddlebrown") + 
+    geom_histogram(binwidth = 10, colour = "black", fill="saddlebrown") +
+    labs(x="Productie in ml",y="Frequentie")+
     theme_minimal()
 
 box_figure <- ggarrange(suiker_hist,zout_hist,
@@ -249,16 +253,26 @@ box_figure <- ggarrange(suiker_hist,zout_hist,
                         font.label = list(size = 12))
 
 box_figure
-#labs(caption ="Histogrammen over de gasproductie hoeveelheden en hoe vaak ze voorkomen van gist in #gas per ml. de aan de linker grafiek is voor de gist experimenten met variërende suiker #concentraties en de rechter grafiek is voor de experimenten met variërende zout concentraties.")
-#theme(plot.caption = element_text(hjust = 0))
+
 ```
 
-Zoals te zien aan de histogrammen hierboven van beide experiment groepen duidt dit op een niet normaal verdeelde dataset. Aan de hand van deze informatie hebben wij er voor gekozen om een Anova toets uit te voeren met de logaritme waardes van de gasproductie. De Anova zelf is voor het analyseren of de verschillende groepen significant van elkaar verschillen, en de logaritme waardes om de resultaten van toets statistisch en wiskundig te verantwoorden. 
-Hiernaast voeren wij ook een Kruskal Wallis toets uit ter controle van de Anova. Dit is omdat deze toets meestal dient als vervanging van de Anova als de data niet normaal verdeeld is. 
+Uit de Shapiro wilks test komen de volgende resultaten. Voor het suiker experiment een p waarde van 1.902e-12 uit en voor het zout experiment een p waarde van 5.402e-09. 
+
+Beide getallen zijn kleiner dan 0.05 dus kan er geconcludeerd worden dat data uit het experiment niet betrouwbaar is.
+
+```{r echo=FALSE, include=FALSE}
+shapiro.test(suiker_data$relatieve_productie)
+shapiro.test(zout_data$relatieve_productie)
+```
+
+Zoals te zien aan de histogrammen hierboven van beide experiment groepen weergeeft dit de resultaten van de shapiro-wilks test duidelijk weer. Aan de hand van deze informatie hebben wij er voor gekozen om een Anova toets uit te voeren met de logaritme waardes van de gasproductie. De Anova zelf is voor het analyseren of de verschillende groepen significant van elkaar verschillen, en de logaritme waardes om de resultaten van toets statistisch en wiskundig te verantwoorden. 
+Hiernaast voeren wij ook een Kruskal Wallis toets uit aanvullend op de Anova. Dit is omdat deze toets meestal dient als vervanging van de Anova als de data niet normaal verdeeld is. 
 
 
 ## Pairwise T test 
-De pairwise T test hebben wij uitgevoerd om te kijken of er  significante correlaties zijn tussen de onderlinge test-groepen. Hieruit is gekomen dat bij het suiker experiment groep 3 significant verschilt van groep 1 en 2, en bij zout is er alleen een significant verschil tussen groep 2 en 3.
+
+De pairwise T test hebben wij uitgevoerd om te kijken of er significante correlaties zijn tussen de onderlinge test-groepen. Hieruit is gekomen dat bij het suiker experiment groep 3 significant verschilt van groep 1 en 2, en bij zout is er alleen een significant verschil tussen groep 2 en 3. dit is geconcludeerd uit [tabel 3] met P waardes lager dan 0.05 
+
 ```{r echo=FALSE}
 suiker_matrix = matrix(c(0.190, 9.5e-05, NaN, 0.006), ncol = 2)
 colnames(suiker_matrix) = c("Es1", "Es2")
@@ -267,34 +281,29 @@ rownames(suiker_matrix) = c("Es2", "Es3")
 zout_matrix = matrix(c(0.442, 0.2, NaN, 0.043), ncol = 2)
 colnames(zout_matrix) = c("Ez1", "Ez2")
 rownames(zout_matrix) = c("Ez2", "Ez3")
-kable(list(suiker_matrix, zout_matrix), caption = "test")
+kable(list(suiker_matrix, zout_matrix), caption = "Resultaat Pair wise T test. De waardes in de tabel zijn P waardes. [E = Experiment, s = suiker, z = zout]")
 ```
 
-nee
-Suiker
-    Es1     Es2  
-Es2 0.190   -    
-Es3 9.5e-05 0.006
-
-Zout
-    Ez1   Ez2  
-Ez2 0.442 -    
-Ez3 0.200 0.043
-
-Hierboven staan 2 tabellen uit de Pairwise T test. de getallen in de tabel zijn de P waardes die uit de test komen. als een getal kleiner is dan 0.05 is het significant.
-[E = Experiment, s = suiker, z = zout]
 
 ## Anova en Kruskal
 Om onze hypothese te bewijzen hebben er voor gekozen om een Anova toets uit te voeren. Dit zou statistisch weergeven of verschillende suiker en zout concentraties effect hebben op de Co2 productie van gist. 
 Omdat onze opzet niet een 2 weg anova toeliet hebben wij er voor gekozen om twee keer een 1 weg anova toe te passen. Dit heeft als nadeel dat wij niet het effect van suiker en zout onderling kunnen meten, maar wel of er een significant verschil is in productie.
-Uit de Anova in logaritme kwamen de volgende P waarden.
+
+Uit de Anova toets met logaritmische waardes kwamen de volgende P waardes.
+
 De P waarde van suiker 0.000169 
+
 De P waarde van zout 0.309
-Uit deze P waarden kun je opmaken dat suiker een significante invloed heeft op de co2 productie van gist en zout niet.
+
+Uit deze P waarden kun je opmaken dat suiker een significante invloed heeft op de CO2 productie van gist en zout niet.
+
 Uit de Kruskal Wallis test kwamen de volgende P waarden.
+
 De P waarde van suiker 9.428e-05
+
 De P waarde van Zout 0.09032
-Hieruit kun je de zelfde conclusies trekken als bij de anova toets in logaritme. Wat hieraan wel opvalt is dat de P waardes van beide testen erg uit elkaar liggen.
+
+Hieruit kun je de zelfde conclusies trekken als bij de Anova toets met logaritmische waarden. Wat hieraan wel opvalt is dat de P waardes van beide testen erg uit elkaar liggen.
 
 
 ## Effect sterkte van Anova resultaten

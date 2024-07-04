@@ -83,6 +83,7 @@ viz_conc$suiker <- (concentraties$suiker/200) * 100
 viz_conc$zout <- (concentraties$zout/200) * 100
 kable(list(viz_conc), caption = "Suiker- en zoutconcentraties in procenten", col.names = c("ID's", "Suiker %", "Zout %"))
 ```
+
 Deze concentraties werden in verschillende potten gedaan en toen alles was opgelost, kon het deksel op de pot en werd de pot in het waterbad gezet. Het buisje werd daarna tot onder in de maatcilinder geleidt, zodat er een waterslot ontstond. Toen alle proeven in het waterbad stonden werd er om de 15 minuten het waterpeil van de maatcilinders afgemeten. Als het waterpeil niet leesbaar was door overproductie van gas, werd het maximale aantal(250ml) opgeschreven en moest de maatcilinder opnieuw worden gevuld en werd een nieuwe nulmeting genoteerd naast de meting.
 
 ## Gebruikte software en bibliotheken
@@ -107,8 +108,10 @@ Dus als uit de histogram blijkt dat de data niet normaal verdeeld zijn, dan word
 Bij het experiment zijn er negatieve waardes gemeten, omdat dit met onze opzet niet mogelijk is duidt dit op een meetfout. Er is gekozen om imputatie toe te passen in de vorm van interpolatie. Dit is bij het suiker experiment 11 keer toegepast en bij zout 8 keer op advies van Emil Appol.  
 Ook hebben we de productie metingen met een waarde van 0 veranderd naar 0.00000001, zodat deze metingen gebruikt kunnen in een logaritme functie. Hierdoor kunnen we het logaritme nemen voor deze meting zonder dat het de resultaten significant beïnvloed. Er is hier voor gekozen vanwege het sterke vermoeden dat de data geen normaal verdeling heeft en op basis hiervan. Hebben we een shapiro wilk uitgevoerd.
 
+
 # Resultaten
 Met dit experiment willen wij onderzoeken of suiker en zout invloed hebben op de gasproductie van gist, waarvan wij aannemen dat dit CO2 is. Hiervoor hebben wij een experiment uitgevoerd zoals beschreven bij materialen en methode met de concentraties in tabel 1 hierboven. Hieronder staan de belangrijkste resultaten benoemd.
+
 ```{r experimenten, echo=FALSE, tab.cap ="Tabel voor de hoeveelheid gram per stof per experiment. [S = Suikergroep, Z = Zoutgroep]"}
 
 totale_massa <- 200
@@ -169,7 +172,8 @@ kable(list(df_suiker,df_zout))
 
 ## Data verkenning
 Tijdens de uitvoering van het experiment zagen we dat de duplo experimenten niet gelijk waren aan originele experiment zoals te zien is in de lijngrafieken hieronder. Hieruit kwam een vermoeden dat de data niet normaal verdeeld zou zijn. Ook zijn er meetfouten gemaakt tijdens de uitvoering, hiervoor hebben wij een imputatie strategie uitgevoerd zoals beschreven bij matriaal en methode.  
-```{r productielijnen, echo=FALSE, fig.cap = "Gas productie van verschillende suiker en zout consentraties naast elkaar. [S = Suiker, Z = Zout, d = Duplo, Getal = Concentratie]"}
+
+```{r productielijnen, echo=FALSE, fig.cap="Gas productie van verschillende suiker en zout consentraties naast elkaar. [S = Suiker, Z = Zout, d = Duplo, Getal = Concentratie]"}
 
 # Ruwe data van suiker
 path <- paste(here(), "/raw_data/data_gist_suiker.csv", sep="")
@@ -199,13 +203,14 @@ g <- ggplot(data_zout, aes(x=datetime, y=cumulatieve_productie, color=experiment
 g <- g + labs(x="Tijd (h)", y="Productie (ml)", title = "Zout", color = "Experiment", linetype = "Experiment", shape = "Experiment")
 zout_lijn <- g
 
-lijn_arange <- ggarrange(suiker_lijn, zout_lijn, nrow=2, font.label=list(size=12) )
+lijn_arange <- ggarrange(suiker_lijn, zout_lijn, nrow=2, font.label=list(size=12))
 print(lijn_arange)
 ```
 
 
 De CO2 productie gemiddelden van het originele experiment en de duplo versie hiervan lopen verder uit elkaar dan verwacht. 
-```{r inladen en muteren data, echo=FALSE}
+
+```{r inladen, echo=FALSE}
 suiker_data <- read.csv("../raw_data/data_gist_suiker.csv")
 zout_data <- read.csv("../raw_data/data_gist_zout.csv")
 # Mutatie suiker
@@ -219,6 +224,8 @@ zout_data <- zout_data %>% mutate(relatieve_productie = if_else(relatieve_produc
 zout_data <- zout_data %>% mutate(relatieve_productie = if_else(relatieve_productie == 0, 0.000001, relatieve_productie))
 zout_data <- zout_data %>% mutate(relatieve_productie = (zoo::na.approx(relatieve_productie)))
 ```
+
+
 ```{r echo=FALSE}
 suiker_gem_tibble <- suiker_data %>% group_by(experiment_id) %>% 
     summarise(gemmidelde_productie = mean(relatieve_productie))
@@ -229,7 +236,6 @@ zout_gem_tibble <- zout_data %>% group_by(experiment_id) %>%
 (kable(list(suiker_gem_tibble, zout_gem_tibble), digits = 2, caption = "Gemiddelde gas productie in ml van de verschillende experimenten. [S=Suiker, Z=Zout, d= Duplo, getal=experiment concentratie.]"))
 
 ```
-
 Deze bovenstaande tabel en grafiek duiden aan dat er een fout was in de opstelling van dit experiment vanwege het verschil in origineel en duplo experiment.
 
 

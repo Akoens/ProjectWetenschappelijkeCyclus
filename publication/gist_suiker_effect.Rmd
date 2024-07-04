@@ -105,14 +105,15 @@ De one-way-anova wordt twee keer gebruikt, omdat er op twee factoren worden gete
 Dus als uit de histogram blijkt dat de data niet normaal verdeeld zijn, dan wordt de Kruskal Wallis test naast de 1-weg-anova gebruikt voor een beter idee of de groepen vergelijkbaar zijn.
 
 ## Imputatie
-Bij het experiment zijn er negatieve waardes gemeten, omdat dit met onze opzet niet mogelijk is duidt dit op een meetfout. Er is gekozen om imputatie toe te passen in de vorm van interpolatie op advies van Emil Appol. Dit is bij het suiker experiment 11 keer toegepast en bij zout 8 keer.  
-Ook hebben we de productie metingen met een waarde van 0 veranderd naar 0.00000001, zodat deze metingen gebruikt kunnen in een logaritme functie. Hierdoor kunnen we het logaritme nemen voor deze meting zonder dat het de resultaten significant beïnvloed. Er is hier voor gekozen vanwege het sterke vermoeden dat de data geen normaal verdeling heeft en op basis hiervan hebben we een shapiro wilk toets uitgevoerd om de normaliteit te bepalen.
+Tijdens dit experiment zijn er negatieve waardes gemeten. Een negatieve gasproductie is met onze opzet niet mogenlijk concluderen wij hieruit dat dit een meetfout is. Er is gekozen om imputatie toe te passen in de vorm van interpolatie op advies van Emil Appol. Dit is bij het suiker experiment 11 keer toegepast en bij zout 8 keer.  
+Ook hebben we de productie metingen met een waarde van 0 veranderd naar 0.00000001, zodat deze metingen gebruikt kunnen in een logaritme functie. Hierdoor kunnen we deze waardes gebruiken zonder dat het de resultaten significant beïnvloed. Er is hier voor gekozen vanwege het sterke vermoeden dat de data geen normaal verdeling heeft en op basis hiervan hebben we een Shapiro-Wilk toets uitgevoerd om de normaliteit te bepalen. 
+Naast de Shapiro-Wilk toests hebben we ook een pairwise T test uitgevoerd om te onderzoek of er correlaties zijn tussen de verschillende experimentgroepen. Bijde testen zijn uitgevoerd in Rstudio
 
 
 # Resultaten
 Met dit experiment willen wij onderzoeken of suiker en zout invloed hebben op de gasproductie van gist, waarvan wij aannemen dat dit CO2 is. Hiervoor hebben wij een experiment uitgevoerd zoals beschreven bij materialen en methode met de concentraties in tabel 4 hierbeneden. Verder staan hieronder de belangrijkste resultaten benoemd.
 
-```{r experimenten, echo=FALSE, tab.cap ="Tabel voor de hoeveelheid gram per stof per experiment. [S = Suikergroep, Z = Zoutgroep]"}
+```{r experimenten, echo=FALSE, tab.cap ="Tabel voor de hoeveelheid gram per stof per experiment. (S = Suikergroep, Z = Zoutgroep)"}
 
 totale_massa <- 200
 
@@ -171,9 +172,9 @@ kable(list(df_suiker,df_zout))
 
 
 ## Data verkenning
-Tijdens de uitvoering van het experiment zagen we dat de duplo experimenten niet gelijk waren aan originele experiment zoals te zien is in de lijngrafieken hieronder[figuur 2]. Hieruit kwam een vermoeden dat de data niet normaal verdeeld zou zijn. Ook zijn er meetfouten gemaakt tijdens de uitvoering, hiervoor hebben wij een imputatie strategie uitgevoerd zoals beschreven bij matriaal en methode.  
+Tijdens de uitvoering van het experiment zagen we dat de duplo experimenten niet gelijk waren aan originele experiment zoals te zien is in de lijngrafieken hieronder(figuur 2). Hieruit kwam een vermoeden dat de data niet normaal verdeeld zou zijn. Ook zijn er meetfouten gemaakt tijdens de uitvoering, hiervoor hebben wij een imputatie strategie uitgevoerd zoals beschreven bij matriaal en methode.  
 
-```{r productielijnen, echo=FALSE, fig.cap="Gas productie van verschillende suiker en zout consentraties naast elkaar. [S = Suiker, Z = Zout, d = Duplo, Getal = Concentratie]"}
+```{r productielijnen, echo=FALSE, fig.cap="Gas productie van verschillende suiker en zout consentraties naast elkaar. (S = Suiker, Z = Zout, d = Duplo, Getal = Concentratie)"}
 
 # Ruwe data van suiker
 path <- paste(here(), "/raw_data/data_gist_suiker.csv", sep="")
@@ -220,7 +221,7 @@ print(lijn_arange)
 ```
 
 
-De CO2 productie gemiddelden van het originele experiment en de duplo versie hiervan lopen verder uit elkaar dan verwacht[tabel 4]. 
+De CO2 productie gemiddelden van het originele experiment en de duplo versie hiervan lopen verder uit elkaar dan verwacht(tabel 4). 
 
 ```{r inladen, echo=FALSE}
 suiker_data <- read.csv("../raw_data/data_gist_suiker.csv")
@@ -248,7 +249,7 @@ zout_gem_tibble <- zout_data %>% group_by(experiment_id) %>%
 (kable(list(suiker_gem_tibble, zout_gem_tibble),col.names = c("Experiment", "Gemiddelde Productie (ml)"), digits = 2, caption = "Gemiddelde gas productie in ml van de verschillende experimenten. [S=Suiker, Z=Zout, d= Duplo, getal=experiment concentratie.]"))
 
 ```
-Deze bovenstaande tabel en grafiek duiden aan dat er een fout was in de opstelling van dit experiment vanwege het verschil in origineel en duplo experiment[tabel 4, figuur 2].
+Deze bovenstaande tabel en grafiek duiden aan dat er een fout was in de opstelling van dit experiment vanwege het verschil in origineel en duplo experiment(tabel 4, figuur 2).
 
 
 ## Normaal verdeling
@@ -286,13 +287,13 @@ shapiro.test(suiker_data$relatieve_productie)
 shapiro.test(zout_data$relatieve_productie)
 ```
 
-Zoals te zien aan de histogrammen[figuur 3] hierboven van beide experiment groepen weergeeft dit de resultaten van de shapiro-wilks test duidelijk weer. Aan de hand van deze informatie hebben wij er voor gekozen om een Anova toets uit te voeren met de logaritmische waardes van de gasproductie. De Anova zelf is voor het analyseren of de verschillende groepen significant van elkaar verschillen, en de logaritmische waardes om de resultaten van toets statistisch en wiskundig te verantwoorden. 
+Zoals te zien aan de histogrammen(figuur 3) hierboven van beide experiment groepen weergeeft dit de resultaten van de shapiro-wilks test duidelijk weer. Aan de hand van deze informatie hebben wij er voor gekozen om een Anova toets uit te voeren met de logaritmische waardes van de gasproductie. De Anova zelf is voor het analyseren of de verschillende groepen significant van elkaar verschillen, en de logaritmische waardes om de resultaten van toets statistisch en wiskundig te verantwoorden. 
 Hiernaast voeren wij ook een Kruskal Wallis toets uit aanvullend op de Anova. Dit is omdat deze toets meestal dient als vervanging van de Anova als de data niet normaal verdeeld is. 
 
 
 ## Pairwise T test 
 
-De pairwise T test hebben wij uitgevoerd om te kijken of er significante correlaties zijn tussen de onderlinge test-groepen. Hieruit is gekomen dat bij het suiker experiment groep 3 significant verschilt van groep 1 en 2, en bij zout is er alleen een significant verschil tussen groep 2 en 3. dit is geconcludeerd uit [tabel 5] met P waardes lager dan 0.05 
+De pairwise T test hebben wij uitgevoerd om te kijken of er significante correlaties zijn tussen de onderlinge test-groepen. Hieruit is gekomen dat bij het suiker experiment groep 3 significant verschilt van groep 1 en 2, en bij zout is er alleen een significant verschil tussen groep 2 en 3. dit is geconcludeerd uit (tabel 5) met P waardes lager dan 0.05 
 
 ```{r echo=FALSE}
 suiker_matrix = matrix(c(0.190, 9.5e-05, NaN, 0.006), ncol = 2)
